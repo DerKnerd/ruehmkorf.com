@@ -21,6 +21,7 @@ func InitRouting(mux *http.ServeMux) error {
 		}
 
 		if r.Method == http.MethodGet {
+			w.Header().Set("Content-Type", http.DetectContentType(data))
 			w.WriteHeader(http.StatusOK)
 			w.Write(data)
 		}

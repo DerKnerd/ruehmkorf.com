@@ -2,9 +2,16 @@
     <html lang="de">
     <head>
         <title>ruehmkorf.com – Administration</title>
+        <link rel="stylesheet" href="/public/css/design.css">
     </head>
     <body>
-    {{template "content"}}
+    <nav class="rc-menu">
+        <img src="/public/img/logo.jpg" alt="" aria-hidden="true" class="rc-menu__logo">
+        <a href="/admin/news" class="rc-menu__item">Nachrichten</a>
+    </nav>
+    <div class="rc-content">
+        {{template "content" .}}
+    </div>
     </body>
     </html>
 {{end}}

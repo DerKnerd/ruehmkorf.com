@@ -2,6 +2,8 @@
 @import "forms.css";
 @import "body.css";
 @import "login.css";
+@import "menu.css";
+@import "table.css";
 
 :root {
     --black: #333333;

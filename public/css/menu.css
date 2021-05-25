@@ -1,0 +1,21 @@
+.rc-menu {
+    background: var(--black);
+    padding: 0 10%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 2rem;
+}
+
+.rc-menu__logo {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 50%;
+    margin: 1rem 1rem 1rem 0;
+}
+
+.rc-menu__item {
+    font-size: 2rem;
+    color: var(--white);
+    text-decoration: none;
+}

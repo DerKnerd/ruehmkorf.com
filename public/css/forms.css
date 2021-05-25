@@ -10,6 +10,12 @@
     padding: 0.5rem 1rem;
     cursor: pointer;
     font-size: 1rem;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+.rc-button--small {
+    font-size: 0.75rem;
 }
 
 .rc-input__group {

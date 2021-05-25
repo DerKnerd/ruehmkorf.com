@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS migrations (
 var Migrations = []Migration{
 	new(CreateUserTable20210521T2126),
 	new(CreateAuthTokenTable20210523T0433),
+	new(CreateNewsAndTagTable202105252356),
 }
 
 func createMigrationsTable() error {

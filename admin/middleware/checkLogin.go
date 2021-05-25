@@ -9,7 +9,7 @@ func CheckLoginMiddleware(action func(http.ResponseWriter, *http.Request)) func(
 	return func(w http.ResponseWriter, r *http.Request) {
 		cookie, err := r.Cookie("Auth")
 		if err != nil {
-			w.WriteHeader(http.StatusUnauthorized)
+			http.Redirect(w, r, "/admin/login", http.StatusFound)
 			return
 		}
 

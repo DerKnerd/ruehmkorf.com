@@ -1,0 +1,45 @@
+{{define "content"}}
+    <h1 class="rc-title">Nachrichten</h1>
+    <table class="rc-table">
+        <thead>
+        <tr>
+            <th>Titel – de</th>
+            <th>Titel – en</th>
+            <th>Slug</th>
+            <th>Öffentlich</th>
+            <th>Aktionen</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range .Items}}
+            <tr>
+                <td>{{.TitleDe}}</td>
+                <td>{{.TitleEn}}</td>
+                <td>{{.Slug}}</td>
+                <td>
+                    {{if .Public}}
+                        <input class="rc-checkbox" type="checkbox" disabled {{if .Public}}checked{{end}}>
+                    {{end}}
+                </td>
+                <td class="rc-table__cell--action">
+                    <a href="/admin/news/edit?id={{.Id}}" class="rc-button rc-button--small">Bearbeiten</a>
+                    <a href="/admin/news/delete?id={{.Id}}" class="rc-button rc-button--small">Löschen</a>
+                </td>
+            </tr>
+        {{end}}
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="5">
+                <div class="rc-table__pager">
+                    <a class="rc-button"
+                       {{if ne .Offset 0}}href="/admin/news?count={{.Count}}&offset={{.PrevOffset}}"{{end}}>Zurück</a>
+                    <span class="rc-table__pager-count">Seite {{.Page}} von {{.TotalPages}}</span>
+                    <a class="rc-button"
+                       {{if ne .TotalPages .Page}}href="/admin/news?count={{.Count}}&offset={{.NextOffset}}"{{end}}>Weiter</a>
+                </div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+{{end}}
