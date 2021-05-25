@@ -38,3 +38,7 @@
     display: flex;
     justify-content: flex-end;
 }
+
+.rc-button__group--start {
+    justify-content: flex-start;
+}
