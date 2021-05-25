@@ -1,0 +1,19 @@
+@import url("https://use.typekit.net/tmw4jig.css");
+@import "forms.css";
+@import "body.css";
+@import "login.css";
+
+:root {
+    --black: #333333;
+    --white: #ffffff;
+    --background: #eeeeee;
+    font-size: 16px;
+}
+
+html,
+body {
+    background: var(--background);
+    font-family: lato, sans-serif;
+    margin: 0;
+    padding: 0;
+}

@@ -1,0 +1,34 @@
+.rc-form {
+    display: grid;
+    gap: 1rem;
+}
+
+.rc-button {
+    background: var(--black);
+    color: var(--white);
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.rc-input__group {
+    display: block;
+}
+
+.rc-input__field {
+    padding: 0.25rem 0.5rem;
+    font-size: 1rem;
+    width: 100%;
+    display: block;
+}
+
+.rc-input__label {
+    font-size: 1rem;
+    display: block;
+}
+
+.rc-button__group {
+    display: flex;
+    justify-content: flex-end;
+}

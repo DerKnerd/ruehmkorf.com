@@ -1,6 +1,8 @@
 package models
 
 import (
+	"database/sql"
+	"github.com/thanhpk/randstr"
 	"golang.org/x/crypto/bcrypt"
 	"ruehmkorf.com/database"
 )
@@ -12,7 +14,8 @@ CREATE TABLE "user" (
     name text NOT NULL,
     email text UNIQUE NOT NULL,
     password text NOT NULL,
-    twoFactorCode text NULL DEFAULT NULL 
+    activated boolean NOT NULL DEFAULT false,
+    two_factor_code text NULL DEFAULT NULL 
 )`
 
 type User struct {
@@ -20,7 +23,8 @@ type User struct {
 	Name          string
 	Email         string
 	Password      string
-	TwoFactorCode string
+	Activated     bool
+	TwoFactorCode sql.NullString `db:"two_factor_code"`
 }
 
 var hashCost = 13
@@ -31,26 +35,45 @@ func hashPassword(input string) (string, error) {
 	return string(hashed), err
 }
 
-func FindById(id string) (*User, error) {
+func FindUserById(id string) (*User, error) {
 	db, err := database.Connect()
 	if err != nil {
 		return nil, err
 	}
+
+	defer db.Close()
 	user := new(User)
-	if err = db.Get(&user, "SELECT id, name, email, password, twoFactorCode FROM \"user\" WHERE id = $1", id); err != nil {
+	if err = db.Get(user, "SELECT * FROM \"user\" WHERE id = $1", id); err != nil {
 		return nil, err
 	}
 
 	return user, nil
 }
 
-func FindByEmailAndPassword(email string, password string) (*User, error) {
+func FindUserByEmail(email string) (*User, error) {
 	db, err := database.Connect()
 	if err != nil {
 		return nil, err
 	}
+
+	defer db.Close()
 	user := new(User)
-	if err = db.Get(&user, "SELECT id, name, email, password, twoFactorCode FROM \"user\" WHERE email = $1", email); err != nil {
+	if err = db.Get(user, "SELECT * FROM \"user\" WHERE email = $1", email); err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
+func FindUserByEmailAndPassword(email string, password string) (*User, error) {
+	db, err := database.Connect()
+	if err != nil {
+		return nil, err
+	}
+
+	defer db.Close()
+	user := new(User)
+	if err = db.Get(user, "SELECT * FROM \"user\" WHERE email = $1 AND activated = true", email); err != nil {
 		return nil, err
 	}
 
@@ -59,6 +82,21 @@ func FindByEmailAndPassword(email string, password string) (*User, error) {
 	}
 
 	return user, nil
+}
+
+func FindAll() ([]User, error) {
+	db, err := database.Connect()
+	if err != nil {
+		return nil, err
+	}
+
+	defer db.Close()
+	users := new([]User)
+	if err = db.Select(users, "SELECT * FROM \"user\""); err != nil {
+		return nil, err
+	}
+
+	return *users, err
 }
 
 func CreateUser(user User) error {
@@ -72,7 +110,75 @@ func CreateUser(user User) error {
 		return err
 	}
 
-	_, err = db.Exec("INSERT INTO \"user\" (name, email, password) VALUES ($1, $2, $3)", user.Name, user.Email, hashedPassword)
+	defer db.Close()
+	_, err = db.Exec("INSERT INTO \"user\" (name, email, password, activated) VALUES ($1, $2, $3, $4)", user.Name, user.Email, hashedPassword, user.Activated)
+
+	return err
+}
+
+func UpdateUser(user User, newPassword bool) error {
+	db, err := database.Connect()
+	if err != nil {
+		return err
+	}
+
+	defer db.Close()
+	_, err = db.Exec("UPDATE \"user\" SET name = $1, email = $2, activated = $3 WHERE id = $3", user.Name, user.Email, user.Id, user.Activated)
+	if err != nil {
+		return err
+	}
+
+	if newPassword {
+		hashedPassword, err := hashPassword(user.Password)
+		if err != nil {
+			return err
+		}
+
+		_, err = db.Exec("UPDATE \"user\" SET password = $1 WHERE id = $2", hashedPassword, user.Id)
+		if err != nil {
+			return err
+		}
+	}
+
+	return err
+}
+
+func SetTwoFactorCode(user User) (string, error) {
+	db, err := database.Connect()
+	if err != nil {
+		return "", err
+	}
+
+	defer db.Close()
+
+	twoFactorCode := randstr.String(6)
+	_, err = db.Exec("UPDATE \"user\" SET two_factor_code = $1 WHERE id = $2", twoFactorCode, user.Id)
+
+	return twoFactorCode, err
+}
+
+func ResetTwoFactorCode(user User) error {
+	db, err := database.Connect()
+	if err != nil {
+		return err
+	}
+
+	defer db.Close()
+
+	_, err = db.Exec("UPDATE \"user\" SET two_factor_code = null")
+
+	return err
+}
+
+func DeleteUser(id string) error {
+	db, err := database.Connect()
+	if err != nil {
+		return err
+	}
+
+	defer db.Close()
+
+	_, err = db.Exec("DELETE FROM \"user\" WHERE id = $1", id)
 
 	return err
 }
