@@ -1,0 +1,93 @@
+{{define "content"}}
+    <h1 class="rc-title">Nachricht bearbeiten</h1>
+    <form method="post" class="rc-form" enctype="multipart/form-data">
+        {{if .Message}}
+            <div class="rc-message">
+                {{.Message}}
+            </div>
+        {{end}}
+        <div class="rc-input__group">
+            <label for="titleDe" class="rc-input__label">Titel – de</label>
+            <input value="{{.TitleDe}}" required type="text" name="titleDe" id="titleDe" class="rc-input__field">
+        </div>
+        <div class="rc-input__group">
+            <label for="titleEn" class="rc-input__label">Titel – en</label>
+            <input value="{{.TitleEn}}" required type="text" name="titleEn" id="titleEn" class="rc-input__field">
+        </div>
+        <div class="rc-input__group">
+            <label for="date" class="rc-input__label">Datum</label>
+            <input value="{{.Date}}" required type="date" name="date" id="date" class="rc-input__field">
+        </div>
+        <div class="rc-input__group">
+            <label for="tags" class="rc-input__label">Tags (optional)</label>
+            <input value="{{.Tags}}" type="text" name="tags" id="tags" class="rc-input__field">
+        </div>
+        <div class="rc-input__group">
+            <label for="heroImage" class="rc-input__label">Hero Image (optional)</label>
+            <input type="file" name="heroImage" id="heroImage" class="rc-input__field rc-input__field--file">
+        </div>
+        <div class="rc-input__group">
+            <input type="checkbox" name="public" id="public" {{if .Public}}checked{{end}}>
+            <label for="public">Öffentlich</label>
+        </div>
+        <div class="rc-input__group">
+            <label id="gist" class="rc-input__label">Anreißertext</label>
+            <div class="rc-tabcontrol__container">
+                <div class="rc-tabcontrol__links">
+                    <a data-type="gistLink" href="#gistDe" class="rc-tabcontrol__link rc-tabcontrol__link--active">Deutsch</a>
+                    <a data-type="gistLink" href="#gistEn" class="rc-tabcontrol__link">Englisch</a>
+                </div>
+                <textarea data-type="gistContent" id="gistDe" name="gistDe" aria-describedby="#gist" rows="5"
+                          class="rc-tabcontrol__panel rc-tabcontrol__panel--active rc-input__field rc-input__field--textarea"
+                >{{.GistDe}}</textarea>
+                <textarea data-type="gistContent" class="rc-tabcontrol__panel rc-input__field rc-input__field--textarea"
+                          name="gistEn" id="gistEn" aria-describedby="#gist" rows="5">{{.GistEn}}</textarea>
+            </div>
+        </div>
+        <div class="rc-input__group">
+            <label id="content" class="rc-input__label">Inhalt</label>
+            <div class="rc-tabcontrol__container">
+                <div class="rc-tabcontrol__links">
+                    <a data-type="contentLink" href="#contentDe"
+                       class="rc-tabcontrol__link rc-tabcontrol__link--active">Deutsch</a>
+                    <a data-type="contentLink" href="#contentEn" class="rc-tabcontrol__link">Englisch</a>
+                </div>
+                <textarea data-type="contentContent" id="contentDe" name="contentDe" aria-describedby="#content"
+                          rows="20"
+                          class="rc-tabcontrol__panel rc-tabcontrol__panel--active rc-input__field rc-input__field--textarea"
+                >{{.ContentDe}}</textarea>
+                <textarea data-type="contentContent"
+                          class="rc-tabcontrol__panel rc-input__field rc-input__field--textarea"
+                          name="contentEn" id="contentEn" aria-describedby="#content" rows="20">{{.ContentEn}}</textarea>
+            </div>
+        </div>
+        <div class="rc-button__group">
+            <button class="rc-button" type="submit">Speichern</button>
+        </div>
+    </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gistLinks = document.querySelectorAll('[data-type=gistLink]');
+            const gistContents = document.querySelectorAll('[data-type=gistContent]');
+            const contentLinks = document.querySelectorAll('[data-type=contentLink]');
+            const contentContents = document.querySelectorAll('[data-type=contentContent]');
+            const date = document.getElementById('date');
+            if (!date.value) {
+                date.valueAsDate = new Date();
+            }
+
+            gistLinks.forEach(item => {
+                item.addEventListener('click', () => {
+                    gistLinks.forEach(item => item.classList.toggle('rc-tabcontrol__link--active'))
+                    gistContents.forEach(item => item.classList.toggle('rc-tabcontrol__panel--active'))
+                })
+            });
+            contentLinks.forEach(item => {
+                item.addEventListener('click', () => {
+                    contentLinks.forEach(item => item.classList.toggle('rc-tabcontrol__link--active'))
+                    contentContents.forEach(item => item.classList.toggle('rc-tabcontrol__panel--active'))
+                })
+            });
+        });
+    </script>
+{{end}}

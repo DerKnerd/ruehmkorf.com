@@ -8,7 +8,7 @@ import (
 )
 
 // language=sql
-var CreateUserTable = `
+const CreateUserTable = `
 CREATE TABLE "user" (
 	id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
     name text NOT NULL,

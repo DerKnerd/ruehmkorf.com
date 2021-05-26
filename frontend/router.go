@@ -1,12 +1,12 @@
 package frontend
 
-import "net/http"
+import (
+	"net/http"
+	"ruehmkorf.com/frontend/routes"
+)
 
 func InitRouting(mux *http.ServeMux) error {
-	mux.HandleFunc("/hello", func(writer http.ResponseWriter, request *http.Request) {
-		writer.WriteHeader(http.StatusOK)
-		writer.Write([]byte("Hello frontend world"))
-	})
+	mux.HandleFunc("/news/hero/", routes.HeroImage)
 
 	return nil
 }

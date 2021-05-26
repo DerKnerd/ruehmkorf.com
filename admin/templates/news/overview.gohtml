@@ -19,14 +19,10 @@
                 <td>{{.TitleDe}}</td>
                 <td>{{.TitleEn}}</td>
                 <td>{{.Slug}}</td>
-                <td>
-                    {{if .Public}}
-                        <input class="rc-checkbox" type="checkbox" disabled {{if .Public}}checked{{end}}>
-                    {{end}}
-                </td>
+                <td><input class="rc-checkbox" type="checkbox" disabled {{if .Public}}checked{{end}}></td>
                 <td class="rc-table__cell--action">
-                    <a href="/admin/news/edit?id={{.Id}}" class="rc-button rc-button--small">Bearbeiten</a>
-                    <a href="/admin/news/delete?id={{.Id}}" class="rc-button rc-button--small">Löschen</a>
+                    <a href="/admin/news/edit?slug={{.Slug}}" class="rc-button rc-button--small">Bearbeiten</a>
+                    <a href="/admin/news/delete?slug={{.Slug}}" class="rc-button rc-button--small">Löschen</a>
                 </td>
             </tr>
         {{end}}
