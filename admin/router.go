@@ -15,6 +15,8 @@ func InitRouting(mux *http.ServeMux) error {
 	mux.HandleFunc("/admin/news/edit/", middleware.CheckLoginMiddleware(routes.NewsEdit))
 	mux.HandleFunc("/admin/news/delete/", middleware.CheckLoginMiddleware(routes.NewsDelete))
 
+	mux.HandleFunc("/admin/profile/", middleware.CheckLoginMiddleware(routes.ProfileList))
+
 	mux.HandleFunc("/admin/", middleware.CheckLoginMiddleware(routes.Home))
 	return nil
 }
