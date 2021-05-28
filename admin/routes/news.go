@@ -123,7 +123,7 @@ func NewsNew(w http.ResponseWriter, r *http.Request) {
 		}
 
 		_, header, err := r.FormFile("heroImage")
-		if err != nil {
+		if err != nil && err != http.ErrMissingFile {
 			httpUtils.RenderAdmin("admin/templates/news/new.gohtml", newsData{
 				Message:   "Hero image konnte nicht geladen werden",
 				TitleDe:   titleDe,
@@ -175,13 +175,15 @@ func NewsNew(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		err = saveHero(slug, header)
-		if err != nil {
-			returnError(err)
-			return
+		if header != nil {
+			err = saveHero(slug, header)
+			if err != nil {
+				returnError(err)
+				return
+			}
 		}
 
-		NewsList(w, r)
+		http.Redirect(w, r, "/admin/news", http.StatusFound)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
@@ -355,7 +357,7 @@ func NewsDelete(w http.ResponseWriter, r *http.Request) {
 		err = os.Remove(models.HeroPath + slug)
 		if err != nil {
 			httpUtils.RenderAdmin("admin/templates/news/delete.gohtml", newsData{
-				Message: "Nachrichte gelöscht, Hero image nicht",
+				Message: "Nachricht gelöscht, Hero image nicht",
 			}, w)
 			return
 		}
