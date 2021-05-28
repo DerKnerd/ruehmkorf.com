@@ -22,8 +22,11 @@ func InitRouting(mux *http.ServeMux) error {
 
 		if r.Method == http.MethodGet {
 			w.Header().Set("Content-Type", http.DetectContentType(data))
+			w.Header().Set("X-Robots-Tag", "none")
 			w.WriteHeader(http.StatusOK)
 			w.Write(data)
+		} else {
+			w.WriteHeader(http.StatusMethodNotAllowed)
 		}
 	})
 

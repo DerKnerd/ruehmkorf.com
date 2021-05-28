@@ -1,0 +1,33 @@
+{{define "content"}}
+    <h1 class="rc-title">Neues Profil</h1>
+    <form method="post" class="rc-form" enctype="multipart/form-data">
+        {{if .Message}}
+            <div class="rc-message">
+                {{.Message}}
+            </div>
+        {{end}}
+        <div class="rc-input__group">
+            <label for="name" class="rc-input__label">Name des Netzwerks</label>
+            <input value="{{.Name}}" required type="text" name="name" id="name" class="rc-input__field">
+        </div>
+        <div class="rc-input__group">
+            <label for="url" class="rc-input__label">Url</label>
+            <input value="{{.Url}}" required type="url" name="url" id="url" class="rc-input__field">
+        </div>
+        <div class="rc-input__group">
+            <input type="checkbox" name="active" id="active" {{if .Active}}checked{{end}}>
+            <label for="active">Aktiv</label>
+        </div>
+        <div class="rc-input__group">
+            <label for="networkIcon" class="rc-input__label">Icon</label>
+            <input required type="file" name="networkIcon" id="networkIcon" class="rc-input__field rc-input__field--file">
+        </div>
+        <div class="rc-input__group">
+            <label for="headerImage" class="rc-input__label">Header Image (optional)</label>
+            <input type="file" name="headerImage" id="headerImage" class="rc-input__field rc-input__field--file">
+        </div>
+        <div class="rc-button__group">
+            <button class="rc-button" type="submit">Speichern</button>
+        </div>
+    </form>
+{{end}}

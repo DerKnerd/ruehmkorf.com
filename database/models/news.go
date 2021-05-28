@@ -46,7 +46,7 @@ type News struct {
 	ContentEn sql.NullString `db:"content_en"`
 }
 
-func FindAllNews(offset int, count int) ([]News, int, error) {
+func FindAllNews(offset int, limit int) ([]News, int, error) {
 	db, err := database.Connect()
 	if err != nil {
 		return nil, 0, err
@@ -55,7 +55,7 @@ func FindAllNews(offset int, count int) ([]News, int, error) {
 	defer db.Close()
 	news := new([]News)
 
-	if err = db.Select(news, "SELECT * FROM \"news\" ORDER BY slug LIMIT $1 OFFSET $2", count, offset); err != nil {
+	if err = db.Select(news, "SELECT * FROM \"news\" ORDER BY slug LIMIT $1 OFFSET $2", limit, offset); err != nil {
 		return nil, 0, err
 	}
 

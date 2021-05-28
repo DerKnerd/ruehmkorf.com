@@ -7,9 +7,9 @@ import (
 	"strings"
 )
 
-func HeroImage(w http.ResponseWriter, r *http.Request) {
+func NewsHeroImage(w http.ResponseWriter, r *http.Request) {
 	slug := strings.TrimPrefix(r.URL.Path, "/news/hero/")
-	_, err := models.FindNewsBySlug(slug)
+	news, err := models.FindNewsBySlug(slug)
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -19,6 +19,10 @@ func HeroImage(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.NotFound(w, r)
 		return
+	}
+
+	if !news.Public {
+		w.Header().Add("X-Robots-Tag", "none")
 	}
 
 	w.WriteHeader(http.StatusOK)

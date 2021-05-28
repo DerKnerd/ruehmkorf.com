@@ -16,6 +16,8 @@ CREATE TABLE profile (
     header text NULL
 )
 `
+const IconPath = "./data/public/profile/icon/"
+const HeaderPath = "./data/public/profile/header/"
 
 type Profile struct {
 	Id     string
@@ -39,6 +41,21 @@ func FindAllProfiles() ([]Profile, error) {
 	}
 
 	return *profiles, nil
+}
+
+func FindProfileById(id string) (*Profile, error) {
+	db, err := database.Connect()
+	if err != nil {
+		return nil, err
+	}
+
+	defer db.Close()
+	profile := new(Profile)
+	if err = db.Get(profile, "SELECT * FROM profile WHERE id = $1", id); err != nil {
+		return nil, err
+	}
+
+	return profile, nil
 }
 
 func CreateProfile(profile Profile) error {
