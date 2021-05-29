@@ -1,0 +1,29 @@
+{{define "content"}}
+    <h1 class="rc-title">Benutzer</h1>
+    <div class="rc-button__group rc-button__group--start">
+        <a href="/admin/user/new" class="rc-button">Neuer Benutzer</a>
+    </div>
+    <table class="rc-table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Aktiviert</th>
+            <th>Aktionen</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{range .}}
+            <tr>
+                <td>{{.Name}}</td>
+                <td>{{.Email}}</td>
+                <td><input class="rc-checkbox" type="checkbox" disabled {{if .Activated}}checked{{end}}></td>
+                <td class="rc-table__cell--action">
+                    <a href="/admin/user/edit?id={{.Id}}" class="rc-button rc-button--small">Bearbeiten</a>
+                    <a href="/admin/user/delete?id={{.Id}}" class="rc-button rc-button--small">Löschen</a>
+                </td>
+            </tr>
+        {{end}}
+        </tbody>
+    </table>
+{{end}}

@@ -123,7 +123,7 @@ func UpdateUser(user User, newPassword bool) error {
 	}
 
 	defer db.Close()
-	_, err = db.Exec("UPDATE \"user\" SET name = $1, email = $2, activated = $3 WHERE id = $3", user.Name, user.Email, user.Id, user.Activated)
+	_, err = db.Exec("UPDATE \"user\" SET name = $1, email = $2, activated = $3 WHERE id = $4", user.Name, user.Email, user.Activated, user.Id)
 	if err != nil {
 		return err
 	}
@@ -165,7 +165,7 @@ func ResetTwoFactorCode(user User) error {
 
 	defer db.Close()
 
-	_, err = db.Exec("UPDATE \"user\" SET two_factor_code = null")
+	_, err = db.Exec("UPDATE \"user\" SET two_factor_code = null WHERE id = $1", user.Id)
 
 	return err
 }
@@ -177,6 +177,11 @@ func DeleteUser(id string) error {
 	}
 
 	defer db.Close()
+
+	_, err = db.Exec("DELETE FROM auth_token WHERE user_id = $1", id)
+	if err != nil {
+		return err
+	}
 
 	_, err = db.Exec("DELETE FROM \"user\" WHERE id = $1", id)
 

@@ -16,6 +16,7 @@ func ProfileList(w http.ResponseWriter, r *http.Request) {
 		profiles, err := models.FindAllProfiles()
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(err.Error()))
 			return
 		}
 
@@ -238,7 +239,7 @@ func ProfileEdit(w http.ResponseWriter, r *http.Request) {
 
 		err = models.UpdateProfile(*profile)
 		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/news/edit.gohtml", profileData{
+			httpUtils.RenderAdmin("admin/templates/profile/edit.gohtml", profileData{
 				Message: "Profil konnte nicht gespeichert werden",
 				Name:    name,
 				Url:     url,
@@ -273,7 +274,7 @@ func ProfileDelete(w http.ResponseWriter, r *http.Request) {
 		id := r.URL.Query().Get("id")
 		profile, err := models.FindProfileById(id)
 		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/profile/delete.gohtml", newsData{
+			httpUtils.RenderAdmin("admin/templates/profile/delete.gohtml", profileData{
 				Message: "Profil nicht gefunden",
 			}, w)
 			return
@@ -281,7 +282,7 @@ func ProfileDelete(w http.ResponseWriter, r *http.Request) {
 
 		err = models.DeleteProfile(id)
 		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/profile/delete.gohtml", newsData{
+			httpUtils.RenderAdmin("admin/templates/profile/delete.gohtml", profileData{
 				Message: "Profil nicht gefunden",
 			}, w)
 			return

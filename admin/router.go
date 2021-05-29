@@ -28,6 +28,11 @@ func InitRouting(mux *http.ServeMux) error {
 
 	mux.HandleFunc("/admin/buchstabieromat/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.Buchstabieromat)))
 
+	mux.HandleFunc("/admin/user/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UserList)))
+	mux.HandleFunc("/admin/user/new/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UserNew)))
+	mux.HandleFunc("/admin/user/edit/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UserEdit)))
+	mux.HandleFunc("/admin/user/delete/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UserDelete)))
+	//
 	mux.HandleFunc("/admin/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.Home)))
 
 	return nil

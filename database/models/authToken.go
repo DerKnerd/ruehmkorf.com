@@ -2,7 +2,6 @@ package models
 
 import (
 	"github.com/satori/go.uuid"
-	"log"
 	"ruehmkorf.com/database"
 )
 
@@ -83,9 +82,10 @@ func TwoFactorApprove(token string, twoFactorToken string) error {
 		return err
 	}
 
-	result, err := db.Exec("UPDATE auth_token SET two_factor_approved = true, last_used_at = CURRENT_TIMESTAMP WHERE token = $1 AND user_id = $2", token, user.Id)
+	_, err = db.Exec("UPDATE auth_token SET two_factor_approved = true, last_used_at = CURRENT_TIMESTAMP WHERE token = $1 AND user_id = $2", token, user.Id)
+	if err != nil {
+		return err
+	}
 
-	log.Printf("%v", result)
-
-	return err
+	return ResetTwoFactorCode(*user)
 }

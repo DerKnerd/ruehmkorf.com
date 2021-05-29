@@ -1,0 +1,29 @@
+{{define "content"}}
+    <h1 class="rc-title">Neuer Benutzer</h1>
+    <form method="post" class="rc-form">
+        {{if .Message}}
+            <div class="rc-message">
+                {{.Message}}
+            </div>
+        {{end}}
+        <div class="rc-input__group">
+            <label for="name" class="rc-input__label">Name</label>
+            <input value="{{.Name}}" required type="text" name="name" id="name" class="rc-input__field">
+        </div>
+        <div class="rc-input__group">
+            <label for="email" class="rc-input__label">Email</label>
+            <input value="{{.Email}}" required type="email" name="email" id="email" class="rc-input__field">
+        </div>
+        <div class="rc-input__group">
+            <label for="password" class="rc-input__label">Passwort</label>
+            <input required type="password" name="password" id="password" class="rc-input__field">
+        </div>
+        <div class="rc-input__group">
+            <input type="checkbox" name="activated" id="activated" {{if .Activated}}checked{{end}}>
+            <label for="activated">Aktiv</label>
+        </div>
+        <div class="rc-button__group">
+            <button class="rc-button" type="submit">Speichern</button>
+        </div>
+    </form>
+{{end}}
