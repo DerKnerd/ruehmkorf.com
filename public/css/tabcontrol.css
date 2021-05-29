@@ -28,3 +28,8 @@
 .rc-tabcontrol__panel--active {
     display: block;
 }
+
+.rc-tabcontrol__panel--bordered {
+    border: 1px solid var(--black);
+    padding: 1rem;
+}

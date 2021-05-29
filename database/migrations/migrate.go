@@ -20,6 +20,7 @@ var Migrations = []Migration{
 	new(CreateNewsAndTagTable202105252356),
 	new(CreateProfileTable20210527T0107),
 	new(CreateDownloadTable20210528T2344),
+	new(CreateSettingsTable20210529T0311),
 }
 
 func createMigrationsTable() error {

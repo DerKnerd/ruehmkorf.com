@@ -55,6 +55,10 @@
     gap: 1rem;
 }
 
+.rc-button__group--padded {
+    padding-top: 1rem;
+}
+
 .rc-button__group--start {
     justify-content: flex-start;
 }

@@ -5,6 +5,8 @@
     justify-content: flex-start;
     align-items: center;
     gap: 2rem;
+    position: sticky;
+    top: 0;
 }
 
 .rc-menu__logo {
