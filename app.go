@@ -41,6 +41,31 @@ func main() {
 		}
 	}
 
+	if utils.ContainsString(os.Args, "selfdestruct") {
+		downloads, err := models.FindAllDownloadsToSelfDestruct()
+		if err != nil {
+			log.Panicln(err.Error())
+			return
+		}
+
+		for _, download := range downloads {
+			err = os.Remove(models.DownloadPreviewImagePath + download.Slug)
+			if err != nil {
+				log.Println(err.Error())
+			}
+
+			err = os.Remove(models.DownloadFilePath + download.Slug)
+			if err != nil {
+				log.Println(err.Error())
+			}
+
+			err = models.DeleteDownloadBySlug(download.Slug)
+			if err != nil {
+				log.Println(err.Error())
+			}
+		}
+	}
+
 	if utils.ContainsString(os.Args, "start") {
 		mux := http.NewServeMux()
 		err := InitRouting(mux)

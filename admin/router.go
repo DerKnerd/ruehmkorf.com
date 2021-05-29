@@ -21,6 +21,11 @@ func InitRouting(mux *http.ServeMux) error {
 	mux.HandleFunc("/admin/profile/edit/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.ProfileEdit)))
 	mux.HandleFunc("/admin/profile/delete/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.ProfileDelete)))
 
+	mux.HandleFunc("/admin/download/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.DownloadList)))
+	mux.HandleFunc("/admin/download/new/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.DownloadNew)))
+	mux.HandleFunc("/admin/download/edit/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.DownloadEdit)))
+	mux.HandleFunc("/admin/download/delete/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.DownloadDelete)))
+
 	mux.HandleFunc("/admin/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.Home)))
 	return nil
 }

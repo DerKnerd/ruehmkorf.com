@@ -84,7 +84,7 @@ func FindUserByEmailAndPassword(email string, password string) (*User, error) {
 	return user, nil
 }
 
-func FindAll() ([]User, error) {
+func FindAllUsers() ([]User, error) {
 	db, err := database.Connect()
 	if err != nil {
 		return nil, err

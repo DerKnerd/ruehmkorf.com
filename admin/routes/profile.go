@@ -134,7 +134,7 @@ func ProfileNew(w http.ResponseWriter, r *http.Request) {
 
 		err = models.CreateProfile(profile)
 		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/news/new.gohtml", profileData{
+			httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{
 				Message: "Profil konnte nicht gespeichert werden",
 				Name:    name,
 				Url:     url,
