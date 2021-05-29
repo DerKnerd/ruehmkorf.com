@@ -21,3 +21,14 @@
     color: var(--white);
     text-decoration: none;
 }
+
+@media screen and (max-width: 600px) {
+    .rc-menu__logo {
+        display: none;
+    }
+
+    .rc-menu {
+        flex-flow: column;
+        position: unset;
+    }
+}

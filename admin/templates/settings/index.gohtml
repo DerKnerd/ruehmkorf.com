@@ -1,0 +1,27 @@
+{{define "content"}}
+    <h1 class="rc-title">Neues Profil</h1>
+    <form method="post" class="rc-form" enctype="multipart/form-data">
+        {{if .Message}}
+            <div class="rc-message">
+                {{.Message}}
+            </div>
+        {{end}}
+        <div class="rc-input__group">
+            <label for="favicon" class="rc-input__label">Favicon (optional)</label>
+            <input accept="image/vnd.microsoft.icon" type="file" name="favicon" id="favicon"
+                   class="rc-input__field rc-input__field--file">
+        </div>
+        <div class="rc-input__group">
+            <label for="logo" class="rc-input__label">Logo (optional)</label>
+            <input accept="image/png" type="file" name="logo" id="logo" class="rc-input__field rc-input__field--file">
+        </div>
+        <div class="rc-input__group">
+            <label for="touchIcon" class="rc-input__label">Touch Icon (optional)</label>
+            <input accept="image/png" type="file" name="touchIcon" id="touchIcon"
+                   class="rc-input__field rc-input__field--file">
+        </div>
+        <div class="rc-button__group">
+            <button class="rc-button" type="submit">Speichern</button>
+        </div>
+    </form>
+{{end}}

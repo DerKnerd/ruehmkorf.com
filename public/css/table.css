@@ -16,6 +16,10 @@
     border-bottom: 1px solid var(--black);
 }
 
+.rc-table tbody tr:nth-child(2n + 1) {
+    background: var(--white);
+}
+
 .rc-table tbody td.rc-table__cell--action {
     padding: 0.25rem 0 0.5rem;
 }

@@ -218,7 +218,7 @@ func ProfileEdit(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		if iconHeader != nil {
+		if headerHeader != nil {
 			headerPath, err = saveProfileImage(headerHeader, false)
 			if err != nil {
 				httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{
