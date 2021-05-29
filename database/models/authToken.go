@@ -34,7 +34,7 @@ func GetAuthTokenByToken(token string) error {
 
 	err = db.Get(authToken, "SELECT id, token, user_id FROM auth_token WHERE token = $1 AND last_used_at < CURRENT_TIMESTAMP + interval '24 hour' AND two_factor_approved = true", token)
 	if err == nil {
-		_, err = db.Exec("UPDATE auth_token SET last_used_at = CURRENT_TIMESTAMP")
+		_, err = db.Exec("UPDATE auth_token SET last_used_at = CURRENT_TIMESTAMP WHERE id = $1", authToken.Id)
 	} else {
 		_ = DeleteAuthToken(token)
 	}
