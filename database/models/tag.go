@@ -101,3 +101,20 @@ func FindTagsByNews(news News) ([]Tag, error) {
 
 	return *tags, err
 }
+
+func FindAllTags() ([]string, error) {
+	db, err := database.Connect()
+	if err != nil {
+		return nil, err
+	}
+
+	defer db.Close()
+	tags := new([]string)
+
+	err = db.Select(tags, "SELECT tag FROM \"tag\" ORDER BY tag")
+	if err != nil {
+		return nil, err
+	}
+
+	return *tags, err
+}

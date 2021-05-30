@@ -1,0 +1,37 @@
+{{define "layout"}}
+    <html lang="de">
+    <head>
+        <title>ruehmkorf.com – {{template "title" .}}</title>
+        <link rel="stylesheet" type="text/css" href="https://use.typekit.net/tmw4jig.css">
+        <link rel="stylesheet" type="text/css" href="/public/css/body.css">
+        <link rel="stylesheet" type="text/css" href="/public/css/forms.css">
+        <link rel="stylesheet" type="text/css" href="/public/css/menu.css">
+        <link rel="stylesheet" type="text/css" href="/public/css/error.css">
+        <link rel="stylesheet" type="text/css" href="/public/css/card.css">
+        <link rel="stylesheet" type="text/css" href="/public/css/topic.css">
+        <link rel="stylesheet" type="text/css" href="/public/css/news.css">
+    </head>
+    <body>
+    <nav class="rc-menu">
+        <img src="/logo.png" alt="" aria-hidden="true" class="rc-menu__logo">
+        <a href="/{{.Language}}/news" class="rc-menu__item">
+            {{if eq .Language "de"}}
+                Nachrichten
+            {{else}}
+                News
+            {{end}}
+        </a>
+        <a href="/{{.Language}}/profile" class="rc-menu__item">
+            {{if eq .Language "de"}}
+                Profile
+            {{else}}
+                Profiles
+            {{end}}
+        </a>
+        <a href="/{{.Language}}/download" class="rc-menu__item">Downloads</a>
+        <a href="/{{.Language}}/buchstabieromat" class="rc-menu__item">Buchstabier-O-Mat</a>
+    </nav>
+    {{template "content" .}}
+    </body>
+    </html>
+{{end}}

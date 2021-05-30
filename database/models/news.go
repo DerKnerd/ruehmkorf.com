@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"fmt"
 	"ruehmkorf.com/database"
 	"time"
 )
@@ -67,6 +68,40 @@ func FindAllNews(offset int, limit int) ([]News, int, error) {
 	return *news, totalCount, nil
 }
 
+func FindAllNewsForFrontend(language string, topic string) ([]News, error) {
+	db, err := database.Connect()
+	if err != nil {
+		return nil, err
+	}
+
+	defer db.Close()
+	news := new([]News)
+
+	languageWhere := "content_en IS NOT NULL AND content_en <> ''"
+	if language == "de" {
+		languageWhere = "content_de IS NOT NULL AND content_de <> ''"
+	}
+
+	topicJoin := ""
+	if topic != "" {
+		topicJoin = "JOIN news_tag nt ON n.id = nt.news_id JOIN tag t ON t.id = nt.tag_id AND t.tag = ?"
+	}
+
+	stmt := fmt.Sprintf("SELECT n.* FROM \"news\" n %s WHERE \"public\" = true AND %s ORDER BY date DESC", topicJoin, languageWhere)
+
+	if topic != "" {
+		if err = db.Select(news, stmt, topic); err != nil {
+			return nil, err
+		}
+	} else {
+		if err = db.Select(news, stmt); err != nil {
+			return nil, err
+		}
+	}
+
+	return *news, nil
+}
+
 func FindNewsBySlug(slug string) (*News, error) {
 	db, err := database.Connect()
 	if err != nil {
@@ -88,6 +123,26 @@ func FindNewsBySlug(slug string) (*News, error) {
 	news.Tags = tags
 
 	return news, nil
+}
+
+func CheckIfNewsExistsBySlugAndLanguage(slug string, language string) error {
+	db, err := database.Connect()
+	if err != nil {
+		return err
+	}
+
+	defer db.Close()
+	var count int
+	languageWhere := "content_en IS NOT NULL AND content_en <> ''"
+	if language == "de" {
+		languageWhere = "content_de IS NOT NULL AND content_de <> ''"
+	}
+
+	if err = db.Get(&count, fmt.Sprintf("SELECT COUNT(*) FROM \"news\" WHERE slug = $1 AND %s", languageWhere), slug); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func CreateNews(news News) (*News, error) {

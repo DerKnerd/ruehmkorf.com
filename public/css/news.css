@@ -1,0 +1,26 @@
+.rc-article__header-image {
+    padding: 2rem 0;
+}
+
+.rc-article__header-container {
+    background: #FFFFFFB3;
+    padding: 1.5rem 10%;
+}
+
+.rc-article__date,
+.rc-article__gist {
+    font-size: var(--font-size-24);
+    display: block;
+    width: 100%;
+}
+
+.rc-article__title {
+    display: block;
+    width: 100%;
+    font: var(--font-lato-bold);
+    font-size: var(--font-size-56);
+}
+
+.rc-article {
+    font-size: var(--font-size-24);
+}

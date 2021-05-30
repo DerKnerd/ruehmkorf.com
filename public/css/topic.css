@@ -1,0 +1,46 @@
+.rc-topic-bar {
+    background: var(--white);
+    padding: 2.5rem 10%;
+    transition: height 0.3s;
+    height: auto;
+}
+
+.rc-topic-bar__header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: baseline;
+}
+
+.rc-topic-bar__title {
+    font-size: 2.5rem;
+    line-height: 2.5rem;
+    color: var(--black);
+    text-decoration: none;
+}
+
+.rc-topic-bar__toggle {
+    font-size: var(--font-size-24);
+    color: var(--blue);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.rc-topic-bar__list {
+    display: flex;
+    width: 100%;
+    gap: 6rem;
+    flex-flow: row wrap;
+    margin-top: 1.25rem;
+}
+
+.rc-topic-bar__list--hidden {
+    display: none;
+}
+
+.rc-topic-bar__link {
+    color: var(--black);
+    text-decoration: none;
+    font-size: var(--font-size-24);
+}

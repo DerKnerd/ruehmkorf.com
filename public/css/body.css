@@ -4,6 +4,10 @@
     --background: #eeeeee;
     --negative: #792A24;
     --negative-light: #e9b7b3;
+    --font-size-24: 24px;
+    --font-size-56: 56px;
+    --font-lato-bold: lato bold;
+    --blue: #0066cc;
     font-size: 16px;
 }
 

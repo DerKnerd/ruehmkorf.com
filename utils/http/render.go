@@ -33,3 +33,16 @@ func RenderAdmin(tmpl string, tmplData interface{}, w http.ResponseWriter) {
 		return
 	}
 }
+
+func RenderFrontend(tmpl string, tmplData interface{}, w http.ResponseWriter) error {
+	layout, err := template.New("layout").Funcs(template.FuncMap{
+		"unsafe": func(data string) template.HTML {
+			return template.HTML(data)
+		},
+	}).ParseFiles(tmpl, "frontend/templates/layout.gohtml")
+	if err != nil {
+		return err
+	}
+
+	return layout.ExecuteTemplate(w, "layout", tmplData)
+}

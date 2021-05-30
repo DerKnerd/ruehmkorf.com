@@ -1,0 +1,11 @@
+.rc-error__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.rc-error__message {
+    font: var(--font-lato-bold);
+    font-size: 3.5rem;
+}

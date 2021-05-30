@@ -1,0 +1,50 @@
+{{define "title"}}
+    {{if eq .Language "de"}}
+        Nachrichten
+    {{else}}
+        News
+    {{end}}
+{{end}}
+{{define "content"}}
+    <div class="rc-topic-bar">
+        <div class="rc-topic-bar__header">
+            <a href="/{{$.Language}}/news" class="rc-topic-bar__title">
+                {{if eq .Language "de"}}
+                    Nachrichten
+                {{else}}
+                    News
+                {{end}}
+            </a>
+            <button data-toggle="topics" class="rc-topic-bar__toggle">
+                {{if eq .Language "de"}}
+                    Themen
+                {{else}}
+                    Topics
+                {{end}}
+            </button>
+        </div>
+        <div class="rc-topic-bar__list rc-topic-bar__list--hidden">
+            {{range .Tags}}
+                <a class="rc-topic-bar__link" href="/{{$.Language}}/news?topic={{.}}">{{.}}</a>
+            {{end}}
+        </div>
+    </div>
+    <div class="rc-content">
+        <div class="rc-card__container">
+            {{range .Items}}
+                <a class="rc-card" href="/{{$.Language}}/news/{{.Slug}}">
+                    <img class="rc-card__img" src="/news/hero/{{.Slug}}" alt="" aria-hidden="true">
+                    <span class="rc-card__title">{{.Title}}</span>
+                    <span class="rc-card__date">{{.Date}}</span>
+                </a>
+            {{end}}
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('[data-toggle=topics]').addEventListener('click', () => {
+                document.querySelector('.rc-topic-bar__list').classList.toggle('rc-topic-bar__list--hidden');
+            });
+        });
+    </script>
+{{end}}
