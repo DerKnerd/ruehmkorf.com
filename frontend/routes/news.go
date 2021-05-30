@@ -40,19 +40,19 @@ type newsListItem struct {
 }
 
 type newsListOverview struct {
-	Items    []newsListItem
-	Language string
-	Tags     []string
+	BaseData
+	Items []newsListItem
+	Tags  []string
 }
 
 type newsPageItem struct {
-	Title    string
-	Date     string
-	Gist     string
-	Content  string
-	Language string
-	Slug     string
-	Tags     []string
+	BaseData
+	Title   string
+	Date    string
+	Gist    string
+	Content string
+	Slug    string
+	Tags    []string
 }
 
 func NewsList(w http.ResponseWriter, r *http.Request, language string) error {
@@ -79,22 +79,34 @@ func NewsList(w http.ResponseWriter, r *http.Request, language string) error {
 			})
 		}
 	}
+	cleanUrl := ""
+	if language == "de" {
+		cleanUrl = strings.TrimPrefix(r.URL.Path, "/de/")
+	} else {
+		cleanUrl = strings.TrimPrefix(r.URL.Path, "/en/")
+	}
 
 	tags, _ := models.FindAllTags()
 
 	return httpUtils.RenderFrontend("frontend/templates/news/index.gohtml", newsListOverview{
-		Items:    items,
-		Language: language,
-		Tags:     tags,
+		BaseData: BaseData{
+			Language: language,
+			Url:      cleanUrl,
+		},
+		Items: items,
+		Tags:  tags,
 	}, w)
 }
 
 func NewsPage(w http.ResponseWriter, r *http.Request, language string) error {
 	slug := ""
+	cleanUrl := ""
 	if language == "de" {
 		slug = strings.TrimPrefix(r.URL.Path, "/de/news/")
+		cleanUrl = strings.TrimPrefix(r.URL.Path, "/de/")
 	} else {
 		slug = strings.TrimPrefix(r.URL.Path, "/en/news/")
+		cleanUrl = strings.TrimPrefix(r.URL.Path, "/en/")
 	}
 
 	err := models.CheckIfNewsExistsBySlugAndLanguage(slug, language)
@@ -108,29 +120,33 @@ func NewsPage(w http.ResponseWriter, r *http.Request, language string) error {
 	}
 
 	result := newsPageItem{
-		Language: language,
-		Date:     news.Date.Format("2006-01-02"),
-		Slug:     slug,
+		BaseData: BaseData{
+			Language: language,
+			Url:      cleanUrl,
+		},
+		Date: news.Date.Format("2006-01-02"),
+		Slug: slug,
 	}
-	content := ""
 	md := goldmark.New(
 		goldmark.WithExtensions(extension.GFM),
 	)
+
+	var contentBuffer bytes.Buffer
+	var gistBuffer bytes.Buffer
 	if language == "de" {
 		result.Gist = news.GistDe.String
 		result.Title = news.TitleDe
-		var buffer bytes.Buffer
-		_ = md.Convert([]byte(news.ContentDe.String), &buffer)
-		content = buffer.String()
+		_ = md.Convert([]byte(news.ContentDe.String), &contentBuffer)
+		_ = md.Convert([]byte(news.GistDe.String), &gistBuffer)
 	} else {
 		result.Gist = news.GistEn.String
 		result.Title = news.TitleEn
-		var buffer bytes.Buffer
-		_ = md.Convert([]byte(news.ContentEn.String), &buffer)
-		content = buffer.String()
+		_ = md.Convert([]byte(news.ContentEn.String), &contentBuffer)
+		_ = md.Convert([]byte(news.GistEn.String), &gistBuffer)
 	}
 
-	result.Content = content
+	result.Content = contentBuffer.String()
+	result.Gist = gistBuffer.String()
 	tags, _ := models.FindAllTags()
 	result.Tags = tags
 

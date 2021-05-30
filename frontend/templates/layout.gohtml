@@ -10,6 +10,7 @@
         <link rel="stylesheet" type="text/css" href="/public/css/card.css">
         <link rel="stylesheet" type="text/css" href="/public/css/topic.css">
         <link rel="stylesheet" type="text/css" href="/public/css/news.css">
+        <link rel="stylesheet" type="text/css" href="/public/css/footer.css">
     </head>
     <body>
     <nav class="rc-menu">
@@ -32,6 +33,24 @@
         <a href="/{{.Language}}/buchstabieromat" class="rc-menu__item">Buchstabier-O-Mat</a>
     </nav>
     {{template "content" .}}
+    <footer class="rc-footer">
+        <div class="rc-footer__area">
+            {{if eq .Language "de"}}
+                <a class="rc-footer__link" href="/en/{{.Url}}">English</a>
+            {{else}}
+                <a class="rc-footer__link" href="/de/{{.Url}}">Deutsch</a>
+            {{end}}
+        </div>
+        <div class="rc-footer__area">
+            {{if eq .Language "de"}}
+                <a class="rc-footer__link" href="/de/data-protection">Datenschutz</a>&nbsp;|&nbsp;<a
+                        class="rc-footer__link" href="/de/cookies">Cookies</a>
+            {{else}}
+                <a class="rc-footer__link" href="/en/data-protection">Data protection</a>&nbsp;|&nbsp;<a
+                        class="rc-footer__link" href="/en/cookies">Cookies</a>
+            {{end}}
+        </div>
+    </footer>
     </body>
     </html>
 {{end}}

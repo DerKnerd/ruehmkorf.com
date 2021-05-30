@@ -1,0 +1,11 @@
+.rc-footer {
+    padding: 1rem 10%;
+    display: flex;
+    gap: 1rem;
+    flex-flow: column;
+}
+
+.rc-footer__link {
+    color: var(--black);
+    text-decoration: none;
+}

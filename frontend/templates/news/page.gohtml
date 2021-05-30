@@ -29,7 +29,7 @@
         <div class="rc-article__header-container">
             <span class="rc-article__date">{{.Date}}</span>
             <span class="rc-article__title">{{.Title}}</span>
-            <span class="rc-article__gist">{{.Gist}}</span>
+            <span class="rc-article__gist">{{unsafe .Gist}}</span>
         </div>
     </div>
     <div class="rc-content">

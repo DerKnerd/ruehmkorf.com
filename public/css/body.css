@@ -6,7 +6,6 @@
     --negative-light: #e9b7b3;
     --font-size-24: 24px;
     --font-size-56: 56px;
-    --font-lato-bold: lato bold;
     --blue: #0066cc;
     font-size: 16px;
 }
@@ -17,9 +16,45 @@ body {
     font-family: lato, sans-serif;
     margin: 0;
     padding: 0;
+    color: var(--black);
 }
 
 .rc-content {
     margin-left: 10%;
     margin-right: 10%;
+}
+
+
+h1 {
+    font-weight: bold;
+    font-size: 200%;
+}
+
+h2 {
+    font-weight: bold;
+    font-size: 175%;
+}
+
+h3 {
+    font-weight: bold;
+    font-size: 150%;
+}
+
+h4 {
+    font-weight: bold;
+    font-size: 125%;
+}
+
+h5 {
+    font-weight: bold;
+    font-size: 100%;
+}
+
+h6 {
+    font-size: 100%;
+}
+
+a {
+    color: var(--blue);
+    text-decoration: none;
 }

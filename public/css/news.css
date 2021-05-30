@@ -17,7 +17,7 @@
 .rc-article__title {
     display: block;
     width: 100%;
-    font: var(--font-lato-bold);
+    font-weight: bold;
     font-size: var(--font-size-56);
 }
 
