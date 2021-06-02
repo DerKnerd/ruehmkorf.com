@@ -194,11 +194,16 @@ func DownloadNew(w http.ResponseWriter, r *http.Request) {
 			selfDestruct = true
 		}
 
+		lastDotIndex := strings.LastIndex(downloadFileHeader.Filename, ".")
 		download := models.Download{
-			NameDe:       nameDe,
-			NameEn:       nameEn,
-			Slug:         slug,
-			Date:         parsedDate,
+			NameDe: nameDe,
+			NameEn: nameEn,
+			Slug:   slug,
+			Date:   parsedDate,
+			FileExtension: sql.NullString{
+				String: downloadFileHeader.Filename[0:lastDotIndex],
+				Valid:  true,
+			},
 			SelfDestruct: selfDestruct,
 			SelfDestructDays: sql.NullInt32{
 				Int32: int32(parsedSelfDestructDays),
@@ -219,7 +224,15 @@ func DownloadNew(w http.ResponseWriter, r *http.Request) {
 		err = models.CreateDownload(download)
 		if err != nil {
 			httpUtils.RenderAdmin("admin/templates/download/new.gohtml", downloadData{
-				Message: "Download konnte nicht gespeichert werden",
+				Message:          err.Error(),
+				Slug:             slug,
+				NameDe:           nameDe,
+				NameEn:           nameEn,
+				Date:             date,
+				SelfDestructDays: selfDestructDays,
+				Public:           public,
+				DescriptionDe:    descriptionDe,
+				DescriptionEn:    descriptionEn,
 			}, w)
 			_ = os.Remove(previewPath)
 			_ = os.Remove(downloadFilePath)
@@ -309,6 +322,12 @@ func DownloadEdit(w http.ResponseWriter, r *http.Request) {
 					DescriptionEn:    descriptionEn,
 				}, w)
 				return
+			}
+
+			lastDotIndex := strings.LastIndex(downloadFileHeader.Filename, ".")
+			download.FileExtension = sql.NullString{
+				String: downloadFileHeader.Filename[lastDotIndex:len(downloadFileHeader.Filename)],
+				Valid:  true,
 			}
 		}
 

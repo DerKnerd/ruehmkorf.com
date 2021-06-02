@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"ruehmkorf.com/database/models"
@@ -25,6 +26,7 @@ func DownloadFile(w http.ResponseWriter, r *http.Request) {
 		w.Header().Add("X-Robots-Tag", "none")
 	}
 
+	w.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s%s\"", download.NameEn, download.FileExtension.String))
 	w.WriteHeader(http.StatusOK)
 	w.Write(data)
 }

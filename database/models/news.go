@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"ruehmkorf.com/database"
 	"time"
@@ -84,7 +85,7 @@ func FindAllNewsForFrontend(language string, topic string) ([]News, error) {
 
 	topicJoin := ""
 	if topic != "" {
-		topicJoin = "JOIN news_tag nt ON n.id = nt.news_id JOIN tag t ON t.id = nt.tag_id AND t.tag = ?"
+		topicJoin = "JOIN news_tag nt ON n.id = nt.news_id JOIN tag t ON t.id = nt.tag_id AND t.tag = $1"
 	}
 
 	stmt := fmt.Sprintf("SELECT n.* FROM \"news\" n %s WHERE \"public\" = true AND %s ORDER BY date DESC", topicJoin, languageWhere)
@@ -140,6 +141,10 @@ func CheckIfNewsExistsBySlugAndLanguage(slug string, language string) error {
 
 	if err = db.Get(&count, fmt.Sprintf("SELECT COUNT(*) FROM \"news\" WHERE slug = $1 AND %s", languageWhere), slug); err != nil {
 		return err
+	}
+
+	if count == 0 {
+		return errors.New("no items found")
 	}
 
 	return nil

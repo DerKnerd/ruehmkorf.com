@@ -14,6 +14,7 @@
     height: 5rem;
     border-radius: 50%;
     margin: 1rem 1rem 1rem 0;
+    object-fit: cover;
 }
 
 .rc-menu__item {

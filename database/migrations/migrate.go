@@ -21,6 +21,7 @@ var Migrations = []Migration{
 	new(CreateProfileTable20210527T0107),
 	new(CreateDownloadTable20210528T2344),
 	new(CreateSettingsTable20210529T0311),
+	new(FileExtension20210531T2303),
 }
 
 func createMigrationsTable() error {
