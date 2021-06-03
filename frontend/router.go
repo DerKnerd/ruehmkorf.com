@@ -27,6 +27,12 @@ func InitRouting(mux *http.ServeMux) error {
 		http.Redirect(w, r, "/en"+r.URL.Path, http.StatusFound)
 	})
 
+	mux.HandleFunc("/de/buchstabier-o-mat/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.BuchstabieroMatPage)))
+	mux.HandleFunc("/en/buchstabier-o-mat/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.BuchstabieroMatPage)))
+	mux.HandleFunc("/buchstabier-o-mat/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/en"+r.URL.Path, http.StatusFound)
+	})
+
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/en/news", http.StatusFound)
 	})

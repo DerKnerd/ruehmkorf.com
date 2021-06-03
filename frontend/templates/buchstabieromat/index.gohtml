@@ -1,0 +1,78 @@
+{{define "title"}}
+    Buchstabier-O-Mat
+{{end}}
+{{define "content"}}
+    <div class="rc-content">
+        <div class="rc-bom__header">
+            <h1 class="rc-bom__title">Buchstabier-O-Mat</h1>
+            <p class="rc-bom__about">{{unsafe .Description}}</p>
+        </div>
+        <div class="rc-bom__input-group">
+            <label for="input" class="rc-bom__label">
+                {{if eq .Language "de"}}
+                    Umzuwandelnder Text:
+                {{else}}
+                    Text to transform:
+                {{end}}
+            </label>
+            <input type="text" class="rc-bom__input" id="input">
+        </div>
+        <div class="rc-button__group rc-button__group--padded">
+            <button class="rc-button rc-button--bom">
+                {{if eq .Language "de"}}
+                    Umwandeln
+                {{else}}
+                    Transform
+                {{end}}
+            </button>
+        </div>
+        <div class="rc-bom__translated-group">
+            <div class="rc-bom__translated-item">
+                <h2 class="rc-bom__translated-header">
+                    {{if eq .Language "de"}}
+                        Deutsch
+                    {{else}}
+                        German
+                    {{end}}
+                </h2>
+                <div class="rc-bom__translated-infotext">{{unsafe .InfoTextDe}}</div>
+                <pre class="rc-bom__translated-text" data-language="de"></pre>
+            </div>
+            <div class="rc-bom__translated-item">
+                <h2 class="rc-bom__translated-header">
+                    {{if eq .Language "de"}}
+                        Englisch
+                    {{else}}
+                        English
+                    {{end}}
+                </h2>
+                <div class="rc-bom__translated-infotext">{{unsafe .InfoTextEn}}</div>
+                <pre class="rc-bom__translated-text" data-language="en"></pre>
+            </div>
+        </div>
+    </div>
+    <script type="module">
+        import german from "/public/bom/german.js";
+        import english from "/public/bom/english.js";
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const input = document.getElementById('input');
+            input.addEventListener('blur', () => {
+                const text = [...input.value];
+                const germanTranslationPre = document.querySelector('[data-language=de]');
+                const englishTranslationPre = document.querySelector('[data-language=en]');
+                const germanTranslation = [];
+                const englishTranslation = [];
+                for (const textElement of text) {
+                    const runeGerman = german[textElement] ?? textElement;
+                    const runeEnglish = english[textElement] ?? textElement;
+                    germanTranslation.push(runeGerman);
+                    englishTranslation.push(runeEnglish);
+                }
+
+                germanTranslationPre.innerHTML = germanTranslation.join("<br>");
+                englishTranslationPre.innerHTML = englishTranslation.join("<br>");
+            });
+        });
+    </script>
+{{end}}

@@ -1,0 +1,60 @@
+.rc-bom__title {
+    font-size: var(--font-size-56);
+}
+
+.rc-bom__header {
+    text-align: center;
+    margin-bottom: 9rem;
+    font-size: var(--font-size-24);
+}
+
+.rc-bom__about {
+    font-size: var(--font-size-24);
+}
+
+.rc-bom__input-group {
+    width: 100%;
+}
+
+.rc-bom__label {
+    width: 100%;
+    font-size: var(--font-size-24);
+}
+
+.rc-bom__input {
+    padding: 0.25rem 0.5rem;
+    width: 100%;
+    display: block;
+    background: var(--white);
+    font-family: "source-code-pro", sans-serif;
+    border: 1px solid var(--black);
+    margin: 0;
+    font-size: var(--font-size-24);
+}
+
+.rc-button--bom {
+    font-size: var(--font-size-24);
+}
+
+.rc-bom__translated-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 2rem;
+}
+
+.rc-bom__translated-header {
+    font-size: 2rem;
+    font-weight: 400;
+}
+
+.rc-bom__translated-infotext {
+    font-size: var(--font-size-24);
+}
+
+.rc-bom__translated-text {
+    font-size: var(--font-size-24);
+    font-family: source-code-pro, monospace;
+    padding: 1rem;
+    background: var(--white);
+    border: 1px solid var(--black);
+}
