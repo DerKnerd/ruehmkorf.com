@@ -1,6 +1,7 @@
 {{define "layout"}}
-    <html lang="de">
+    <html lang="{{.Language}}">
     <head>
+        <meta charset="UTF-8">
         <title>ruehmkorf.com – {{template "title" .}}</title>
         <link rel="stylesheet" type="text/css" href="https://use.typekit.net/tmw4jig.css">
         <link rel="stylesheet" type="text/css" href="/public/css/body.css">
@@ -13,10 +14,13 @@
         <link rel="stylesheet" type="text/css" href="/public/css/footer.css">
         <link rel="stylesheet" type="text/css" href="/public/css/bom.css">
         <link rel="stylesheet" type="text/css" href="/public/css/download.css">
-        <meta property="og:url" content="//{{.Host}}/{{.Url}}">
-        <meta property="og:type" content="website">
-        <meta property="twitter:domain" content="ruehmkorf.com">
-        <meta property="twitter:url" content="//{{.Host}}/{{.Url}}">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="og:url" content="//{{.Host}}/{{.Url}}">
+        <meta name="og:type" content="website">
+        <meta name="twitter:domain" content="ruehmkorf.com">
+        <meta name="twitter:url" content="//{{.Host}}/{{.Url}}">
+        <meta name="twitter:creator" content="@Reemt_R">
+        <meta name="twitter:site" content="@Reemt_R">
         {{template "graph" .}}
     </head>
     <body>

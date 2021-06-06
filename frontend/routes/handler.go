@@ -9,7 +9,9 @@ import (
 
 func Error404Handler(w http.ResponseWriter, r *http.Request) error {
 	errorTemplatePath := ""
-	data := middleware.ErrorData{}
+	data := middleware.ErrorData{
+		Host: r.Host,
+	}
 	de := strings.Index(strings.ToLower(r.URL.Path), "/de") == 0
 	if de {
 		errorTemplatePath = "frontend/templates/error/de/404.gohtml"

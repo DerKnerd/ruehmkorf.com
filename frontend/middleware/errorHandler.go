@@ -9,6 +9,7 @@ import (
 type ErrorData struct {
 	Language string
 	Url      string
+	Host     string
 }
 
 func ErrorHandlerMiddleware(action func(http.ResponseWriter, *http.Request) error) func(http.ResponseWriter, *http.Request) {
@@ -16,14 +17,16 @@ func ErrorHandlerMiddleware(action func(http.ResponseWriter, *http.Request) erro
 		err := action(w, r)
 		if err != nil {
 			errorTemplatePath := ""
-			data := ErrorData{}
+			data := ErrorData{
+				Host: r.Host,
+			}
 			de := strings.Index(strings.ToLower(r.URL.Path), "/de") == 0
 			if de {
-				errorTemplatePath = "frontend/templates/error/de/404.gohtml"
+				errorTemplatePath = "frontend/templates/error/de/500.gohtml"
 				data.Language = "de"
 				data.Url = strings.TrimPrefix(r.URL.Path, "/de/")
 			} else {
-				errorTemplatePath = "frontend/templates/error/en/404.gohtml"
+				errorTemplatePath = "frontend/templates/error/en/500.gohtml"
 				data.Language = "en"
 				data.Url = strings.TrimPrefix(r.URL.Path, "/en/")
 			}
