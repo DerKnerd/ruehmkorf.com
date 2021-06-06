@@ -45,6 +45,12 @@ func InitRouting(mux *http.ServeMux) error {
 		http.Redirect(w, r, "/en"+r.URL.Path, http.StatusFound)
 	})
 
+	mux.HandleFunc("/de/profile/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.ProfileList)))
+	mux.HandleFunc("/en/profile/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.ProfileList)))
+	mux.HandleFunc("/profile/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/en"+r.URL.Path, http.StatusFound)
+	})
+
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/en/news", http.StatusFound)
 	})

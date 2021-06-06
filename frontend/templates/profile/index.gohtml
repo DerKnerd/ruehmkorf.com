@@ -1,0 +1,24 @@
+{{define "graph"}}{{end}}
+{{define "title"}}
+    {{if eq .Language "de"}}
+        Profile
+    {{else}}
+        Profiles
+    {{end}}
+{{end}}
+
+{{define "content"}}
+    <div class="rc-content">
+        <div class="rc-card__container">
+            {{range .Items}}
+                <a target="_blank" class="rc-card" href="{{.Url}}">
+                    <img class="rc-card__img" src="/profile/header/{{.Id}}" alt="" aria-hidden="true">
+                    <div class="rc-card__title rc-card__title--profile">
+                        <img src="/profile/icon/{{.Id}}" alt="" class="rc-profile__icon" aria-hidden="true">
+                        <span>{{.Name}}</span>
+                    </div>
+                </a>
+            {{end}}
+        </div>
+    </div>
+{{end}}

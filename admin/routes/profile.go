@@ -9,6 +9,7 @@ import (
 	"os"
 	"ruehmkorf.com/database/models"
 	httpUtils "ruehmkorf.com/utils/http"
+	"strings"
 )
 
 func ProfileList(w http.ResponseWriter, r *http.Request) {
@@ -58,7 +59,7 @@ func saveProfileImage(header *multipart.FileHeader, icon bool) (string, error) {
 
 	hash := md5.New()
 	hash.Write(data)
-	id := base64.RawStdEncoding.EncodeToString(hash.Sum(nil))
+	id := strings.ReplaceAll(base64.RawStdEncoding.EncodeToString(hash.Sum(nil)), "/", "")
 	err = os.WriteFile(path+id, data, 0755)
 
 	return path + id, err
@@ -102,7 +103,7 @@ func ProfileNew(w http.ResponseWriter, r *http.Request) {
 
 		_, headerHeader, err := r.FormFile("headerImage")
 		headerPath := ""
-		if err != http.ErrMissingFile {
+		if err != nil && err != http.ErrMissingFile {
 			httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{
 				Message: "Header Image konnte nicht geladen werden",
 				Name:    name,

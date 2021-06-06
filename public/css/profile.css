@@ -1,0 +1,11 @@
+.rc-profile__icon {
+    height: var(--font-size-24);
+    width: var(--font-size-24);
+    object-fit: scale-down;
+}
+
+.rc-card__title--profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}

@@ -43,6 +43,21 @@ func FindAllProfiles() ([]Profile, error) {
 	return *profiles, nil
 }
 
+func FindAllActiveProfiles() ([]Profile, error) {
+	db, err := database.Connect()
+	if err != nil {
+		return nil, err
+	}
+
+	defer db.Close()
+	profiles := new([]Profile)
+	if err = db.Select(profiles, "SELECT * FROM profile WHERE active = true ORDER BY name"); err != nil {
+		return nil, err
+	}
+
+	return *profiles, nil
+}
+
 func FindProfileById(id string) (*Profile, error) {
 	db, err := database.Connect()
 	if err != nil {
