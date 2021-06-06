@@ -29,7 +29,7 @@
         </div>
         <div class="rc-input__group">
             <input type="checkbox" name="public" id="public" {{if .Public}}checked{{end}}>
-            <label for="active">Öffentlich</label>
+            <label for="public">Öffentlich</label>
         </div>
         <div class="rc-input__group">
             <label for="file" class="rc-input__label">Datei (optional)</label>
@@ -47,12 +47,12 @@
                        class="rc-tabcontrol__link rc-tabcontrol__link--active">Deutsch</a>
                     <a data-type="contentLink" href="#descriptionEn" class="rc-tabcontrol__link">Englisch</a>
                 </div>
-                <textarea data-type="contentContent" id="descriptionDe" name="contentDe" aria-describedby="#content"
+                <textarea data-type="contentContent" id="descriptionDe" name="descriptionDe" aria-describedby="#content"
                           class="rc-tabcontrol__panel rc-tabcontrol__panel--active rc-input__field rc-input__field--textarea"
                           rows="20">{{.DescriptionDe}}</textarea>
                 <textarea data-type="contentContent"
                           class="rc-tabcontrol__panel rc-input__field rc-input__field--textarea"
-                          name="contentEn" id="descriptionEn" aria-describedby="#content"
+                          name="descriptionEn" id="descriptionEn" aria-describedby="#content"
                           rows="20">{{.DescriptionEn}}</textarea>
             </div>
         </div>

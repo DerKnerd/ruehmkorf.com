@@ -2,6 +2,8 @@ package models
 
 import (
 	"database/sql"
+	"errors"
+	"fmt"
 	"ruehmkorf.com/database"
 	"time"
 )
@@ -48,18 +50,49 @@ func FindAllDownloads(offset int, limit int) ([]Download, int, error) {
 	}
 
 	defer db.Close()
-	news := new([]Download)
+	downloads := new([]Download)
 
-	if err = db.Select(news, "SELECT * FROM \"download\" ORDER BY slug LIMIT $1 OFFSET $2", limit, offset); err != nil {
+	if err = db.Select(downloads, "SELECT * FROM \"download\" ORDER BY slug LIMIT $1 OFFSET $2", limit, offset); err != nil {
 		return nil, 0, err
 	}
 
 	var totalCount int
 	if err = db.Get(&totalCount, "SELECT COUNT(*) FROM \"download\""); err != nil {
-		return *news, len(*news), err
+		return *downloads, len(*downloads), err
 	}
 
-	return *news, totalCount, nil
+	return *downloads, totalCount, nil
+}
+
+func FindAllDownloadsForFrontend(fileType string) ([]Download, error) {
+	db, err := database.Connect()
+	if err != nil {
+		return nil, err
+	}
+
+	defer db.Close()
+	downloads := new([]Download)
+
+	fileTypeWhere := " WHERE public = true "
+	if fileType == "other" {
+		fileTypeWhere = " WHERE type <> 'image' AND type <> 'video' AND public = true "
+	} else if fileType != "" {
+		fileTypeWhere = " WHERE type = $1 AND public = true "
+	}
+
+	stmt := fmt.Sprintf("SELECT * FROM \"download\" %s ORDER BY date DESC", fileTypeWhere)
+
+	if fileType != "" && fileType != "other" {
+		if err = db.Select(downloads, stmt, fileType); err != nil {
+			return nil, err
+		}
+	} else {
+		if err = db.Select(downloads, stmt); err != nil {
+			return nil, err
+		}
+	}
+
+	return *downloads, nil
 }
 
 func FindAllDownloadsToSelfDestruct() ([]Download, error) {
@@ -130,4 +163,24 @@ func DeleteDownloadBySlug(slug string) error {
 	_, err = db.Exec("DELETE FROM download WHERE slug = $1", slug)
 
 	return err
+}
+
+func CheckIfDownloadExistsBySlug(slug string) error {
+	db, err := database.Connect()
+	if err != nil {
+		return err
+	}
+
+	defer db.Close()
+
+	var count int
+	if err = db.Get(&count, "SELECT COUNT(*) FROM \"download\" WHERE slug = $1", slug); err != nil {
+		return err
+	}
+
+	if count == 0 {
+		return errors.New("no items found")
+	}
+
+	return nil
 }

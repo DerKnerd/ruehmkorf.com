@@ -1,3 +1,17 @@
+{{define "graph"}}
+    <meta name="description" content="{{.Gist}}">
+
+    <!-- Facebook Meta Tags -->
+    <meta property="og:title" content="{{.Title}}">
+    <meta property="og:description" content="{{.Gist}}">
+    <meta property="og:image" content="https://ruehmkorf.com/news/hero/{{.Slug}}">
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{.Title}}">
+    <meta name="twitter:description" content="{{.Gist}}">
+    <meta name="twitter:image" content="https://ruehmkorf.com/news/hero/{{.Slug}}">
+{{end}}
 {{define "title"}}
     {{.Title}}
 {{end}}
@@ -25,7 +39,7 @@
             {{end}}
         </div>
     </div>
-    <div class="rc-article__header-image" style="background: url('/news/hero/{{.Slug}}')">
+    <div class="rc-article__header-image" style="background: url('/news/hero/{{.Slug}}');background-repeat: no-repeat;background-size: cover;">
         <div class="rc-article__header-container">
             <span class="rc-article__date">{{.Date}}</span>
             <span class="rc-article__title">{{.Title}}</span>

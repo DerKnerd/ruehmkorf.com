@@ -92,6 +92,7 @@ func NewsList(w http.ResponseWriter, r *http.Request, language string) error {
 		BaseData: BaseData{
 			Language: language,
 			Url:      cleanUrl,
+			Host:     r.Host,
 		},
 		Items: items,
 		Tags:  tags,
@@ -123,6 +124,7 @@ func NewsPage(w http.ResponseWriter, r *http.Request, language string) error {
 		BaseData: BaseData{
 			Language: language,
 			Url:      cleanUrl,
+			Host:     r.Host,
 		},
 		Date: news.Date.Format("2006-01-02"),
 		Slug: slug,
@@ -132,21 +134,17 @@ func NewsPage(w http.ResponseWriter, r *http.Request, language string) error {
 	)
 
 	var contentBuffer bytes.Buffer
-	var gistBuffer bytes.Buffer
 	if language == "de" {
 		result.Gist = news.GistDe.String
 		result.Title = news.TitleDe
 		_ = md.Convert([]byte(news.ContentDe.String), &contentBuffer)
-		_ = md.Convert([]byte(news.GistDe.String), &gistBuffer)
 	} else {
 		result.Gist = news.GistEn.String
 		result.Title = news.TitleEn
 		_ = md.Convert([]byte(news.ContentEn.String), &contentBuffer)
-		_ = md.Convert([]byte(news.GistEn.String), &gistBuffer)
 	}
 
 	result.Content = contentBuffer.String()
-	result.Gist = gistBuffer.String()
 	tags, _ := models.FindAllTags()
 	result.Tags = tags
 

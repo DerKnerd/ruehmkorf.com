@@ -10,8 +10,7 @@ import (
 )
 
 type BuchstabieroMatData struct {
-	Language    string
-	Url         string
+	BaseData
 	Description string
 	InfoTextDe  string
 	InfoTextEn  string
@@ -41,8 +40,11 @@ func BuchstabieroMatPage(w http.ResponseWriter, r *http.Request, language string
 	_ = md.Convert([]byte(infoTextEn), &infoTextEnBuffer)
 
 	data := BuchstabieroMatData{
-		Language:    language,
-		Url:         "buchstabier-o-mat",
+		BaseData: BaseData{
+			Language: language,
+			Url:      "buchstabier-o-mat",
+			Host:     r.Host,
+		},
 		Description: descriptionBuffer.String(),
 		InfoTextDe:  infoTextDeBuffer.String(),
 		InfoTextEn:  infoTextEnBuffer.String(),
