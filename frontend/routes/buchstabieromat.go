@@ -21,7 +21,7 @@ func BuchstabieroMatPage(w http.ResponseWriter, r *http.Request, language string
 	description := ""
 	infoTextDe := ""
 	infoTextEn := ""
-	if language != "de" {
+	if language == "de" {
 		description = models.FindSettingByKey("DescriptionDe")
 		infoTextDe = models.FindSettingByKey("InfoTextDeDe")
 		infoTextEn = models.FindSettingByKey("InfoTextEnDe")

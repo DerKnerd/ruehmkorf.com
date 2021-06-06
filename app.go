@@ -5,12 +5,36 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"ruehmkorf.com/bom"
 	"ruehmkorf.com/database/migrations"
 	"ruehmkorf.com/database/models"
 	"ruehmkorf.com/utils"
 )
 
+func find(a []string, x string) int {
+	for i, n := range a {
+		if x == n {
+			return i
+		}
+	}
+	return -1
+}
+
 func main() {
+	if utils.ContainsString(os.Args, "import-bom") {
+		idx := find(os.Args, "import-bom")
+		if idx == -1 {
+			log.Panicln("Path must be provided")
+		}
+
+		path := os.Args[idx+1]
+		if err := bom.ImportBomRunes(path); err != nil {
+			log.Panicln(err.Error())
+		}
+
+		return
+	}
+
 	if utils.ContainsString(os.Args, "migrate") {
 		err := migrations.Migrate()
 		if err != nil {

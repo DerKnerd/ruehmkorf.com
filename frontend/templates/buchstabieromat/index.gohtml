@@ -66,8 +66,8 @@
                 for (const textElement of text) {
                     const runeGerman = german[textElement] ?? textElement;
                     const runeEnglish = english[textElement] ?? textElement;
-                    germanTranslation.push(runeGerman);
-                    englishTranslation.push(runeEnglish);
+                    germanTranslation.push(`${textElement} – ${runeGerman}`);
+                    englishTranslation.push(`${textElement} – ${runeEnglish}`);
                 }
 
                 germanTranslationPre.innerHTML = germanTranslation.join("<br>");

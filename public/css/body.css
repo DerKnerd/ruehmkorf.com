@@ -63,3 +63,11 @@ pre,
 code {
     font-family: source-code-pro, monospace;
 }
+
+pre {
+    overflow-x: auto;
+}
+
+* {
+    box-sizing: border-box;
+}
