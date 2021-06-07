@@ -15,7 +15,10 @@
                     <img class="rc-card__img" src="/profile/header/{{.Id}}" alt="" aria-hidden="true">
                     <div class="rc-card__title rc-card__title--profile">
                         <img src="/profile/icon/{{.Id}}" alt="" class="rc-profile__icon" aria-hidden="true">
-                        <span>{{.Name}}</span>
+                        <div class="rc-profile__details">
+                            <span>{{.Name}}</span>
+                            <span class="rc-profile__url">{{.Url}}</span>
+                        </div>
                     </div>
                 </a>
             {{end}}
