@@ -201,7 +201,7 @@ func DownloadNew(w http.ResponseWriter, r *http.Request) {
 			Slug:   slug,
 			Date:   parsedDate,
 			FileExtension: sql.NullString{
-				String: downloadFileHeader.Filename[0:lastDotIndex],
+				String: downloadFileHeader.Filename[lastDotIndex:len(downloadFileHeader.Filename)],
 				Valid:  true,
 			},
 			SelfDestruct: selfDestruct,

@@ -58,9 +58,10 @@ func DownloadPreview(w http.ResponseWriter, r *http.Request) {
 }
 
 type downloadListItem struct {
-	Name string
-	Date string
-	Slug string
+	Name    string
+	Date    string
+	Slug    string
+	IsImage bool
 }
 
 type downloadListOverview struct {
@@ -74,6 +75,7 @@ type downloadPageItem struct {
 	Date        string
 	Description string
 	Slug        string
+	IsImage     bool
 }
 
 func DownloadList(w http.ResponseWriter, r *http.Request, language string) error {
@@ -88,15 +90,17 @@ func DownloadList(w http.ResponseWriter, r *http.Request, language string) error
 	for _, item := range download {
 		if language == "de" {
 			items = append(items, downloadListItem{
-				Name: item.NameDe,
-				Date: item.Date.Format("2006-01-02"),
-				Slug: item.Slug,
+				Name:    item.NameDe,
+				Date:    item.Date.Format("2006-01-02"),
+				Slug:    item.Slug,
+				IsImage: item.Type == "image",
 			})
 		} else {
 			items = append(items, downloadListItem{
-				Name: item.NameEn,
-				Date: item.Date.Format("2006-01-02"),
-				Slug: item.Slug,
+				Name:    item.NameEn,
+				Date:    item.Date.Format("2006-01-02"),
+				Slug:    item.Slug,
+				IsImage: item.Type == "image",
 			})
 		}
 	}
@@ -144,8 +148,9 @@ func DownloadPage(w http.ResponseWriter, r *http.Request, language string) error
 			Url:      cleanUrl,
 			Host:     r.Host,
 		},
-		Date: download.Date.Format("2006-01-02"),
-		Slug: slug,
+		Date:    download.Date.Format("2006-01-02"),
+		Slug:    slug,
+		IsImage: download.Type == "image",
 	}
 	md := goldmark.New(
 		goldmark.WithExtensions(extension.GFM),

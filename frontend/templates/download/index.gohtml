@@ -45,7 +45,11 @@
         <div class="rc-download__container">
             {{range .Items}}
                 <a class="rc-download__card" href="/{{$.Language}}/download/{{.Slug}}">
-                    <img class="rc-download__img" src="/download/preview/{{.Slug}}" alt="" aria-hidden="true">
+                    {{if .IsImage}}
+                        <img class="rc-download__img" src="/download/file/{{.Slug}}" alt="" aria-hidden="true">
+                    {{else}}
+                        <img class="rc-download__img" src="/download/preview/{{.Slug}}" alt="" aria-hidden="true">
+                    {{end}}
                     <span class="rc-download__title">{{.Name}}</span>
                     <span class="rc-download__date">{{.Date}}</span>
                 </a>

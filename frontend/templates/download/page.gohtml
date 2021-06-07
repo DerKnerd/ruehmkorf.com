@@ -53,7 +53,11 @@
     </div>
     <div class="rc-content">
         <div class="rc-download__details-container">
-            <img class="rc-download__details-preview" src="/download/preview/{{.Slug}}" alt="" aria-hidden="true">
+            {{if .IsImage}}
+                <img class="rc-download__details-preview" src="/download/file/{{.Slug}}" alt="" aria-hidden="true">
+            {{else}}
+                <img class="rc-download__details-preview" src="/download/preview/{{.Slug}}" alt="" aria-hidden="true">
+            {{end}}
             <div class="rc-download__details-content">
                 <h1 class="rc-download__details-header">{{.Name}}</h1>
                 <span class="rc-download__details-date">{{.Date}}</span>
