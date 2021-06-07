@@ -11,7 +11,7 @@ type settingsData struct {
 	Message string
 }
 
-const SettingsPath = "./data/public/settings/"
+var SettingsPath = os.Getenv("DATA_DIR") + "/public/settings/"
 
 func saveData(header *multipart.FileHeader, fileName string) error {
 	path := SettingsPath

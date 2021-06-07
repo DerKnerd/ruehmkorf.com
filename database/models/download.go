@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"os"
 	"ruehmkorf.com/database"
 	"time"
 )
@@ -40,8 +41,8 @@ type Download struct {
 	FileExtension    sql.NullString `db:"file_extension"`
 }
 
-const DownloadFilePath = "./data/public/download/file/"
-const DownloadPreviewImagePath = "./data/public/download/preview/"
+var DownloadFilePath = os.Getenv("DATA_DIR") + "/public/download/file/"
+var DownloadPreviewImagePath = os.Getenv("DATA_DIR") + "/public/download/preview/"
 
 func FindAllDownloads(offset int, limit int) ([]Download, int, error) {
 	db, err := database.Connect()

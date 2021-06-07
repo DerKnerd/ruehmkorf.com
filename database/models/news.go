@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"fmt"
+	"os"
 	"ruehmkorf.com/database"
 	"time"
 )
@@ -32,7 +33,7 @@ CREATE TABLE "news_tag" (
 )
 `
 
-const HeroPath = "./data/public/news/hero/"
+var HeroPath = os.Getenv("DATA_DIR") + "/public/news/hero/"
 
 type News struct {
 	Id        string

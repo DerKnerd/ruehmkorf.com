@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+	"os"
 	"ruehmkorf.com/database"
 )
 
@@ -16,8 +17,9 @@ CREATE TABLE profile (
     header text NULL
 )
 `
-const IconPath = "./data/public/profile/icon/"
-const HeaderPath = "./data/public/profile/header/"
+
+var IconPath = os.Getenv("DATA_DIR") + "/public/profile/icon/"
+var HeaderPath = os.Getenv("DATA_DIR") + "/public/profile/header/"
 
 type Profile struct {
 	Id     string
