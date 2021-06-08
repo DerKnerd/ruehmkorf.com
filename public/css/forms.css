@@ -59,6 +59,10 @@
     padding-top: 1rem;
 }
 
+.rc-button__group--center {
+    justify-content: center;
+}
+
 .rc-button__group--start {
     justify-content: flex-start;
 }

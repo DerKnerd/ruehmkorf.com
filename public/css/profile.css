@@ -19,3 +19,17 @@
     display: flex;
     flex-flow: column;
 }
+
+.rc-card--profile {
+    height: 18.5vw;
+    width: 18.5vw;
+    grid-template-rows: [img] 1fr [title] auto [date] auto;
+}
+
+.rc-card__container--profile {
+    gap: 2vw;
+}
+
+.rc-card__img--profile {
+    height: 100%;
+}

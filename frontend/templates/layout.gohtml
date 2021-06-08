@@ -15,6 +15,7 @@
         <link rel="stylesheet" type="text/css" href="/public/css/bom.css">
         <link rel="stylesheet" type="text/css" href="/public/css/download.css">
         <link rel="stylesheet" type="text/css" href="/public/css/profile.css">
+        <link rel="stylesheet" type="text/css" href="/public/css/responsive.css">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="og:url" content="//{{.Host}}/{{.Url}}">
         <meta name="og:type" content="website">
@@ -25,7 +26,7 @@
         {{template "graph" .}}
     </head>
     <body>
-    <nav class="rc-menu">
+    <nav class="rc-menu mobile--hidden">
         <img src="/logo.png" alt="" aria-hidden="true" class="rc-menu__logo">
         <a href="/{{.Language}}/news" class="rc-menu__item">
             {{if eq .Language "de"}}
@@ -43,6 +44,34 @@
         </a>
         <a href="/{{.Language}}/download" class="rc-menu__item">Downloads</a>
         <a href="/{{.Language}}/buchstabier-o-mat" class="rc-menu__item">Buchstabier-O-Mat</a>
+    </nav>
+    <nav class="rc-menu desktop--hidden">
+        <div class="rc-menu__bar">
+            <img src="/logo.png" alt="" aria-hidden="true" class="rc-menu__logo">
+            <button data-action="open-menu" class="rc-menu__hamburger" type="button">
+                <span data-id="top-bar" class="rc-menu__hamburger-bar"></span>
+                <span data-id="middle-bar" class="rc-menu__hamburger-bar"></span>
+                <span data-id="bottom-bar" class="rc-menu__hamburger-bar"></span>
+            </button>
+        </div>
+        <div class="rc-menu__items">
+            <a href="/{{.Language}}/news" class="rc-menu__item">
+                {{if eq .Language "de"}}
+                    Nachrichten
+                {{else}}
+                    News
+                {{end}}
+            </a>
+            <a href="/{{.Language}}/profile" class="rc-menu__item">
+                {{if eq .Language "de"}}
+                    Profile
+                {{else}}
+                    Profiles
+                {{end}}
+            </a>
+            <a href="/{{.Language}}/download" class="rc-menu__item">Downloads</a>
+            <a href="/{{.Language}}/buchstabier-o-mat" class="rc-menu__item">Buchstabier-O-Mat</a>
+        </div>
     </nav>
     {{template "content" .}}
     <footer class="rc-footer">
@@ -63,6 +92,20 @@
             {{end}}
         </div>
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const button = document.querySelector('[data-action=open-menu]');
+            button.addEventListener('click',()=>{
+                const items = document.querySelector('.rc-menu__items');
+                items.classList.toggle('rc-menu__items--open');
+                document.querySelector('[data-id=top-bar]').classList.toggle('rc-menu__hamburger-bar--rotate-down');
+                document.querySelector('[data-id=middle-bar]').classList.toggle('rc-menu__hamburger-bar--hidden');
+                document.querySelector('[data-id=bottom-bar]').classList.toggle('rc-menu__hamburger-bar--rotate-up');
+                document.querySelector('.rc-menu__bar').classList.toggle('rc-menu__bar--open');
+                document.querySelector('.rc-menu.desktop--hidden').classList.toggle('rc-menu--open');
+            });
+        });
+    </script>
     </body>
     </html>
 {{end}}

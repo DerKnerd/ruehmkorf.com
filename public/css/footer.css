@@ -9,3 +9,10 @@
     color: var(--black);
     text-decoration: none;
 }
+
+@media screen and (max-width: 800px) {
+    .rc-footer {
+        position: relative;
+        background: var(--white);
+    }
+}

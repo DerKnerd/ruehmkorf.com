@@ -10,6 +10,7 @@
             <th>Name – en</th>
             <th>Slug</th>
             <th>Öffentlich</th>
+            <th>Link</th>
             <th>Aktionen</th>
         </tr>
         </thead>
@@ -20,6 +21,7 @@
                 <td>{{.NameEn}}</td>
                 <td>{{.Slug}}</td>
                 <td><input class="rc-checkbox" type="checkbox" disabled {{if .Public}}checked{{end}}></td>
+                <td><a href="/download/file/{{.Slug}}">https://ruehmkorf.com/download/file/{{.Slug}}</a></td>
                 <td class="rc-table__cell--action">
                     <a href="/admin/download/edit?slug={{.Slug}}" class="rc-button rc-button--small">Bearbeiten</a>
                     <a href="/admin/download/delete?slug={{.Slug}}" class="rc-button rc-button--small">Löschen</a>
@@ -29,7 +31,7 @@
         </tbody>
         <tfoot>
         <tr>
-            <td colspan="5">
+            <td colspan="6">
                 <div class="rc-table__pager">
                     <a class="rc-button"
                        {{if ne .Offset 0}}href="/admin/download?count={{.Count}}&offset={{.PrevOffset}}"{{end}}>Zurück</a>

@@ -3,6 +3,7 @@ package routes
 import (
 	"io/ioutil"
 	"net/http"
+	"os"
 	"ruehmkorf.com/database/models"
 	httpUtils "ruehmkorf.com/utils/http"
 	"strings"
@@ -51,9 +52,10 @@ type profileListOverview struct {
 
 type profileListItem struct {
 	BaseData
-	Name string
-	Url  string
-	Id   string
+	Name    string
+	Url     string
+	Id      string
+	HasIcon bool
 }
 
 func ProfileList(w http.ResponseWriter, r *http.Request, language string) error {
@@ -65,10 +67,12 @@ func ProfileList(w http.ResponseWriter, r *http.Request, language string) error 
 
 	var items []profileListItem
 	for _, item := range profiles {
+		_, err = os.Stat(item.Header.String)
 		items = append(items, profileListItem{
-			Name: item.Name,
-			Url:  item.Url,
-			Id:   item.Id,
+			Name:    item.Name,
+			Url:     item.Url,
+			Id:      item.Id,
+			HasIcon: !os.IsNotExist(err),
 		})
 	}
 	cleanUrl := ""

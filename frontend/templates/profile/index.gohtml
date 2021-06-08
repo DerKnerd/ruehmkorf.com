@@ -9,10 +9,15 @@
 
 {{define "content"}}
     <div class="rc-content">
-        <div class="rc-card__container">
+        <div class="rc-card__container rc-card__container--profile">
             {{range .Items}}
-                <a target="_blank" class="rc-card" href="{{.Url}}">
-                    <img class="rc-card__img" src="/profile/header/{{.Id}}" alt="" aria-hidden="true">
+                <a target="_blank" class="rc-card rc-card--profile" href="{{.Url}}">
+                    {{if .HasIcon}}
+                        <img class="rc-card__img rc-card__img--profile" src="/profile/header/{{.Id}}" alt=""
+                             aria-hidden="true">
+                    {{else}}
+                        <span class="rc-card__img rc-card__img--profile"></span>
+                    {{end}}
                     <div class="rc-card__title rc-card__title--profile">
                         <img src="/profile/icon/{{.Id}}" alt="" class="rc-profile__icon" aria-hidden="true">
                         <div class="rc-profile__details">

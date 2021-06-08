@@ -33,18 +33,30 @@
                 {{end}}
             </button>
         </div>
-        <div class="rc-topic-bar__list rc-topic-bar__list--hidden">
+        <div class="rc-topic-bar__list rc-topic-bar__list--hidden mobile--hidden">
             {{range .Tags}}
                 <a class="rc-topic-bar__link" href="/{{$.Language}}/news?topic={{.}}">{{.}}</a>
             {{end}}
         </div>
     </div>
-    <div class="rc-article__header-image" style="background: url('/news/hero/{{.Slug}}');background-repeat: no-repeat;background-size: cover;">
-        <div class="rc-article__header-container">
+    <div class="rc-topic-bar__list rc-topic-bar__list--hidden">
+        {{range .Tags}}
+            <a class="rc-topic-bar__link" href="/{{$.Language}}/news?topic={{.}}">{{.}}</a>
+        {{end}}
+    </div>
+    <div class="rc-article__header-image mobile--hidden"
+         style="background: url('/news/hero/{{.Slug}}') no-repeat;background-size: cover;">
+        <div class="rc-article__header-container mobile--hidden">
             <span class="rc-article__date">{{.Date}}</span>
-            <span class="rc-article__title">{{.Title}}</span>
+            <span class="rc-article__title">{{unsafe .Title}}</span>
             <span class="rc-article__gist">{{unsafe .Gist}}</span>
         </div>
+    </div>
+    <img class="rc-article__header-image--mobile" src="/news/hero/{{.Slug}}" alt="" aria-hidden="true">
+    <div class="rc-article__header-container">
+        <span class="rc-article__date">{{.Date}}</span>
+        <span class="rc-article__title">{{unsafe .Title}}</span>
+        <span class="rc-article__gist">{{unsafe .Gist}}</span>
     </div>
     <div class="rc-content">
         <article class="rc-article">
@@ -54,7 +66,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('[data-toggle=topics]').addEventListener('click', () => {
-                document.querySelector('.rc-topic-bar__list').classList.toggle('rc-topic-bar__list--hidden');
+                document.querySelectorAll('.rc-topic-bar__list').forEach(item => item.classList.toggle('rc-topic-bar__list--hidden'));
+                document.querySelector('.rc-topic-bar').classList.toggle('rc-topic-bar--open');
             });
         });
     </script>

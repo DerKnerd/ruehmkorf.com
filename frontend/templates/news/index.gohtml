@@ -24,11 +24,16 @@
                 {{end}}
             </button>
         </div>
-        <div class="rc-topic-bar__list rc-topic-bar__list--hidden">
+        <div class="rc-topic-bar__list rc-topic-bar__list--hidden mobile--hidden">
             {{range .Tags}}
                 <a class="rc-topic-bar__link" href="/{{$.Language}}/news?topic={{.}}">{{.}}</a>
             {{end}}
         </div>
+    </div>
+    <div class="rc-topic-bar__list rc-topic-bar__list--hidden">
+        {{range .Tags}}
+            <a class="rc-topic-bar__link" href="/{{$.Language}}/news?topic={{.}}">{{.}}</a>
+        {{end}}
     </div>
     <div class="rc-content">
         <div class="rc-card__container">
@@ -44,7 +49,8 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             document.querySelector('[data-toggle=topics]').addEventListener('click', () => {
-                document.querySelector('.rc-topic-bar__list').classList.toggle('rc-topic-bar__list--hidden');
+                document.querySelectorAll('.rc-topic-bar__list').forEach(item => item.classList.toggle('rc-topic-bar__list--hidden'));
+                document.querySelector('.rc-topic-bar').classList.toggle('rc-topic-bar--open');
             });
         });
     </script>
