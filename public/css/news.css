@@ -24,3 +24,9 @@
 .rc-article {
     font-size: var(--font-size-24);
 }
+
+.rc-article img {
+    width: 100%;
+    max-height: 30rem;
+    object-fit: scale-down;
+}
