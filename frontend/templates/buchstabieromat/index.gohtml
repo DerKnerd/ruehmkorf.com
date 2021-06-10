@@ -32,28 +32,24 @@
             </button>
         </div>
         <div class="rc-bom__translated-group">
-            <div class="rc-bom__translated-item">
-                <h2 class="rc-bom__translated-header">
-                    {{if eq .Language "de"}}
-                        Deutsch
-                    {{else}}
-                        German
-                    {{end}}
-                </h2>
-                <div class="rc-bom__translated-infotext">{{unsafe .InfoTextDe}}</div>
-                <pre class="rc-bom__translated-text" data-language="de"></pre>
-            </div>
-            <div class="rc-bom__translated-item">
-                <h2 class="rc-bom__translated-header">
-                    {{if eq .Language "de"}}
-                        Englisch
-                    {{else}}
-                        English
-                    {{end}}
-                </h2>
-                <div class="rc-bom__translated-infotext">{{unsafe .InfoTextEn}}</div>
-                <pre class="rc-bom__translated-text" data-language="en"></pre>
-            </div>
+            <h2 class="rc-bom__translated-header">
+                {{if eq .Language "de"}}
+                    Deutsch
+                {{else}}
+                    German
+                {{end}}
+            </h2>
+            <div class="rc-bom__translated-infotext">{{unsafe .InfoTextDe}}</div>
+            <pre class="rc-bom__translated-text" data-language="de"></pre>
+            <h2 class="rc-bom__translated-header">
+                {{if eq .Language "de"}}
+                    Englisch
+                {{else}}
+                    English
+                {{end}}
+            </h2>
+            <div class="rc-bom__translated-infotext">{{unsafe .InfoTextEn}}</div>
+            <pre class="rc-bom__translated-text" data-language="en"></pre>
         </div>
     </div>
     <script type="module">

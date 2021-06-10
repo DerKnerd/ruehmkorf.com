@@ -70,3 +70,19 @@
     background: var(--blue);
     font-size: var(--font-size-24);
 }
+
+@media screen and (max-width: 900px) {
+    .rc-download__container {
+        grid-template-columns: 80vw;
+        grid-auto-rows: 80vw;
+    }
+
+    .rc-download__card {
+        grid-template-rows: 1fr auto auto;
+    }
+
+    .rc-download__details-container {
+        grid-template-columns: unset;
+        grid-auto-rows: unset;
+    }
+}

@@ -33,3 +33,14 @@
 .rc-card__img--profile {
     height: 100%;
 }
+
+@media screen and (max-width: 900px) {
+    .rc-card__container--profile {
+        gap: 1rem;
+    }
+
+    .rc-card--profile {
+        height: 80vw;
+        width: 80vw;
+    }
+}

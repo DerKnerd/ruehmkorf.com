@@ -45,6 +45,10 @@
     font-size: var(--font-size-24);
 }
 
+.rc-topic-bar__link:empty {
+    display: none;
+}
+
 @media screen and (max-width: 800px) {
     .rc-topic-bar {
         position: sticky;
@@ -64,7 +68,7 @@
         left: 0;
         right: 0;
         height: auto;
-        padding: 0 8rem 2rem;
         z-index: 2;
+        padding: 2rem 8rem;
     }
 }

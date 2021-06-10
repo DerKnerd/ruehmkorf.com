@@ -83,6 +83,6 @@ pre {
         padding-left: 10%;
         padding-right: 10%;
         position: relative;
-        background: var(--white);
+        background: var(--background);
     }
 }

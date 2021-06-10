@@ -2,10 +2,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: calc(100vh - 7rem - 6rem);
 }
 
 .rc-error__message {
-    font: var(--font-lato-bold);
     font-size: 3.5rem;
+    font-weight: bold;
+    text-align: center;
 }
