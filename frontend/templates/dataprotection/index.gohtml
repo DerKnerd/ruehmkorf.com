@@ -1,0 +1,15 @@
+{{define "graph"}}{{end}}
+{{define "title"}}
+    {{if eq .Language "de"}}
+        Datenschutz
+    {{else}}
+        Data protection
+    {{end}}
+{{end}}
+{{define "content"}}
+    <div class="rc-content">
+        <div class="rc-article">
+            {{unsafe .Content}}
+        </div>
+    </div>
+{{end}}

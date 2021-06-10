@@ -43,7 +43,13 @@
             {{end}}
         </a>
         <a href="/{{.Language}}/download" class="rc-menu__item">Downloads</a>
-        <a href="/{{.Language}}/buchstabier-o-mat" class="rc-menu__item">Buchstabier-O-Mat</a>
+        <a href="/{{.Language}}/spellotron" class="rc-menu__item">
+            {{if eq .Language "de"}}
+                Buchstabier-O-Mat
+            {{else}}
+                Spell-O-Tron
+            {{end}}
+        </a>
     </nav>
     <nav class="rc-menu desktop--hidden">
         <div class="rc-menu__bar">
@@ -70,7 +76,13 @@
                 {{end}}
             </a>
             <a href="/{{.Language}}/download" class="rc-menu__item">Downloads</a>
-            <a href="/{{.Language}}/buchstabier-o-mat" class="rc-menu__item">Buchstabier-O-Mat</a>
+            <a href="/{{.Language}}/spellotron" class="rc-menu__item">
+                {{if eq .Language "de"}}
+                    Buchstabier-O-Mat
+                {{else}}
+                    Spell-O-Tron
+                {{end}}
+            </a>
         </div>
     </nav>
     {{template "content" .}}
@@ -95,7 +107,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const button = document.querySelector('[data-action=open-menu]');
-            button.addEventListener('click',()=>{
+            button.addEventListener('click', () => {
                 const items = document.querySelector('.rc-menu__items');
                 items.classList.toggle('rc-menu__items--open');
                 document.querySelector('[data-id=top-bar]').classList.toggle('rc-menu__hamburger-bar--rotate-down');

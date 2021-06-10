@@ -39,15 +39,27 @@ func InitRouting(mux *http.ServeMux) error {
 		http.Redirect(w, r, "/en"+r.URL.Path, http.StatusFound)
 	})
 
-	mux.HandleFunc("/de/buchstabier-o-mat/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.BuchstabieroMatPage)))
-	mux.HandleFunc("/en/buchstabier-o-mat/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.BuchstabieroMatPage)))
-	mux.HandleFunc("/buchstabier-o-mat/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/de/spellotron/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.BuchstabieroMatPage)))
+	mux.HandleFunc("/en/spellotron/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.BuchstabieroMatPage)))
+	mux.HandleFunc("/spellotron/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/en"+r.URL.Path, http.StatusFound)
 	})
 
 	mux.HandleFunc("/de/profile/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.ProfileList)))
 	mux.HandleFunc("/en/profile/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.ProfileList)))
 	mux.HandleFunc("/profile/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/en"+r.URL.Path, http.StatusFound)
+	})
+
+	mux.HandleFunc("/de/data-protection/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.DataProtectionPage)))
+	mux.HandleFunc("/en/data-protection/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.DataProtectionPage)))
+	mux.HandleFunc("/data-protection/", func(w http.ResponseWriter, r *http.Request) {
+		http.Redirect(w, r, "/en"+r.URL.Path, http.StatusFound)
+	})
+
+	mux.HandleFunc("/de/cookies/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.CookiesPage)))
+	mux.HandleFunc("/en/cookies/", middleware.ErrorHandlerMiddleware(middleware.LanguageDetectorMiddleware(routes.CookiesPage)))
+	mux.HandleFunc("/cookies/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/en"+r.URL.Path, http.StatusFound)
 	})
 

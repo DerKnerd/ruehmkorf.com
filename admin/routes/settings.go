@@ -4,11 +4,16 @@ import (
 	"mime/multipart"
 	"net/http"
 	"os"
+	"ruehmkorf.com/database/models"
 	httpUtils "ruehmkorf.com/utils/http"
 )
 
 type settingsData struct {
-	Message string
+	Message          string
+	CookiesDe        string
+	CookiesEn        string
+	DataProtectionDe string
+	DataProtectionEn string
 }
 
 var SettingsPath = os.Getenv("DATA_DIR") + "/public/settings/"
@@ -39,7 +44,12 @@ func saveData(header *multipart.FileHeader, fileName string) error {
 
 func SettingsView(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		httpUtils.RenderAdmin("admin/templates/settings/index.gohtml", nil, w)
+		httpUtils.RenderAdmin("admin/templates/settings/index.gohtml", settingsData{
+			CookiesDe:        models.FindSettingByKey("CookiesDe"),
+			CookiesEn:        models.FindSettingByKey("CookiesEn"),
+			DataProtectionDe: models.FindSettingByKey("DataProtectionDe"),
+			DataProtectionEn: models.FindSettingByKey("DataProtectionEn"),
+		}, w)
 	} else if r.Method == http.MethodPost {
 		err := r.ParseMultipartForm(8192 * 1024 * 1024 * 1024)
 		if err != nil {
@@ -100,6 +110,15 @@ func SettingsView(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 		}
+
+		cookiesDe := r.FormValue("cookiesDe")
+		cookiesEn := r.FormValue("cookiesEn")
+		dataProtectionDe := r.FormValue("dataProtectionDe")
+		dataProtectionEn := r.FormValue("dataProtectionEn")
+		models.UpdateSetting("CookiesDe", cookiesDe)
+		models.UpdateSetting("CookiesEn", cookiesEn)
+		models.UpdateSetting("DataProtectionDe", dataProtectionDe)
+		models.UpdateSetting("DataProtectionEn", dataProtectionEn)
 
 		http.Redirect(w, r, "/admin/settings", http.StatusFound)
 	} else {
