@@ -42,7 +42,7 @@ func BuchstabieroMatPage(w http.ResponseWriter, r *http.Request, language string
 	data := BuchstabieroMatData{
 		BaseData: BaseData{
 			Language: language,
-			Url:      "buchstabier-o-mat",
+			Url:      "spellotron",
 			Host:     r.Host,
 		},
 		Description: descriptionBuffer.String(),
