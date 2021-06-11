@@ -23,5 +23,5 @@ func (migration FixDateColumnInDownloadTable20210611T1911) Execute() {
 }
 
 func (migration FixDateColumnInDownloadTable20210611T1911) GetVersion() string {
-	return "CreateDownloadTable20210528T2344"
+	return "FixDateColumnInDownloadTable20210611T1911"
 }
