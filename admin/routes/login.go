@@ -61,7 +61,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		email := r.PostFormValue("email")
 		password := r.PostFormValue("password")
 		user, err := models.FindUserByEmailAndPassword(email, password)
-		if err != nil {
+		if err != nil || user == nil {
 			data := loginData{Message: "Die Zugangsdaten sind ungültig", Email: email}
 			w.WriteHeader(http.StatusUnauthorized)
 			httpUtils.RenderSingle("admin/templates/login/login.gohtml", data, w)
