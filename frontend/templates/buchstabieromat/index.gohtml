@@ -4,12 +4,22 @@
     <meta name="author" content="Reemt Rühmkorf">
 {{end}}
 {{define "title"}}
-    Buchstabier-O-Mat
+    {{if eq .Language "de"}}
+        Buchstabier-O-Mat
+    {{else}}
+        Spell-O-Tron
+    {{end}}
 {{end}}
 {{define "content"}}
     <div class="rc-content">
         <div class="rc-bom__header">
-            <h1 class="rc-bom__title">Buchstabier-O-Mat</h1>
+            <h1 class="rc-bom__title">
+                {{if eq .Language "de"}}
+                    Buchstabier-O-Mat
+                {{else}}
+                    Spell-O-Tron
+                {{end}}
+            </h1>
             <p class="rc-bom__about">{{unsafe .Description}}</p>
         </div>
         <div class="rc-bom__input-group">
