@@ -11,7 +11,7 @@
     {{end}}
 {{end}}
 {{define "content"}}
-    <div class="rc-content">
+    <form id="bomForm" class="rc-content">
         <div class="rc-bom__header">
             <h1 class="rc-bom__title">
                 {{if eq .Language "de"}}
@@ -33,7 +33,7 @@
             <input type="text" class="rc-bom__input" id="input">
         </div>
         <div class="rc-button__group rc-button__group--padded">
-            <button class="rc-button rc-button--bom">
+            <button type="submit" class="rc-button rc-button--bom">
                 {{if eq .Language "de"}}
                     Umwandeln
                 {{else}}
@@ -61,28 +61,35 @@
             <div class="rc-bom__translated-infotext">{{unsafe .InfoTextEn}}</div>
             <pre class="rc-bom__translated-text" data-language="en"></pre>
         </div>
-    </div>
+    </form>
     <script type="module">
         import german from "/public/bom/german.js";
         import english from "/public/bom/english.js";
 
+        function phonetify(input) {
+            const text = [...input.value];
+            const germanTranslationPre = document.querySelector('[data-language=de]');
+            const englishTranslationPre = document.querySelector('[data-language=en]');
+            const germanTranslation = [];
+            const englishTranslation = [];
+            for (const textElement of text) {
+                const runeGerman = german[textElement] ?? textElement;
+                const runeEnglish = english[textElement] ?? textElement;
+                germanTranslation.push(`${textElement} – ${runeGerman}`);
+                englishTranslation.push(`${textElement} – ${runeEnglish}`);
+            }
+
+            germanTranslationPre.innerHTML = germanTranslation.join("<br>");
+            englishTranslationPre.innerHTML = englishTranslation.join("<br>");
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const input = document.getElementById('input');
-            input.addEventListener('blur', () => {
-                const text = [...input.value];
-                const germanTranslationPre = document.querySelector('[data-language=de]');
-                const englishTranslationPre = document.querySelector('[data-language=en]');
-                const germanTranslation = [];
-                const englishTranslation = [];
-                for (const textElement of text) {
-                    const runeGerman = german[textElement] ?? textElement;
-                    const runeEnglish = english[textElement] ?? textElement;
-                    germanTranslation.push(`${textElement} – ${runeGerman}`);
-                    englishTranslation.push(`${textElement} – ${runeEnglish}`);
-                }
-
-                germanTranslationPre.innerHTML = germanTranslation.join("<br>");
-                englishTranslationPre.innerHTML = englishTranslation.join("<br>");
+            input.addEventListener('blur', () => phonetify(input));
+            const form = document.getElementById('bomForm');
+            form.addEventListener('submit', (event) => {
+                event.preventDefault();
+                phonetify(input);
             });
         });
     </script>

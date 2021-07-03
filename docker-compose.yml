@@ -10,11 +10,3 @@ services:
       POSTGRES_PASSWORD: ruehmkorf
       POSTGRES_DB: ruehmkorf
     restart: always
-
-  ruehmkorfcom_mailhog:
-    container_name: ruehmkorfcom_mailhog
-    image: mailhog/mailhog
-    ports:
-      - 1525:1025
-      - 8525:8025
-    restart: always
