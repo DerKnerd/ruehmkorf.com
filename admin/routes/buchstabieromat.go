@@ -1,19 +1,18 @@
 package routes
 
 import (
+	"encoding/json"
 	"net/http"
 	"ruehmkorf.com/database/models"
-	httpUtils "ruehmkorf.com/utils/http"
 )
 
 type buchstabieromatData struct {
-	Message       string
-	DescriptionDe string
-	InfoTextDeDe  string
-	InfoTextEnDe  string
-	DescriptionEn string
-	InfoTextDeEn  string
-	InfoTextEnEn  string
+	DescriptionDe string `json:"descriptionDe"`
+	InfoTextDeDe  string `json:"infoTextDeDe"`
+	InfoTextEnDe  string `json:"infoTextEnDe"`
+	DescriptionEn string `json:"descriptionEn"`
+	InfoTextDeEn  string `json:"infoTextDeEn"`
+	InfoTextEnEn  string `json:"infoTextEnEn"`
 }
 
 func Buchstabieromat(w http.ResponseWriter, r *http.Request) {
@@ -26,30 +25,28 @@ func Buchstabieromat(w http.ResponseWriter, r *http.Request) {
 			InfoTextDeEn:  models.FindSettingByKey("InfoTextDeEn"),
 			InfoTextEnEn:  models.FindSettingByKey("InfoTextEnEn"),
 		}
-		httpUtils.RenderAdmin("admin/templates/buchstabieromat/index.gohtml", data, w)
-	} else if r.Method == http.MethodPost {
-		err := r.ParseForm()
+		encoder := json.NewEncoder(w)
+		encoder.SetEscapeHTML(true)
+		err := encoder.Encode(data)
 		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/buchstabieromat/index.gohtml", buchstabieromatData{
-				Message: err.Error(),
-			}, w)
+			w.WriteHeader(http.StatusInternalServerError)
+		}
+	} else if r.Method == http.MethodPut {
+		decoder := json.NewDecoder(r.Body)
+		var data buchstabieromatData
+		err := decoder.Decode(&data)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 
-		descriptionDe := r.FormValue("descriptionDe")
-		infoTextDeDe := r.FormValue("infoTextDeDe")
-		infoTextEnDe := r.FormValue("infoTextEnDe")
-		descriptionEn := r.FormValue("descriptionEn")
-		infoTextDeEn := r.FormValue("infoTextDeEn")
-		infoTextEnEn := r.FormValue("infoTextEnEn")
-
-		models.UpdateSetting("DescriptionDe", descriptionDe)
-		models.UpdateSetting("InfoTextDeDe", infoTextDeDe)
-		models.UpdateSetting("InfoTextEnDe", infoTextEnDe)
-		models.UpdateSetting("DescriptionEn", descriptionEn)
-		models.UpdateSetting("InfoTextDeEn", infoTextDeEn)
-		models.UpdateSetting("InfoTextEnEn", infoTextEnEn)
-		http.Redirect(w, r, "/admin/buchstabieromat", http.StatusFound)
+		models.UpdateSetting("DescriptionDe", data.DescriptionDe)
+		models.UpdateSetting("InfoTextDeDe", data.InfoTextDeDe)
+		models.UpdateSetting("InfoTextEnDe", data.InfoTextEnDe)
+		models.UpdateSetting("DescriptionEn", data.DescriptionEn)
+		models.UpdateSetting("InfoTextDeEn", data.InfoTextDeEn)
+		models.UpdateSetting("InfoTextEnEn", data.InfoTextEnEn)
+		w.WriteHeader(http.StatusNoContent)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
