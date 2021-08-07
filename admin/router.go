@@ -31,7 +31,10 @@ func InitRouting(mux *http.ServeMux) error {
 	mux.HandleFunc("/admin/user/edit/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UserEdit)))
 	mux.HandleFunc("/admin/user/delete/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UserDelete)))
 
-	mux.HandleFunc("/admin/settings/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.SettingsView)))
+	mux.HandleFunc("/admin/settings", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.SettingsAction)))
+	mux.HandleFunc("/admin/settings/touchicon", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.LogosAction)))
+	mux.HandleFunc("/admin/settings/favicon", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.LogosAction)))
+	mux.HandleFunc("/admin/settings/logo", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.LogosAction)))
 
 	mux.HandleFunc("/admin/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.Home)))
 
