@@ -14,8 +14,8 @@ CREATE TABLE "tag" (
 `
 
 type Tag struct {
-	Id  string
-	Tag string
+	Id  string `json:"id"`
+	Tag string `json:"tag"`
 }
 
 func getTagsByTagList(tagList []string) ([]Tag, error) {
