@@ -13,7 +13,12 @@ import (
 
 func NewsAction(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		newsList(w)
+		slug := r.URL.Query().Get("slug")
+		if slug != "" {
+			newsDetails(w, slug)
+		} else {
+			newsList(w)
+		}
 	} else if r.Method == http.MethodPost {
 		newsNew(w, r)
 	} else if r.Method == http.MethodPut {
@@ -25,21 +30,35 @@ func NewsAction(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func newsList(w http.ResponseWriter) {
-	type newsItem struct {
-		Id        string       `json:"id"`
-		TitleDe   string       `json:"titleDe"`
-		TitleEn   string       `json:"titleEn"`
-		Slug      string       `json:"slug"`
-		Date      time.Time    `json:"date"`
-		Tags      []models.Tag `json:"tags"`
-		Public    bool         `json:"public"`
-		GistDe    string       `json:"gistDe"`
-		GistEn    string       `json:"gistEn"`
-		ContentDe string       `json:"contentDe"`
-		ContentEn string       `json:"contentEn"`
+type newsDetailItem struct {
+	Id        string       `json:"id"`
+	TitleDe   string       `json:"titleDe"`
+	TitleEn   string       `json:"titleEn"`
+	Slug      string       `json:"slug"`
+	Date      time.Time    `json:"date"`
+	Tags      []models.Tag `json:"tags"`
+	Public    bool         `json:"public"`
+	GistDe    string       `json:"gistDe"`
+	GistEn    string       `json:"gistEn"`
+	ContentDe string       `json:"contentDe"`
+	ContentEn string       `json:"contentEn"`
+}
+
+func newsDetails(w http.ResponseWriter, slug string) {
+	news, err := models.FindNewsBySlug(slug)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
 	}
 
+	encoder := json.NewEncoder(w)
+	err = encoder.Encode(newsDetailItemFromNews(*news))
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+}
+
+func newsList(w http.ResponseWriter) {
 	news, err := models.FindAllNews()
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -52,35 +71,9 @@ func newsList(w http.ResponseWriter) {
 		return
 	}
 
-	var entries []newsItem
+	var entries []newsDetailItem
 	for _, item := range news {
-		elem := newsItem{
-			Id:      item.Id,
-			TitleDe: item.TitleDe,
-			TitleEn: item.TitleEn,
-			Slug:    item.Slug,
-			Date:    item.Date,
-			Public:  item.Public,
-		}
-
-		tags, err := models.FindTagsByNews(item)
-		if err == nil {
-			elem.Tags = tags
-		}
-		if item.GistEn.Valid {
-			elem.GistEn = item.GistEn.String
-		}
-		if item.GistDe.Valid {
-			elem.GistDe = item.GistDe.String
-		}
-		if item.ContentDe.Valid {
-			elem.ContentDe = item.ContentDe.String
-		}
-		if item.ContentEn.Valid {
-			elem.ContentEn = item.ContentEn.String
-		}
-
-		entries = append(entries, elem)
+		entries = append(entries, newsDetailItemFromNews(item))
 	}
 
 	encoder := json.NewEncoder(w)
@@ -88,6 +81,35 @@ func newsList(w http.ResponseWriter) {
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
+}
+
+func newsDetailItemFromNews(item models.News) newsDetailItem {
+	elem := newsDetailItem{
+		Id:      item.Id,
+		TitleDe: item.TitleDe,
+		TitleEn: item.TitleEn,
+		Slug:    item.Slug,
+		Date:    item.Date,
+		Public:  item.Public,
+	}
+
+	tags, err := models.FindTagsByNews(item)
+	if err == nil {
+		elem.Tags = tags
+	}
+	if item.GistEn.Valid {
+		elem.GistEn = item.GistEn.String
+	}
+	if item.GistDe.Valid {
+		elem.GistDe = item.GistDe.String
+	}
+	if item.ContentDe.Valid {
+		elem.ContentDe = item.ContentDe.String
+	}
+	if item.ContentEn.Valid {
+		elem.ContentEn = item.ContentEn.String
+	}
+	return elem
 }
 
 func newsNew(w http.ResponseWriter, r *http.Request) {
