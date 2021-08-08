@@ -4,37 +4,71 @@ import (
 	"crypto/md5"
 	"database/sql"
 	"encoding/base64"
-	"mime/multipart"
+	"encoding/json"
+	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"ruehmkorf.com/database/models"
-	httpUtils "ruehmkorf.com/utils/http"
 	"strings"
 )
 
-func ProfileList(w http.ResponseWriter, r *http.Request) {
+func ProfileAction(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		profiles, err := models.FindAllProfiles()
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(err.Error()))
-			return
+		id := r.URL.Query().Get("id")
+		if id != "" {
+			profileDetails(w, id)
+		} else {
+			profileList(w)
 		}
-
-		httpUtils.RenderAdmin("admin/templates/profile/overview.gohtml", profiles, w)
+	} else if r.Method == http.MethodPost {
+		profileNew(w, r)
+	} else if r.Method == http.MethodPut {
+		profileEdit(w, r)
+	} else if r.Method == http.MethodDelete {
+		profileDelete(w, r)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
 
-type profileData struct {
-	Message string
-	Name    string
-	Url     string
-	Active  bool
+func profileList(w http.ResponseWriter) {
+	profiles, err := models.FindAllProfiles()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	encoder := json.NewEncoder(w)
+	err = encoder.Encode(profiles)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
 }
 
-func saveProfileImage(header *multipart.FileHeader, icon bool) (string, error) {
+func profileDetails(w http.ResponseWriter, id string) {
+	profile, err := models.FindProfileById(id)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	encoder := json.NewEncoder(w)
+	err = encoder.Encode(profile)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+}
+
+type profileData struct {
+	Name   string `json:"name"`
+	Url    string `json:"url"`
+	Active bool   `json:"active"`
+}
+
+func saveProfileImage(reader io.ReadCloser, icon bool) (string, error) {
 	path := models.HeaderPath
 	if icon {
 		path = models.IconPath
@@ -45,14 +79,7 @@ func saveProfileImage(header *multipart.FileHeader, icon bool) (string, error) {
 		return "", err
 	}
 
-	file, err := header.Open()
-	if err != nil {
-		return "", err
-	}
-
-	data := make([]byte, header.Size)
-	_, err = file.Read(data)
-
+	data, err := ioutil.ReadAll(reader)
 	if err != nil {
 		return "", err
 	}
@@ -65,235 +92,109 @@ func saveProfileImage(header *multipart.FileHeader, icon bool) (string, error) {
 	return path + id, err
 }
 
-func ProfileNew(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
-		httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{Active: true}, w)
-	} else if r.Method == http.MethodPost {
-		err := r.ParseMultipartForm(8192 * 1024 * 1024 * 1024)
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{Message: err.Error()}, w)
-			return
-		}
+func profileNew(w http.ResponseWriter, r *http.Request) {
+	var data profileData
 
-		name := r.FormValue("name")
-		url := r.FormValue("url")
-		active := r.FormValue("active") == "on"
-
-		_, iconHeader, err := r.FormFile("networkIcon")
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{
-				Message: "Icon konnte nicht geladen werden",
-				Name:    name,
-				Url:     url,
-				Active:  active,
-			}, w)
-			return
-		}
-
-		iconPath, err := saveProfileImage(iconHeader, true)
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{
-				Message: "Icon konnte nicht geladen werden",
-				Name:    name,
-				Url:     url,
-				Active:  active,
-			}, w)
-			return
-		}
-
-		_, headerHeader, err := r.FormFile("headerImage")
-		headerPath := ""
-		if err != nil && err != http.ErrMissingFile {
-			httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{
-				Message: "Header Image konnte nicht geladen werden",
-				Name:    name,
-				Url:     url,
-				Active:  active,
-			}, w)
-			return
-		}
-
-		if headerHeader != nil {
-			headerPath, err = saveProfileImage(headerHeader, false)
-			if err != nil {
-				httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{
-					Message: "Header Image nicht geladen werden",
-					Name:    name,
-					Url:     url,
-					Active:  active,
-				}, w)
-				return
-			}
-		}
-
-		profile := models.Profile{
-			Name:   name,
-			Url:    url,
-			Active: active,
-			Icon:   iconPath,
-			Header: sql.NullString{String: headerPath, Valid: true},
-		}
-
-		err = models.CreateProfile(profile)
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{
-				Message: "Profil konnte nicht gespeichert werden",
-				Name:    name,
-				Url:     url,
-				Active:  active,
-			}, w)
-			_ = os.Remove(headerPath)
-			_ = os.Remove(iconPath)
-			return
-		}
-
-		http.Redirect(w, r, "/admin/profile", http.StatusFound)
-	} else {
-		w.WriteHeader(http.StatusMethodNotAllowed)
+	decoder := json.NewDecoder(r.Body)
+	err := decoder.Decode(&data)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
+
+	profile := models.Profile{
+		Name:   data.Name,
+		Url:    data.Url,
+		Active: data.Active,
+		Icon:   "",
+		Header: sql.NullString{String: "", Valid: true},
+	}
+
+	err = models.CreateProfile(profile)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
 }
 
-func ProfileEdit(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
-		profile, err := models.FindProfileById(r.URL.Query().Get("id"))
-		data := profileData{}
+func UploadProfileImage(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	} else {
+		id := r.URL.Query().Get("id")
+		profile, err := models.FindProfileById(id)
 		if err != nil {
-			data.Message = "Profil nicht gefunden"
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+
+		path, err := saveProfileImage(r.Body, strings.HasSuffix(r.URL.Path, "icon"))
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		if strings.HasSuffix(r.URL.Path, "icon") {
+			profile.Icon = path
 		} else {
-			data.Name = profile.Name
-			data.Url = profile.Url
-			data.Active = profile.Active
+			profile.Header = sql.NullString{String: path, Valid: true}
 		}
-		httpUtils.RenderAdmin("admin/templates/profile/edit.gohtml", data, w)
-	} else if r.Method == http.MethodPost {
-		profile, err := models.FindProfileById(r.URL.Query().Get("id"))
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/profile/edit.gohtml", profileData{Message: "Profil nicht gefunden"}, w)
-			return
-		}
-
-		err = r.ParseMultipartForm(8192 * 1024 * 1024 * 1024)
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/profile/edit.gohtml", profileData{Message: err.Error()}, w)
-			return
-		}
-
-		name := r.FormValue("name")
-		url := r.FormValue("url")
-		active := r.FormValue("active") == "on"
-
-		_, iconHeader, err := r.FormFile("networkIcon")
-		iconPath := profile.Icon
-		if err != nil && err != http.ErrMissingFile {
-			httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{
-				Message: "Icon konnte nicht geladen werden",
-				Name:    name,
-				Url:     url,
-				Active:  active,
-			}, w)
-			return
-		}
-
-		if iconHeader != nil {
-			iconPath, err = saveProfileImage(iconHeader, false)
-			if err != nil {
-				httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{
-					Message: "Icon nicht geladen werden",
-					Name:    name,
-					Url:     url,
-					Active:  active,
-				}, w)
-				return
-			}
-		}
-
-		_, headerHeader, err := r.FormFile("headerImage")
-		headerPath := profile.Header.String
-		if err != nil && err != http.ErrMissingFile {
-			httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{
-				Message: "Header Image konnte nicht geladen werden",
-				Name:    name,
-				Url:     url,
-				Active:  active,
-			}, w)
-			return
-		}
-
-		if headerHeader != nil {
-			headerPath, err = saveProfileImage(headerHeader, false)
-			if err != nil {
-				httpUtils.RenderAdmin("admin/templates/profile/new.gohtml", profileData{
-					Message: "Header Image nicht geladen werden",
-					Name:    name,
-					Url:     url,
-					Active:  active,
-				}, w)
-				return
-			}
-		}
-
-		profile.Name = name
-		profile.Url = url
-		profile.Active = active
-		profile.Header = sql.NullString{String: headerPath, Valid: true}
-		profile.Icon = iconPath
-
 		err = models.UpdateProfile(*profile)
 		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/profile/edit.gohtml", profileData{
-				Message: "Profil konnte nicht gespeichert werden",
-				Name:    name,
-				Url:     url,
-				Active:  active,
-			}, w)
-			_ = os.Remove(headerPath)
-			_ = os.Remove(iconPath)
+			w.WriteHeader(http.StatusInternalServerError)
 			return
 		}
 
-		http.Redirect(w, r, "/admin/profile", http.StatusFound)
-	} else {
-		w.WriteHeader(http.StatusMethodNotAllowed)
+		w.WriteHeader(http.StatusNoContent)
 	}
 }
 
-func ProfileDelete(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
-		id := r.URL.Query().Get("id")
-		profile, err := models.FindProfileById(id)
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/profile/delete.gohtml", profileData{
-				Message: "Profil nicht gefunden",
-			}, w)
-			return
-		}
-
-		httpUtils.RenderAdmin("admin/templates/profile/delete.gohtml", profileData{
-			Name: profile.Name,
-		}, w)
-	} else if r.Method == http.MethodPost {
-		id := r.URL.Query().Get("id")
-		profile, err := models.FindProfileById(id)
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/profile/delete.gohtml", profileData{
-				Message: "Profil nicht gefunden",
-			}, w)
-			return
-		}
-
-		err = models.DeleteProfile(id)
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/profile/delete.gohtml", profileData{
-				Message: "Profil nicht gefunden",
-			}, w)
-			return
-		}
-
-		_ = os.Remove(profile.Icon)
-		_ = os.Remove(profile.Header.String)
-
-		http.Redirect(w, r, "/admin/profile", http.StatusFound)
-	} else {
-		w.WriteHeader(http.StatusMethodNotAllowed)
+func profileEdit(w http.ResponseWriter, r *http.Request) {
+	profile, err := models.FindProfileById(r.URL.Query().Get("id"))
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
 	}
+
+	var data profileData
+	decoder := json.NewDecoder(r.Body)
+	err = decoder.Decode(&data)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	profile.Name = data.Name
+	profile.Url = data.Url
+	profile.Active = data.Active
+
+	err = models.UpdateProfile(*profile)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func profileDelete(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+	profile, err := models.FindProfileById(id)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	err = models.DeleteProfile(id)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	_ = os.Remove(profile.Icon)
+	_ = os.Remove(profile.Header.String)
+
+	w.WriteHeader(http.StatusNoContent)
 }

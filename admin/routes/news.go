@@ -66,12 +66,7 @@ func newsList(w http.ResponseWriter) {
 		return
 	}
 
-	if news == nil {
-		w.Write([]byte("[]"))
-		return
-	}
-
-	var entries []newsDetailItem
+	entries := make([]newsDetailItem, 0)
 	for _, item := range news {
 		entries = append(entries, newsDetailItemFromNews(item))
 	}

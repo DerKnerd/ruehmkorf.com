@@ -22,12 +22,12 @@ var IconPath = os.Getenv("DATA_DIR") + "/public/profile/icon/"
 var HeaderPath = os.Getenv("DATA_DIR") + "/public/profile/header/"
 
 type Profile struct {
-	Id     string
-	Name   string
-	Url    string
-	Active bool
-	Icon   string
-	Header sql.NullString
+	Id     string         `json:"id"`
+	Name   string         `json:"name"`
+	Url    string         `json:"url"`
+	Active bool           `json:"active"`
+	Icon   string         `json:"-"`
+	Header sql.NullString `json:"-"`
 }
 
 func FindAllProfiles() ([]Profile, error) {
@@ -37,12 +37,12 @@ func FindAllProfiles() ([]Profile, error) {
 	}
 
 	defer db.Close()
-	profiles := new([]Profile)
-	if err = db.Select(profiles, "SELECT * FROM profile ORDER BY name"); err != nil {
+	profiles := make([]Profile, 0)
+	if err = db.Select(&profiles, "SELECT * FROM profile ORDER BY name"); err != nil {
 		return nil, err
 	}
 
-	return *profiles, nil
+	return profiles, nil
 }
 
 func FindAllActiveProfiles() ([]Profile, error) {

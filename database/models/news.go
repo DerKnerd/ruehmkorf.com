@@ -56,13 +56,13 @@ func FindAllNews() ([]News, error) {
 	}
 
 	defer db.Close()
-	news := new([]News)
+	news := make([]News, 0)
 
-	if err = db.Select(news, "SELECT * FROM \"news\" ORDER BY slug"); err != nil {
+	if err = db.Select(&news, "SELECT * FROM \"news\" ORDER BY slug"); err != nil {
 		return nil, err
 	}
 
-	return *news, nil
+	return news, nil
 }
 
 func FindAllNewsForFrontend(language string, topic string) ([]News, error) {

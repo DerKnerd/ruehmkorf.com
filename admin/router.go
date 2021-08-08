@@ -14,10 +14,9 @@ func InitRouting(mux *http.ServeMux) error {
 	mux.HandleFunc("/admin/news", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.NewsAction)))
 	mux.HandleFunc("/admin/news/hero", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UploadHero)))
 
-	mux.HandleFunc("/admin/profile/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.ProfileList)))
-	mux.HandleFunc("/admin/profile/new/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.ProfileNew)))
-	mux.HandleFunc("/admin/profile/edit/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.ProfileEdit)))
-	mux.HandleFunc("/admin/profile/delete/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.ProfileDelete)))
+	mux.HandleFunc("/admin/profile", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.ProfileAction)))
+	mux.HandleFunc("/admin/profile/header", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UploadProfileImage)))
+	mux.HandleFunc("/admin/profile/icon", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UploadProfileImage)))
 
 	mux.HandleFunc("/admin/download/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.DownloadList)))
 	mux.HandleFunc("/admin/download/new/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.DownloadNew)))

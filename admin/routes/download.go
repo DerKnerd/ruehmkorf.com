@@ -14,37 +14,15 @@ import (
 
 func DownloadList(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		count, err := strconv.Atoi(r.URL.Query().Get("count"))
-		if err != nil {
-			count = 20
-		}
-
-		offset, err := strconv.Atoi(r.URL.Query().Get("offset"))
-		if err != nil {
-			offset = 0
-		}
-
-		downloads, totalCount, err := models.FindAllDownloads(offset, count)
+		downloads, err := models.FindAllDownloads()
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte(err.Error()))
 			return
 		}
 
-		totalPages := totalCount / count
-		if totalPages == 0 {
-			totalPages = 1
-		}
-
 		httpUtils.RenderAdmin("admin/templates/download/overview.gohtml", OverviewModel{
-			Items:      downloads,
-			Count:      count,
-			Offset:     offset,
-			NextOffset: offset + count,
-			PrevOffset: offset - count,
-			Page:       offset/count + 1,
-			TotalPages: totalPages,
-			TotalCount: totalCount,
+			Items: downloads,
 		}, w)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)

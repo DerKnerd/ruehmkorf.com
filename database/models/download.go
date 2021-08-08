@@ -44,25 +44,20 @@ type Download struct {
 var DownloadFilePath = os.Getenv("DATA_DIR") + "/public/download/file/"
 var DownloadPreviewImagePath = os.Getenv("DATA_DIR") + "/public/download/preview/"
 
-func FindAllDownloads(offset int, limit int) ([]Download, int, error) {
+func FindAllDownloads() ([]Download, error) {
 	db, err := database.Connect()
 	if err != nil {
-		return nil, 0, err
+		return nil, err
 	}
 
 	defer db.Close()
-	downloads := new([]Download)
+	downloads := make([]Download, 0)
 
-	if err = db.Select(downloads, "SELECT * FROM \"download\" ORDER BY slug LIMIT $1 OFFSET $2", limit, offset); err != nil {
-		return nil, 0, err
+	if err = db.Select(&downloads, "SELECT * FROM \"download\" ORDER BY slug"); err != nil {
+		return nil, err
 	}
 
-	var totalCount int
-	if err = db.Get(&totalCount, "SELECT COUNT(*) FROM \"download\""); err != nil {
-		return *downloads, len(*downloads), err
-	}
-
-	return *downloads, totalCount, nil
+	return downloads, nil
 }
 
 func FindAllDownloadsForFrontend(fileType string) ([]Download, error) {

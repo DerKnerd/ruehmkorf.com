@@ -91,12 +91,12 @@ func FindAllUsers() ([]User, error) {
 	}
 
 	defer db.Close()
-	users := new([]User)
-	if err = db.Select(users, "SELECT * FROM \"user\""); err != nil {
+	users := make([]User, 0)
+	if err = db.Select(&users, "SELECT * FROM \"user\""); err != nil {
 		return nil, err
 	}
 
-	return *users, err
+	return users, err
 }
 
 func CreateUser(user User) error {
