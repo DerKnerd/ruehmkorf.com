@@ -18,10 +18,10 @@ func InitRouting(mux *http.ServeMux) error {
 	mux.HandleFunc("/admin/profile/header", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UploadProfileImage)))
 	mux.HandleFunc("/admin/profile/icon", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UploadProfileImage)))
 
-	mux.HandleFunc("/admin/download/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.DownloadList)))
-	mux.HandleFunc("/admin/download/new/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.DownloadNew)))
-	mux.HandleFunc("/admin/download/edit/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.DownloadEdit)))
-	mux.HandleFunc("/admin/download/delete/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.DownloadDelete)))
+	mux.HandleFunc("/admin/download", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.DownloadAction)))
+	mux.HandleFunc("/admin/download/preview", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UploadPreviewAction)))
+	mux.HandleFunc("/admin/download/file/chunk", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UploadFileAction)))
+	mux.HandleFunc("/admin/download/file/finish", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UploadFileAction)))
 
 	mux.HandleFunc("/admin/buchstabieromat", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.Buchstabieromat)))
 
