@@ -10,6 +10,7 @@ import (
 func InitRouting(mux *http.ServeMux) error {
 	mux.HandleFunc("/admin/login", middleware2.NoIndexMiddleware(routes.Login))
 	mux.HandleFunc("/admin/twofactor", middleware2.NoIndexMiddleware(routes.TwoFactor))
+	mux.HandleFunc("/admin/logout", middleware2.NoIndexMiddleware(routes.Logout))
 
 	mux.HandleFunc("/admin/news", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.NewsAction)))
 	mux.HandleFunc("/admin/news/hero", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.UploadHero)))

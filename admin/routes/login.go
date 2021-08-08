@@ -104,3 +104,24 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
+
+func Logout(w http.ResponseWriter, r *http.Request) {
+	cookie, err := r.Cookie("Auth")
+	if err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	if err = models.GetAuthTokenByToken(cookie.Value); err != nil {
+		w.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
+	err = models.DeleteAuthToken(cookie.Value)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	http.Redirect(w, r, "/admin", http.StatusFound)
+}
