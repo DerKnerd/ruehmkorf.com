@@ -1,158 +1,141 @@
 package routes
 
 import (
+	"encoding/json"
+	"github.com/lib/pq"
 	"net/http"
 	"ruehmkorf.com/database/models"
-	httpUtils "ruehmkorf.com/utils/http"
 )
 
-func UserList(w http.ResponseWriter, r *http.Request) {
+func UserAction(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
-		users, err := models.FindAllUsers()
-		if err != nil {
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(err.Error()))
-			return
+		id := r.URL.Query().Get("id")
+		if id != "" {
+			userDetails(w, id)
+		} else {
+			userList(w)
 		}
-
-		httpUtils.RenderAdmin("admin/templates/user/overview.gohtml", users, w)
+	} else if r.Method == http.MethodPost {
+		userNew(w, r)
+	} else if r.Method == http.MethodPut {
+		userEdit(w, r)
+	} else if r.Method == http.MethodDelete {
+		userDelete(w, r)
 	} else {
 		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+}
+
+func userDetails(w http.ResponseWriter, id string) {
+	user, err := models.FindUserById(id)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	encoder := json.NewEncoder(w)
+	err = encoder.Encode(user)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+}
+
+func userList(w http.ResponseWriter) {
+	users, err := models.FindAllUsers()
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	encoder := json.NewEncoder(w)
+	err = encoder.Encode(users)
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 }
 
 type userData struct {
-	Message   string
-	Name      string
-	Email     string
-	Activated bool
+	Name      string `json:"name"`
+	Email     string `json:"email"`
+	Activated bool   `json:"activated"`
+	Password  string `json:"password"`
 }
 
-func UserNew(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
-		httpUtils.RenderAdmin("admin/templates/user/new.gohtml", userData{Activated: true}, w)
-	} else if r.Method == http.MethodPost {
-		err := r.ParseForm()
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/user/new.gohtml", userData{Message: err.Error()}, w)
-			return
-		}
+func userNew(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
 
-		name := r.FormValue("name")
-		email := r.FormValue("email")
-		password := r.FormValue("password")
-		activated := r.FormValue("activated") == "on"
+	var data userData
+	err := decoder.Decode(&data)
 
-		user := models.User{
-			Name:      name,
-			Email:     email,
-			Password:  password,
-			Activated: activated,
-		}
-
-		err = models.CreateUser(user)
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/user/new.gohtml", userData{
-				Message:   "Benutzer konnte nicht gespeichert werden",
-				Name:      name,
-				Email:     email,
-				Activated: activated,
-			}, w)
-			return
-		}
-
-		http.Redirect(w, r, "/admin/user", http.StatusFound)
-	} else {
-		w.WriteHeader(http.StatusMethodNotAllowed)
+	user := models.User{
+		Name:      data.Name,
+		Email:     data.Email,
+		Password:  data.Password,
+		Activated: data.Activated,
 	}
+
+	err = models.CreateUser(user)
+	if conv, ok := err.(*pq.Error); ok == true && conv.Code == "23505" {
+		w.WriteHeader(http.StatusConflict)
+		return
+	}
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusCreated)
 }
 
-func UserEdit(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
-		user, err := models.FindUserById(r.URL.Query().Get("id"))
-		data := userData{}
-		if err != nil {
-			data.Message = "Benutzer nicht gefunden"
-		} else {
-			data.Name = user.Name
-			data.Email = user.Email
-			data.Activated = user.Activated
-		}
-		httpUtils.RenderAdmin("admin/templates/user/edit.gohtml", data, w)
-	} else if r.Method == http.MethodPost {
-		user, err := models.FindUserById(r.URL.Query().Get("id"))
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/user/edit.gohtml", userData{Message: "Benutzer nicht gefunden"}, w)
-			return
-		}
-
-		err = r.ParseForm()
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/user/edit.gohtml", userData{Message: err.Error()}, w)
-			return
-		}
-
-		name := r.FormValue("name")
-		email := r.FormValue("email")
-		activated := r.FormValue("activated") == "on"
-		password := r.FormValue("password")
-
-		user.Name = name
-		user.Email = email
-		user.Activated = activated
-		user.Password = password
-
-		err = models.UpdateUser(*user, password != "")
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/user/edit.gohtml", userData{
-				Message:   "Benutzer konnte nicht gespeichert werden",
-				Name:      name,
-				Email:     email,
-				Activated: activated,
-			}, w)
-			return
-		}
-
-		http.Redirect(w, r, "/admin/user", http.StatusFound)
-	} else {
-		w.WriteHeader(http.StatusMethodNotAllowed)
+func userEdit(w http.ResponseWriter, r *http.Request) {
+	user, err := models.FindUserById(r.URL.Query().Get("id"))
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
 	}
+
+	var bodyData userData
+	decoder := json.NewDecoder(r.Body)
+	err = decoder.Decode(&bodyData)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	user.Name = bodyData.Name
+	user.Email = bodyData.Email
+	user.Activated = bodyData.Activated
+	user.Password = bodyData.Password
+
+	err = models.UpdateUser(*user, bodyData.Password != "")
+	if conv, ok := err.(*pq.Error); ok == true && conv.Code == "23505" {
+		w.WriteHeader(http.StatusConflict)
+		return
+	}
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
 }
 
-func UserDelete(w http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
-		id := r.URL.Query().Get("id")
-		user, err := models.FindUserById(id)
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/user/delete.gohtml", userData{
-				Message: "Benutzer nicht gefunden",
-			}, w)
-			return
-		}
-
-		httpUtils.RenderAdmin("admin/templates/user/delete.gohtml", userData{
-			Name: user.Name,
-		}, w)
-	} else if r.Method == http.MethodPost {
-		id := r.URL.Query().Get("id")
-		_, err := models.FindUserById(id)
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/user/delete.gohtml", userData{
-				Message: "Benutzer nicht gefunden",
-			}, w)
-			return
-		}
-
-		err = models.DeleteUser(id)
-		if err != nil {
-			httpUtils.RenderAdmin("admin/templates/user/delete.gohtml", userData{
-				Message: "Benutzer nicht gefunden",
-			}, w)
-			return
-		}
-
-		http.Redirect(w, r, "/admin/user", http.StatusFound)
-	} else {
-		w.WriteHeader(http.StatusMethodNotAllowed)
+func userDelete(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+	_, err := models.FindUserById(id)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
 	}
+
+	err = models.DeleteUser(id)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	w.WriteHeader(http.StatusNoContent)
 }

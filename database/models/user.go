@@ -19,12 +19,12 @@ CREATE TABLE "user" (
 )`
 
 type User struct {
-	Id            string
-	Name          string
-	Email         string
-	Password      string
-	Activated     bool
-	TwoFactorCode sql.NullString `db:"two_factor_code"`
+	Id            string         `json:"id"`
+	Name          string         `json:"name"`
+	Email         string         `json:"email"`
+	Password      string         `json:"-"`
+	Activated     bool           `json:"activated"`
+	TwoFactorCode sql.NullString `db:"two_factor_code" json:"-"`
 }
 
 var hashCost = 13
