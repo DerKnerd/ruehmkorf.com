@@ -5,7 +5,7 @@ export async function navigateToNews() {
     await news.initNews();
 }
 
-export async function initContent() {
+export async function init() {
     document.querySelector('[data-sublink=news]').addEventListener('click', async () => await navigateToNews());
     document.querySelector('[data-sublink=downloads]').addEventListener('click', (e) => {
         unmarkSubMenuLinks();

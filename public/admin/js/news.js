@@ -1,9 +1,9 @@
 import {unmarkListLinks} from "./lists.js";
-import {addNewsTemplate, editNewsTemplate, newsDetailsTemplate, newsListTemplate} from "./templates.js";
 import {toggleTab} from "./tabs.js";
 import {alert, confirm} from "./dialogs.js";
 import {navigateToNews} from "./content.js";
 import {unmarkSubMenuLinks} from "./navigation.js";
+import {compileTemplate} from "./template.js";
 
 async function selectNews(slug) {
     if (!slug) {
@@ -18,7 +18,7 @@ async function selectNews(slug) {
     const news = await (await fetch(`/admin/news?slug=${slug}`)).json();
 
     news.concatTags = news.tags ? news.tags.map(tag => tag.tag).join(', ') : 'Keine';
-    document.getElementById('newsContent').innerHTML = newsDetailsTemplate(news);
+    await compileTemplate('newsDetails.hbs', document.getElementById('newsContent'), news);
     document.querySelector('[data-action=german]').addEventListener('click', () => toggleTab('news', 'german'));
     document.querySelector('[data-action=english]').addEventListener('click', () => toggleTab('news', 'english'));
     document.querySelector('[data-action=hero]').addEventListener('click', () => toggleTab('news', 'hero'));
@@ -60,10 +60,9 @@ async function selectNews(slug) {
     }));
 }
 
-function showEditModal(news) {
-    const content = editNewsTemplate(news);
+async function showEditModal(news) {
     const container = document.createElement('div');
-    container.innerHTML = content;
+    await compileTemplate('newsEdit.hbs', container, news);
     document.body.appendChild(container);
     const heroImageInput = container.querySelector('#heroImage');
     heroImageInput.addEventListener('change', (e) => {
@@ -107,10 +106,9 @@ function showEditModal(news) {
     container.querySelector('[data-action=cancelEdit]').addEventListener('click', () => document.body.removeChild(container));
 }
 
-function showAddModal() {
-    const content = addNewsTemplate();
+async function showAddModal() {
     const container = document.createElement('div');
-    container.innerHTML = content;
+    await compileTemplate('newsAdd.hbs', container);
     document.body.appendChild(container);
     const heroImageInput = container.querySelector('#heroImage');
     heroImageInput.addEventListener('change', (e) => {
@@ -162,7 +160,7 @@ export async function initNews() {
     unmarkSubMenuLinks();
     document.querySelector('[data-sublink=news]').classList.add('cosmo-menu-bar__sub-item--active');
     const news = await (await fetch('/admin/news')).json();
-    document.getElementById('rcContent').innerHTML = newsListTemplate({news});
+    await compileTemplate('newsList.hbs', document.getElementById('rcContent'), {news});
 
     await selectNews(news[0]?.slug);
     document.querySelectorAll('[data-action=change-news]').forEach(link => link.addEventListener('click', async (e) => {

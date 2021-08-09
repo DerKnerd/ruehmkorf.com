@@ -1,0 +1,37 @@
+<div class="cosmo-modal__container">
+    <form class="cosmo-modal">
+        <div class="cosmo-modal__title">Nachricht hinzufügen</div>
+        <div class="cosmo-modal__content">
+            <div class="cosmo-input__group">
+                <label class="cosmo-label" for="slug">Slug</label>
+                <input autocomplete="false" id="slug" name="slug" placeholder="Slug" required type="text"
+                       class="cosmo-input">
+                <label class="cosmo-label" for="titleDe">Deutscher Titel</label>
+                <input autocomplete="false" id="titleDe" name="titleDe" placeholder="Deutscher Titel" required
+                       type="text" class="cosmo-input">
+                <label class="cosmo-label" for="titleEn">Englischer Titel</label>
+                <input autocomplete="false" id="titleEn" name="titleEn" placeholder="Englischer Titel" required
+                       type="text" class="cosmo-input">
+                <label class="cosmo-label" for="tags">Tags</label>
+                <input autocomplete="false" id="tags" name="tags" placeholder="Tags" type="text"
+                       class="cosmo-input">
+                <label for="heroImage" class="cosmo-label">Hero Bild</label>
+                <div class="cosmo-input cosmo-input--picker">
+                    <label class="cosmo-picker__name" for="heroImage">Datei wählen...</label>
+                    <label class="cosmo-picker__button" for="heroImage">
+                        <span class="mdi mdi-upload mdi-24px"></span>
+                    </label>
+                    <input style="display: none" type="file" id="heroImage">
+                </div>
+                <div class="cosmo-checkbox__group">
+                    <input type="checkbox" id="public" class="cosmo-checkbox">
+                    <label class="cosmo-label" for="public">Öffentlich</label>
+                </div>
+            </div>
+        </div>
+        <div class="cosmo-modal__button-bar">
+            <button class="cosmo-button" data-action="cancelEdit" type="button">Abbrechen</button>
+            <button class="cosmo-button" type="submit">Nachricht speichern</button>
+        </div>
+    </form>
+</div>

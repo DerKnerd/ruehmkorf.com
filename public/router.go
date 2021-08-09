@@ -30,7 +30,7 @@ func InitRouting(mux *http.ServeMux) error {
 			contentType = "application/javascript"
 		}
 
-		if contentType == "application/javascript" {
+		if contentType == "application/javascript" || strings.HasSuffix(r.URL.Path, ".hbs") {
 			cookie, err := r.Cookie("Auth")
 			if err != nil {
 				w.WriteHeader(http.StatusNotFound)

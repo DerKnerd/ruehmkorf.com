@@ -1,10 +1,9 @@
-import {alertTemplate, confirmTemplate} from "./templates.js";
+import {compileTemplate} from "./template.js";
 
 export async function confirm(title, message, confirm = 'Ok', decline = 'Abbrechen') {
-    return await new Promise((resolve) => {
-        const content = confirmTemplate({title, message, confirm, decline});
+    return await new Promise(async (resolve) => {
         const container = document.createElement('div');
-        container.innerHTML = content;
+        await compileTemplate('confirm.hbs', container, {title, message, confirm, decline});
         document.body.appendChild(container);
 
         container.querySelector('#confirm').addEventListener('click', () => {
@@ -19,10 +18,9 @@ export async function confirm(title, message, confirm = 'Ok', decline = 'Abbrech
 }
 
 export async function alert(title, message, acknowledge = 'Ok') {
-    return await new Promise((resolve) => {
-        const content = alertTemplate({title, message, acknowledge});
+    return await new Promise(async (resolve) => {
         const container = document.createElement('div');
-        container.innerHTML = content;
+        await compileTemplate('alert.hbs', container, {title, message, acknowledge});
         document.body.appendChild(container);
 
         container.querySelector('#acknowledge').addEventListener('click', () => {

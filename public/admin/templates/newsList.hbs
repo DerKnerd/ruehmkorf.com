@@ -1,0 +1,10 @@
+<div class="cosmo-list">
+    <nav class="cosmo-list__items">
+        {{#each news}}
+            <a class="cosmo-list__item" data-action="change-news" data-news-slug="{{slug}}">{{slug}}</a>
+        {{/each}}
+        <button class="cosmo-button cosmo-button--full-width" data-action="addNews">Neue Nachricht</button>
+    </nav>
+    <div class="cosmo-list__content" id="newsContent">
+    </div>
+</div>
