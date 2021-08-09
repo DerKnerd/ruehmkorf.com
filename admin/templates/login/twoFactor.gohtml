@@ -1,37 +1,56 @@
 <html lang="de">
 <head>
-    <title>ruehmkorf.com – Two Factor</title>
-    <link rel="stylesheet" type="text/css" href="https://use.typekit.net/tmw4jig.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/body.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/forms.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/menu.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/error.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/card.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/topic.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/news.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/footer.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/bom.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/download.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/profile.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/responsive.css">
-    <link rel="stylesheet" type="text/css" href="/public/css/login.css">
+    <title>ruehmkorf.com – Login</title>
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/variables.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/form.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/key-value-list.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/lato.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/layout.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/list.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/mdi.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/modal.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/progress.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/scrollbars.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/tab.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/table.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/toolbar.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/typography.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/login.css">
 </head>
 <body>
-<div class="rc-content">
-    <form action="/admin/twofactor" method="post" class="rc-form rc-form--login">
-        {{if .Message}}
-            <div class="rc-message">
-                {{.Message}}
+<main class="cosmo-page-layout">
+    <div class="cosmo-top-bar">
+        <div class="cosmo-profile-picture"></div>
+    </div>
+    <div class="cosmo-menu-bar">
+        <div class="cosmo-menu-bar__touch"></div>
+        <button class="cosmo-menu-bar__back-button" disabled type="button"></button>
+        <nav class="cosmo-menu-bar__menu-collection">
+            <div class="cosmo-menu-bar__main-menu">
+                <span class="cosmo-menu-bar__main-item cosmo-menu-bar__main-item--active">Login</span>
             </div>
-        {{end}}
-        <div class="rc-input__group">
-            <label class="rc-input__label" for="token">2FA Code</label>
-            <input class="rc-input__field" type="text" id="token" name="token">
+            <div class="cosmo-menu-bar__sub-menu">
+                <span class="cosmo-menu-bar__sub-item">Login</span>
+                <span class="cosmo-menu-bar__sub-item cosmo-menu-bar__sub-item--active">Two factor code</span>
+            </div>
+        </nav>
+    </div>
+    <div class="cosmo-page-body">
+        <div class="cosmo-page-body__content">
+            <div class="rc-login__panel">
+                <form action="/admin/twofactor" method="post" class="rc-form rc-form--login">
+                    <div class="cosmo-input__group">
+                        <label class="cosmo-label" for="token">2FA Code</label>
+                        <input class="cosmo-input" type="text" id="token" name="token">
+                    </div>
+                    <div class="cosmo-button__container">
+                        <button class="cosmo-button" type="submit">Login</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <div class="rc-button__group">
-            <button class="rc-button" type="submit">Login</button>
-        </div>
-    </form>
-</div>
+    </div>
+</main>
 </body>
 </html>

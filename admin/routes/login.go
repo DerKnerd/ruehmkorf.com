@@ -94,9 +94,11 @@ func Login(w http.ResponseWriter, r *http.Request) {
 		}
 
 		http.SetCookie(w, &http.Cookie{
-			Name:    "Auth",
-			Value:   authToken,
-			Expires: time.Unix(time.Now().Add(time.Hour*24).Unix(), 0),
+			Name:     "Auth",
+			Value:    authToken,
+			Expires:  time.Unix(time.Now().Add(time.Hour*24).Unix(), 0),
+			HttpOnly: true,
+			Path:     "/",
 		})
 
 		httpUtils.RenderSingle("admin/templates/login/twoFactor.gohtml", nil, w)

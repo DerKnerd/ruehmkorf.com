@@ -33,7 +33,7 @@ func InitRouting(mux *http.ServeMux) error {
 	mux.HandleFunc("/admin/settings/favicon", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.LogosAction)))
 	mux.HandleFunc("/admin/settings/logo", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.LogosAction)))
 
-	mux.HandleFunc("/admin/", middleware2.NoIndexMiddleware(middleware.CheckLoginMiddleware(routes.Home)))
+	mux.HandleFunc("/admin/", middleware2.NoIndexMiddleware(routes.Home))
 
 	return nil
 }

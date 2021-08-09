@@ -1,0 +1,3 @@
+.cosmo-list {
+    grid-template-columns: [items-list] 280px 16px [content] 1fr;
+}

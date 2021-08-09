@@ -89,3 +89,4 @@ fabric.properties
 # vendor/
 
 data
+/public/admin/node_modules/

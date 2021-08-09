@@ -19,21 +19,6 @@ func RenderSingle(tmpl string, tmplData interface{}, w http.ResponseWriter) {
 	}
 }
 
-func RenderAdmin(tmpl string, tmplData interface{}, w http.ResponseWriter) {
-	layout, err := template.New("layout").ParseFiles(tmpl, "admin/templates/layout.gohtml")
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	err = layout.ExecuteTemplate(w, "layout", tmplData)
-	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-
-		return
-	}
-}
-
 func RenderFrontend(tmpl string, tmplData interface{}, w http.ResponseWriter) error {
 	layout, err := template.New("layout").Funcs(template.FuncMap{
 		"unsafe": func(data string) template.HTML {
