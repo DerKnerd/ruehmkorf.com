@@ -2,7 +2,7 @@ import {hideSubmenus, unmarkMainMenuLinks, unmarkSubMenuLinks} from "./navigatio
 import {init} from "./content.js";
 
 document.querySelectorAll('a.cosmo-menu-bar__main-item').forEach(link => link.addEventListener('click', async (e) => {
-    const target = e.currentTarget.getAttribute('data-target');
+    const target = e.target.getAttribute('data-target');
     hideSubmenus();
     document.querySelector(`[data-submenu=${target}]`).classList.remove('rc-hidden');
     const content = await import((`./${target}.js`));
@@ -11,10 +11,10 @@ document.querySelectorAll('a.cosmo-menu-bar__main-item').forEach(link => link.ad
     }
 
     unmarkMainMenuLinks();
-    e.currentTarget.classList.add('cosmo-menu-bar__main-item--active');
+    e.target.classList.add('cosmo-menu-bar__main-item--active');
 
     unmarkSubMenuLinks();
-    const defaultSubLink = e.currentTarget.getAttribute('data-default-sublink');
+    const defaultSubLink = e.target.getAttribute('data-default-sublink');
     document.querySelector(`[data-sublink=${defaultSubLink}]`).classList.add('cosmo-menu-bar__sub-item--active');
 }));
 

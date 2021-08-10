@@ -5,10 +5,13 @@ import (
 	"fmt"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
+	"io"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"ruehmkorf.com/database/models"
 	httpUtils "ruehmkorf.com/utils/http"
+	"strconv"
 	"strings"
 )
 
@@ -20,19 +23,30 @@ func DownloadFile(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := ioutil.ReadFile(models.DownloadFilePath + slug)
+	file, err := os.Open(models.DownloadFilePath + slug)
+	defer file.Close()
 	if err != nil {
 		http.NotFound(w, r)
 		return
 	}
+
+	header := make([]byte, 512)
+	file.Read(header)
+	contentType := http.DetectContentType(header)
+	fileStat, _ := file.Stat()
+	fileSize := strconv.FormatInt(fileStat.Size(), 10)
 
 	if !download.Public {
 		w.Header().Add("X-Robots-Tag", "none")
 	}
 
 	w.Header().Add("Content-Disposition", fmt.Sprintf("attachment; filename=\"%s%s\"", download.NameEn, download.FileExtension.String))
+	w.Header().Add("Content-Type", contentType)
+	w.Header().Add("Content-Length", fileSize)
 	w.WriteHeader(http.StatusOK)
-	w.Write(data)
+
+	file.Seek(0, 0)
+	io.Copy(w, file)
 }
 
 func DownloadPreview(w http.ResponseWriter, r *http.Request) {

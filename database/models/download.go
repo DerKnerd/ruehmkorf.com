@@ -131,7 +131,7 @@ func CreateDownload(download Download) error {
 
 	defer db.Close()
 
-	_, err = db.Exec("INSERT INTO download (name_de, name_en, slug, \"date\", self_destruct, self_destruct_days, \"public\", description_de, description_en, type, file_extension) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)", download.NameDe, download.NameEn, download.Slug, download.Date, download.SelfDestruct, download.SelfDestructDays.Int32, download.Public, download.DescriptionDe.String, download.DescriptionDe.String, download.Type, download.FileExtension.String)
+	_, err = db.Exec("INSERT INTO download (name_de, name_en, slug, \"date\", self_destruct, self_destruct_days, \"public\", description_de, description_en, type, file_extension) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)", download.NameDe, download.NameEn, download.Slug, download.Date, download.SelfDestruct, download.SelfDestructDays.Int32, download.Public, download.DescriptionDe.String, download.DescriptionEn.String, download.Type, download.FileExtension.String)
 
 	return err
 }
@@ -144,7 +144,7 @@ func UpdateDownload(download Download) error {
 
 	defer db.Close()
 
-	_, err = db.Exec("UPDATE download SET name_de = $1, name_en = $2, slug = $3, \"date\" = $4, self_destruct = $5, self_destruct_days = $6, \"public\" = $7, description_de = $8, description_en = $9, type = $10, file_extension = $11 WHERE id = $12", download.NameDe, download.NameEn, download.Slug, download.Date, download.SelfDestruct, download.SelfDestructDays.Int32, download.Public, download.DescriptionDe.String, download.DescriptionDe.String, download.Type, download.FileExtension.String, download.Id)
+	_, err = db.Exec("UPDATE download SET name_de = $1, name_en = $2, slug = $3, \"date\" = $4, self_destruct = $5, self_destruct_days = $6, \"public\" = $7, description_de = $8, description_en = $9, type = $10, file_extension = $11 WHERE id = $12", download.NameDe, download.NameEn, download.Slug, download.Date, download.SelfDestruct, download.SelfDestructDays.Int32, download.Public, download.DescriptionDe.String, download.DescriptionEn.String, download.Type, download.FileExtension.String, download.Id)
 
 	return err
 }

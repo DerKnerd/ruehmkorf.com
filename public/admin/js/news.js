@@ -1,7 +1,6 @@
 import {unmarkListLinks} from "./lists.js";
 import {toggleTab} from "./tabs.js";
 import {alert, confirm} from "./dialogs.js";
-import {navigateToNews} from "./content.js";
 import {unmarkSubMenuLinks} from "./navigation.js";
 import {compileTemplate} from "./template.js";
 
@@ -27,7 +26,7 @@ async function selectNews(slug) {
         const result = await confirm('Nachricht löschen', `Soll die Nachricht ${news.slug} wirklich gelöscht werden?`, 'Nachricht löschen', 'Nachricht behalten');
         if (result) {
             await fetch(`/admin/news?slug=${slug}`, {method: 'DELETE'});
-            await navigateToNews();
+            await init();
         }
     });
 
@@ -66,7 +65,7 @@ async function showEditModal(news) {
     document.body.appendChild(container);
     const heroImageInput = container.querySelector('#heroImage');
     heroImageInput.addEventListener('change', (e) => {
-        const target = e.currentTarget;
+        const target = e.target;
         container.querySelector('[for=heroImage].cosmo-picker__name').textContent = target.files.item(0).name;
     });
 
@@ -112,7 +111,7 @@ async function showAddModal() {
     document.body.appendChild(container);
     const heroImageInput = container.querySelector('#heroImage');
     heroImageInput.addEventListener('change', (e) => {
-        const target = e.currentTarget;
+        const target = e.target;
         container.querySelector('[for=heroImage].cosmo-picker__name').textContent = target.files.item(0).name;
     });
 
@@ -149,22 +148,22 @@ async function showAddModal() {
                 }
             }
             document.body.removeChild(container);
-            await navigateToNews();
+            await init();
             await selectNews(slug);
         }
     });
-    container.querySelector('[data-action=cancelEdit]').addEventListener('click', () => document.body.removeChild(container));
+    container.querySelector('[data-action=cancelAdd]').addEventListener('click', () => document.body.removeChild(container));
 }
 
-export async function initNews() {
+export async function init() {
     unmarkSubMenuLinks();
     document.querySelector('[data-sublink=news]').classList.add('cosmo-menu-bar__sub-item--active');
     const news = await (await fetch('/admin/news')).json();
     await compileTemplate('newsList.hbs', document.getElementById('rcContent'), {news});
 
     await selectNews(news[0]?.slug);
-    document.querySelectorAll('[data-action=change-news]').forEach(link => link.addEventListener('click', async (e) => {
-        await selectNews(e.currentTarget.getAttribute('data-news-slug'));
+    document.querySelectorAll('[data-action=changeNews]').forEach(link => link.addEventListener('click', async (e) => {
+        await selectNews(e.target.getAttribute('data-news-slug'));
     }));
 
     document.querySelector('[data-action=addNews]').addEventListener('click', showAddModal);

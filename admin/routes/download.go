@@ -9,7 +9,6 @@ import (
 	"net/http"
 	"os"
 	"ruehmkorf.com/database/models"
-	"strconv"
 	"strings"
 	"time"
 )
@@ -159,7 +158,7 @@ func downloadNew(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	parsedDate, err := time.Parse("2006-01-02", data.Date)
+	parsedDate, err := time.Parse("2006-01-02T15:04:05Z", data.Date)
 	if err != nil {
 		parsedDate = time.Now()
 	}
@@ -227,7 +226,7 @@ func downloadEdit(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	parsedDate, err := time.Parse("2006-01-02", data.Date)
+	parsedDate, err := time.Parse("2006-01-02T15:04:05Z", data.Date)
 	if err != nil {
 		parsedDate = time.Now()
 	}
@@ -331,7 +330,7 @@ func concatChunksToFile(chunksDir string, download *models.Download) error {
 		return err
 	}
 
-	downloadFile, err := os.OpenFile(models.DownloadFilePath+"/"+download.Slug, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0755)
+	downloadFile, err := os.OpenFile(models.DownloadFilePath+"/"+download.Slug, os.O_CREATE|os.O_WRONLY, 0755)
 	if err != nil {
 		return err
 	}
@@ -360,16 +359,11 @@ func concatChunksToFile(chunksDir string, download *models.Download) error {
 }
 
 func uploadSingleChunk(r *http.Request, tmpPath string) error {
-	idxParam := r.URL.Query().Get("index")
-	idx, err := strconv.Atoi(idxParam)
-	if err != nil {
-		return err
-	}
-
+	idx := r.URL.Query().Get("index")
 	data, err := ioutil.ReadAll(r.Body)
 	if err != nil {
 		return err
 	}
 
-	return ioutil.WriteFile(fmt.Sprintf("%s/%d", tmpPath, idx), data, 0755)
+	return ioutil.WriteFile(fmt.Sprintf("%s/%s", tmpPath, idx), data, 0755)
 }
