@@ -13,6 +13,34 @@ import (
 	"strings"
 )
 
+func getProfileIcon(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+	profile, err := models.FindProfileById(id)
+
+	data, err := ioutil.ReadFile(profile.Icon)
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(data)
+}
+
+func getProfileHeader(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("id")
+	profile, err := models.FindProfileById(id)
+
+	data, err := ioutil.ReadFile(profile.Header.String)
+	if err != nil {
+		http.NotFound(w, r)
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(data)
+}
+
 func ProfileAction(w http.ResponseWriter, r *http.Request) {
 	if r.Method == http.MethodGet {
 		id := r.URL.Query().Get("id")
@@ -110,19 +138,24 @@ func profileNew(w http.ResponseWriter, r *http.Request) {
 		Header: sql.NullString{String: "", Valid: true},
 	}
 
-	err = models.CreateProfile(profile)
+	id, err := models.CreateProfile(profile)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 
 	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte(id))
 }
 
 func UploadProfileImage(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodPost {
-		w.WriteHeader(http.StatusMethodNotAllowed)
-	} else {
+	if r.Method == http.MethodGet {
+		if strings.HasSuffix(r.URL.Path, "icon") {
+			getProfileIcon(w, r)
+		} else if strings.HasSuffix(r.URL.Path, "header") {
+			getProfileHeader(w, r)
+		}
+	} else if r.Method == http.MethodPost {
 		id := r.URL.Query().Get("id")
 		profile, err := models.FindProfileById(id)
 		if err != nil {
@@ -148,6 +181,8 @@ func UploadProfileImage(w http.ResponseWriter, r *http.Request) {
 		}
 
 		w.WriteHeader(http.StatusNoContent)
+	} else {
+		w.WriteHeader(http.StatusMethodNotAllowed)
 	}
 }
 

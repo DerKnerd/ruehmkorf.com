@@ -75,16 +75,34 @@ func FindProfileById(id string) (*Profile, error) {
 	return profile, nil
 }
 
-func CreateProfile(profile Profile) error {
+func CreateProfile(profile Profile) (string, error) {
 	db, err := database.Connect()
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	defer db.Close()
 	_, err = db.Exec("INSERT INTO profile (name, url, active, icon, header) VALUES ($1, $2, $3, $4, $5)", profile.Name, profile.Url, profile.Active, profile.Icon, profile.Header.String)
 
-	return err
+	var id string
+	err = db.Get(&id, "SELECT id FROM profile WHERE name = $1 and url = $2 and active = $3", profile.Name, profile.Url, profile.Active)
+
+	return id, err
+}
+
+func GetProfileByName(name string) (*Profile, error) {
+	db, err := database.Connect()
+	if err != nil {
+		return nil, err
+	}
+
+	defer db.Close()
+	profile := new(Profile)
+	if err = db.Get(profile, "SELECT * FROM profile WHERE name = $1", name); err != nil {
+		return nil, err
+	}
+
+	return profile, nil
 }
 
 func UpdateProfile(profile Profile) error {

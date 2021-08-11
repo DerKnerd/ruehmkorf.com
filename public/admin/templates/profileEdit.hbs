@@ -1,0 +1,43 @@
+<div class="cosmo-modal__container">
+    <form class="cosmo-modal">
+        <div class="cosmo-modal__title">Profil bearbeiten</div>
+        <div class="cosmo-modal__content">
+            <div class="cosmo-input__group">
+                <label class="cosmo-label" for="name">Name</label>
+                <input autocomplete="false" id="name" name="name" placeholder="Name" required type="text"
+                       value="{{name}}" class="cosmo-input">
+                <label class="cosmo-label" for="url">URL</label>
+                <input autocomplete="false" id="url" name="url" placeholder="URL" type="url" class="cosmo-input"
+                       value="{{url}}">
+                <label for="icon" class="cosmo-label">Icon</label>
+                <div class="cosmo-input cosmo-input--picker">
+                    <label class="cosmo-picker__name" for="icon">Datei wählen...</label>
+                    <label class="cosmo-picker__button" for="icon">
+                        <span class="mdi mdi-upload mdi-24px"></span>
+                    </label>
+                    <input style="display: none" type="file" id="icon">
+                </div>
+                <label for="headerImage" class="cosmo-label">Header Bild</label>
+                <div class="cosmo-input cosmo-input--picker">
+                    <label class="cosmo-picker__name" for="headerImage">Datei wählen...</label>
+                    <label class="cosmo-picker__button" for="headerImage">
+                        <span class="mdi mdi-upload mdi-24px"></span>
+                    </label>
+                    <input style="display: none" type="file" id="headerImage">
+                </div>
+                <div class="cosmo-checkbox__group">
+                    {{#if active}}
+                        <input type="checkbox" id="active" class="cosmo-checkbox" checked>
+                    {{else}}
+                        <input type="checkbox" id="active" class="cosmo-checkbox">
+                    {{/if}}
+                    <label class="cosmo-label" for="active">Aktiv</label>
+                </div>
+            </div>
+        </div>
+        <div class="cosmo-modal__button-bar">
+            <button class="cosmo-button" data-action="cancelAdd" type="button">Abbrechen</button>
+            <button class="cosmo-button" type="submit">Profil speichern</button>
+        </div>
+    </form>
+</div>
