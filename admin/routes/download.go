@@ -146,6 +146,7 @@ func UploadPreviewAction(w http.ResponseWriter, r *http.Request) {
 		split := strings.Split(mimeType, "/")
 
 		download.Type = split[0]
+		w.WriteHeader(http.StatusNoContent)
 	}
 }
 
