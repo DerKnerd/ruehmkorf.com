@@ -99,21 +99,26 @@ func FindAllUsers() ([]User, error) {
 	return users, err
 }
 
-func CreateUser(user User) error {
+func CreateUser(user User) (string, error) {
 	hashedPassword, err := hashPassword(user.Password)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	db, err := database.Connect()
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	defer db.Close()
 	_, err = db.Exec("INSERT INTO \"user\" (name, email, password, activated) VALUES ($1, $2, $3, $4)", user.Name, user.Email, hashedPassword, user.Activated)
+	if err != nil {
+		return "", err
+	}
 
-	return err
+	createdUser, err := FindUserByEmail(user.Email)
+
+	return createdUser.Id, err
 }
 
 func UpdateUser(user User, newPassword bool) error {

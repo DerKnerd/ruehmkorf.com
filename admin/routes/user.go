@@ -75,7 +75,7 @@ func userNew(w http.ResponseWriter, r *http.Request) {
 		Activated: data.Activated,
 	}
 
-	err = models.CreateUser(user)
+	id, err := models.CreateUser(user)
 	if conv, ok := err.(*pq.Error); ok == true && conv.Code == "23505" {
 		w.WriteHeader(http.StatusConflict)
 		return
@@ -87,6 +87,7 @@ func userNew(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusCreated)
+	w.Write([]byte(id))
 }
 
 func userEdit(w http.ResponseWriter, r *http.Request) {

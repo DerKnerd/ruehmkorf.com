@@ -52,12 +52,12 @@ func main() {
 
 		_, err := models.FindUserByEmail(email)
 		if err != nil {
-			if models.CreateUser(models.User{
+			if _, err = models.CreateUser(models.User{
 				Name:      name,
 				Email:     email,
 				Password:  password,
 				Activated: true,
-			}) != nil {
+			}); err != nil {
 				panic(err)
 			} else {
 				log.Printf("Password: %s", password)

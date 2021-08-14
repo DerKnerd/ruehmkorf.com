@@ -1,0 +1,10 @@
+<div class="cosmo-list">
+    <nav class="cosmo-list__items">
+        {{#each users}}
+            <a class="cosmo-list__item" data-action="changeUser" data-user-id="{{id}}">{{name}}</a>
+        {{/each}}
+        <button class="cosmo-button cosmo-button--full-width" data-action="addUser">Neuer Benutzer</button>
+    </nav>
+    <div class="cosmo-list__content" id="userContent">
+    </div>
+</div>

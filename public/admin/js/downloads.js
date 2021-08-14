@@ -84,7 +84,6 @@ export async function selectDownload(slug) {
             }
         });
         fileInput.click();
-
     });
 }
 
