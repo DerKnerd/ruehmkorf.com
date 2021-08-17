@@ -1,7 +1,7 @@
 FROM quay.imanuel.dev/dockerhub/library---node:latest AS build-frontend
 WORKDIR /app
 COPY . .
-RUN cd public && npm install
+RUN cd public/admin && npm install
 
 FROM quay.imanuel.dev/dockerhub/library---golang:1.16-alpine
 WORKDIR /app
