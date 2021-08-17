@@ -52,5 +52,13 @@ if (parts.length === 2) {
     unmarkSubMenuLinks();
     document.querySelector(`[data-sublink=${parts[1]}]`).classList.add('cosmo-menu-bar__sub-item--active');
 } else {
+    hideSubmenus();
+    document.querySelector('[data-submenu=content]').classList.remove('rc-hidden');
+
+    unmarkMainMenuLinks();
+    document.querySelector('[data-target=content]').classList.add('cosmo-menu-bar__main-item--active');
+
+    unmarkSubMenuLinks();
+    document.querySelector('[data-sublink=news]').classList.add('cosmo-menu-bar__sub-item--active');
     window.location.hash = 'content/news';
 }
