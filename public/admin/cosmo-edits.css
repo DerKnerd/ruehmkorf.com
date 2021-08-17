@@ -1,3 +1,11 @@
 .cosmo-list {
     grid-template-columns: [items-list] 280px 16px [content] 1fr;
 }
+
+body {
+    --primary-color: #0066cc;
+    --gradient-top-color: #e0f0ff;
+    --gradient-bottom-color: var(--white);
+
+    --top-gradient: linear-gradient(to top, var(--gradient-bottom-color) 0%, var(--gradient-top-color) 100%);
+}
