@@ -5,7 +5,10 @@
 body {
     --primary-color: #0066cc;
     --gradient-top-color: #e0f0ff;
-    --gradient-bottom-color: var(--white);
+}
 
-    --top-gradient: linear-gradient(to top, var(--gradient-bottom-color) 0%, var(--gradient-top-color) 100%);
+@media screen and (prefers-color-scheme: dark) {
+    body {
+        --gradient-top-color: #000000;
+    }
 }
