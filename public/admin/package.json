@@ -2,6 +2,6 @@
   "name": "ruehmkorf.com",
   "version": "1.0.0",
   "dependencies": {
-    "@jinyacms/cosmo": "0.10.0"
+    "@jinyacms/cosmo": "0.11.0"
   }
 }
