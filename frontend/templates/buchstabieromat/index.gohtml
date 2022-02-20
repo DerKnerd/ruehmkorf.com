@@ -46,20 +46,32 @@
                 {{if eq .Language "de"}}
                     Deutsch
                 {{else}}
-                    German
+                    English
                 {{end}}
             </h2>
-            <div class="rc-bom__translated-infotext">{{unsafe .InfoTextDe}}</div>
-            <pre class="rc-bom__translated-text" data-language="de"></pre>
+            <div class="rc-bom__translated-infotext">
+                {{if eq .Language "de"}}
+                    {{unsafe .InfoTextDe}}
+                {{else}}
+                    {{unsafe .InfoTextEn}}
+                {{end}}
+            </div>
+            <pre class="rc-bom__translated-text" data-language="{{.Language}}"></pre>
             <h2 class="rc-bom__translated-header">
                 {{if eq .Language "de"}}
                     Englisch
                 {{else}}
-                    English
+                    German
                 {{end}}
             </h2>
-            <div class="rc-bom__translated-infotext">{{unsafe .InfoTextEn}}</div>
-            <pre class="rc-bom__translated-text" data-language="en"></pre>
+            <div class="rc-bom__translated-infotext">
+                {{if eq .Language "de"}}
+                    {{unsafe .InfoTextEn}}
+                {{else}}
+                    {{unsafe .InfoTextDe}}
+                {{end}}
+            </div>
+            <pre class="rc-bom__translated-text" data-language="{{if eq .Language "de"}}en{{else}}de{{end}}"></pre>
         </div>
     </form>
     <script type="module">
