@@ -34,6 +34,17 @@
     height: 100%;
 }
 
+@media screen and (max-width: 1280px) {
+    .rc-card__container--profile {
+        gap: 1rem;
+    }
+
+    .rc-card--profile {
+        height: 40vw;
+        width: 40vw;
+    }
+}
+
 @media screen and (max-width: 900px) {
     .rc-card__container--profile {
         gap: 1rem;
