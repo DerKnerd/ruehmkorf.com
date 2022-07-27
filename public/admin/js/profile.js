@@ -33,23 +33,13 @@ async function showEditModal(profile) {
     await compileTemplate('profileEdit.js', container, profile);
     document.body.appendChild(container);
 
-    const headerImageInput = container.querySelector('#headerImage');
-    headerImageInput.addEventListener('change', (e) => {
-        const target = e.target;
-        container.querySelector('[for=headerImage].cosmo-picker__name').textContent = target.files.item(0).name;
-    });
-
-    const iconInput = container.querySelector('#icon');
-    iconInput.addEventListener('change', (e) => {
-        const target = e.target;
-        container.querySelector('[for=icon].cosmo-picker__name').textContent = target.files.item(0).name;
-    });
-
     container.querySelector('form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const name = document.getElementById('name').value;
         const url = document.getElementById('url').value;
         const active = document.getElementById('active').checked;
+        const headerImage = document.getElementById('headerImage');
+        const icon = document.getElementById('icon');
         const result = await fetch(`/admin/profile?id=${profile.id}`, {
             body: JSON.stringify({
                 name,
@@ -61,20 +51,20 @@ async function showEditModal(profile) {
         if (result.status !== 204) {
             await alert('Speichern fehlgeschlagen', 'Beim Speichern ist ein unbekannter Fehler aufgetreten');
         } else {
-            if (headerImageInput.files.length > 0) {
+            if (headerImage.files.length > 0) {
                 const fileUploadResult = await fetch(`/admin/profile/header?id=${profile.id}`, {
                     method: 'POST',
-                    body: headerImageInput.files.item(0)
+                    body: headerImage.files.item(0)
                 });
                 if (fileUploadResult.status !== 204) {
                     await alert('Speichern fehlgeschlagen', 'Beim Speichern des Header Bildes ist ein unbekannter Fehler aufgetreten');
                     return
                 }
             }
-            if (iconInput.files.length > 0) {
+            if (icon.files.length > 0) {
                 const fileUploadResult = await fetch(`/admin/profile/icon?id=${profile.id}`, {
                     method: 'POST',
-                    body: iconInput.files.item(0)
+                    body: icon.files.item(0)
                 });
                 if (fileUploadResult.status !== 204) {
                     await alert('Speichern fehlgeschlagen', 'Beim Speichern des Icons ist ein unbekannter Fehler aufgetreten');
@@ -95,20 +85,10 @@ async function showAddModal() {
     await compileTemplate('profileAdd.js', container);
     document.body.appendChild(container);
 
-    const headerImageInput = container.querySelector('#headerImage');
-    headerImageInput.addEventListener('change', (e) => {
-        const target = e.target;
-        container.querySelector('[for=headerImage].cosmo-picker__name').textContent = target.files.item(0).name;
-    });
-
-    const iconInput = container.querySelector('#icon');
-    iconInput.addEventListener('change', (e) => {
-        const target = e.target;
-        container.querySelector('[for=icon].cosmo-picker__name').textContent = target.files.item(0).name;
-    });
-
     container.querySelector('form').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const headerImage = document.getElementById('headerImage');
+        const icon = document.getElementById('icon');
         const name = document.getElementById('name').value;
         const url = document.getElementById('url').value;
         const active = document.getElementById('active').checked;
@@ -124,20 +104,20 @@ async function showAddModal() {
             await alert('Speichern fehlgeschlagen', 'Beim Speichern ist ein unbekannter Fehler aufgetreten');
         } else {
             const id = await result.text();
-            if (headerImageInput.files.length > 0) {
+            if (headerImage.files.length > 0) {
                 const fileUploadResult = await fetch(`/admin/profile/header?id=${id}`, {
                     method: 'POST',
-                    body: headerImageInput.files.item(0)
+                    body: headerImage.files.item(0)
                 });
                 if (fileUploadResult.status !== 204) {
                     await alert('Speichern fehlgeschlagen', 'Beim Speichern des Header Bildes ist ein unbekannter Fehler aufgetreten');
                     return
                 }
             }
-            if (iconInput.files.length > 0) {
+            if (icon.files.length > 0) {
                 const fileUploadResult = await fetch(`/admin/profile/icon?id=${id}`, {
                     method: 'POST',
-                    body: iconInput.files.item(0)
+                    body: icon.files.item(0)
                 });
                 if (fileUploadResult.status !== 204) {
                     await alert('Speichern fehlgeschlagen', 'Beim Speichern des Icons ist ein unbekannter Fehler aufgetreten');
