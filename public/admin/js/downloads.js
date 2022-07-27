@@ -91,14 +91,10 @@ async function showAddModal() {
     const container = document.createElement('div');
     await compileTemplate('downloadAdd.js', container);
     document.body.appendChild(container);
-    const previewImageInput = container.querySelector('#previewImage');
-    previewImageInput.addEventListener('change', (e) => {
-        const target = e.target;
-        container.querySelector('[for=previewImage].cosmo-picker__name').textContent = target.files.item(0).name;
-    });
 
     container.querySelector('form').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const previewImage = document.getElementById('previewImage');
         const nameDe = document.getElementById('nameDe').value;
         const nameEn = document.getElementById('nameEn').value;
         const slug = document.getElementById('slug').value;
@@ -121,10 +117,10 @@ async function showAddModal() {
         } else if (result.status !== 201) {
             await alert('Speichern fehlgeschlagen', 'Beim Speichern ist ein unbekannter Fehler aufgetreten');
         } else {
-            if (previewImageInput.files.length > 0) {
+            if (previewImage.files.length > 0) {
                 const fileUploadResult = await fetch(`/admin/download/preview?slug=${slug}`, {
                     method: 'POST',
-                    body: previewImageInput.files.item(0),
+                    body: previewImage.files.item(0),
                 });
                 if (fileUploadResult.status !== 204) {
                     await alert('Speichern fehlgeschlagen', 'Beim Speichern des Vorschau Bildes ist ein unbekannter Fehler aufgetreten');
@@ -143,17 +139,13 @@ async function showEditModal(download) {
     const container = document.createElement('div');
     await compileTemplate('downloadEdit.js', container, download);
     document.body.appendChild(container);
-    const previewImageInput = container.querySelector('#previewImage');
-    previewImageInput.addEventListener('change', (e) => {
-        const target = e.target;
-        container.querySelector('[for=previewImage].cosmo-picker__name').textContent = target.files.item(0).name;
-    });
 
     const date = new Date(Date.parse(download.date));
     container.querySelector('#date').value = `${date.getFullYear().toString().padStart(2, '0')}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
     container.querySelector('form').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const previewImage = document.getElementById('previewImage');
         const nameDe = document.getElementById('nameDe').value;
         const nameEn = document.getElementById('nameEn').value;
         const selfDestructDays = parseInt(document.getElementById('selfDestructDays').value);
@@ -175,10 +167,10 @@ async function showEditModal(download) {
         } else if (result.status !== 204) {
             await alert('Speichern fehlgeschlagen', 'Beim Speichern ist ein unbekannter Fehler aufgetreten');
         } else {
-            if (previewImageInput.files.length > 0) {
+            if (previewImage.files.length > 0) {
                 const fileUploadResult = await fetch(`/admin/download/preview?slug=${download.slug}`, {
                     method: 'POST',
-                    body: previewImageInput.files.item(0),
+                    body: previewImage.files.item(0),
                 });
                 if (fileUploadResult.status !== 204) {
                     await alert('Speichern fehlgeschlagen', 'Beim Speichern des Vorschau Bildes ist ein unbekannter Fehler aufgetreten');
