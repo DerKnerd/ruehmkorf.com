@@ -10,7 +10,7 @@ export async function init() {
     const result = await fetch('/admin/buchstabieromat');
     const data = await result.json();
 
-    await compileTemplate('bom.hbs', document.getElementById('rcContent'), data);
+    await compileTemplate('bom.js', document.getElementById('rcContent'), data);
 
     document.querySelector('[data-action=german]').addEventListener('click', () => toggleTab('bom', 'german'));
     document.querySelector('[data-action=english]').addEventListener('click', () => toggleTab('bom', 'english'));

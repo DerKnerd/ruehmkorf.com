@@ -10,7 +10,7 @@ export async function init() {
     const result = await fetch('/admin/settings');
     const data = await result.json();
 
-    await compileTemplate('texts.hbs', document.getElementById('rcContent'), data);
+    await compileTemplate('texts.js', document.getElementById('rcContent'), data);
 
     document.querySelector('[data-action=german]').addEventListener('click', () => toggleTab('texts', 'german'));
     document.querySelector('[data-action=english]').addEventListener('click', () => toggleTab('texts', 'english'));

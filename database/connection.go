@@ -1,8 +1,8 @@
 package database
 
 import (
+	_ "github.com/jackc/pgx/v4/stdlib"
 	"github.com/jmoiron/sqlx"
-	_ "github.com/lib/pq"
 	"os"
 )
 

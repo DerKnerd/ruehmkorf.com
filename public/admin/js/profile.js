@@ -15,7 +15,7 @@ async function selectProfile(id) {
 
     const profile = await (await fetch(`/admin/profile?id=${id}`)).json();
 
-    await compileTemplate('profileDetails.hbs', document.getElementById('profileContent'), profile);
+    await compileTemplate('profileDetails.js', document.getElementById('profileContent'), profile);
 
     document.querySelector('[data-action=deleteProfile]').addEventListener('click', async () => {
         const result = await confirm('Nachricht löschen', `Soll das Profil ${profile.name} wirklich gelöscht werden?`, 'Profil löschen', 'Profil behalten');
@@ -30,7 +30,7 @@ async function selectProfile(id) {
 
 async function showEditModal(profile) {
     const container = document.createElement('div');
-    await compileTemplate('profileEdit.hbs', container, profile);
+    await compileTemplate('profileEdit.js', container, profile);
     document.body.appendChild(container);
 
     const headerImageInput = container.querySelector('#headerImage');
@@ -92,7 +92,7 @@ async function showEditModal(profile) {
 
 async function showAddModal() {
     const container = document.createElement('div');
-    await compileTemplate('profileAdd.hbs', container);
+    await compileTemplate('profileAdd.js', container);
     document.body.appendChild(container);
 
     const headerImageInput = container.querySelector('#headerImage');
@@ -157,7 +157,7 @@ export async function init() {
     unmarkSubMenuLinks();
     document.querySelector('[data-sublink=profile]').classList.add('cosmo-menu-bar__sub-item--active');
     const profiles = await (await fetch('/admin/profile')).json();
-    await compileTemplate('profilesList.hbs', document.getElementById('rcContent'), {profiles});
+    await compileTemplate('profilesList.js', document.getElementById('rcContent'), {profiles});
 
     await selectProfile(profiles[0]?.id);
     document.querySelectorAll('[data-action=changeProfile]').forEach(link => link.addEventListener('click', async (e) => {

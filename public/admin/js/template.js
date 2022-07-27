@@ -5,12 +5,9 @@ export async function compileTemplate(name, element, data = {}) {
     if (templateCache[name]) {
         html = templateCache[name](data);
     } else {
-        const hbs = await fetch(`/public/admin/templates/${name}`);
-        if (hbs.status === 200) {
-            const template = Handlebars.compile(await hbs.text());
-            templateCache[name] = template;
-            html = template(data);
-        }
+        const tmpl = (await import(`/public/admin/templates/${name}`)).default;
+        templateCache[name] = tmpl;
+        html = tmpl(data);
     }
 
     element.innerHTML = html;

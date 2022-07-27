@@ -13,7 +13,7 @@ export async function selectDownload(slug) {
     document.querySelector(`[data-download-slug="${slug}"]`).classList.add('cosmo-list__item--active');
 
     const download = await (await fetch(`/admin/download?slug=${slug}`)).json();
-    await compileTemplate('downloadDetails.hbs', document.getElementById('downloadContent'), download);
+    await compileTemplate('downloadDetails.js', document.getElementById('downloadContent'), download);
 
     document.querySelector('[data-action=german]').addEventListener('click', () => toggleTab('download', 'german'));
     document.querySelector('[data-action=english]').addEventListener('click', () => toggleTab('download', 'english'));
@@ -89,7 +89,7 @@ export async function selectDownload(slug) {
 
 async function showAddModal() {
     const container = document.createElement('div');
-    await compileTemplate('downloadAdd.hbs', container);
+    await compileTemplate('downloadAdd.js', container);
     document.body.appendChild(container);
     const previewImageInput = container.querySelector('#previewImage');
     previewImageInput.addEventListener('change', (e) => {
@@ -141,7 +141,7 @@ async function showAddModal() {
 
 async function showEditModal(download) {
     const container = document.createElement('div');
-    await compileTemplate('downloadEdit.hbs', container, download);
+    await compileTemplate('downloadEdit.js', container, download);
     document.body.appendChild(container);
     const previewImageInput = container.querySelector('#previewImage');
     previewImageInput.addEventListener('change', (e) => {
@@ -197,7 +197,7 @@ export async function init() {
     unmarkSubMenuLinks();
     document.querySelector('[data-sublink=downloads]').classList.add('cosmo-menu-bar__sub-item--active');
     const downloads = await (await fetch('/admin/download')).json();
-    await compileTemplate('downloadsList.hbs', document.getElementById('rcContent'), {downloads});
+    await compileTemplate('downloadsList.js', document.getElementById('rcContent'), {downloads});
 
     await selectDownload(downloads[0]?.slug);
     document.querySelectorAll('[data-action=changeDownload]').forEach(link => link.addEventListener('click', async (e) => {

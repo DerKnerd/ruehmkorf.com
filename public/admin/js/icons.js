@@ -5,7 +5,7 @@ export async function init() {
     unmarkSubMenuLinks();
     document.querySelector('[data-sublink=icons]').classList.add('cosmo-menu-bar__sub-item--active');
 
-    await compileTemplate('icons.hbs', document.getElementById('rcContent'));
+    await compileTemplate('icons.js', document.getElementById('rcContent'));
 
     const touchiconInput = document.querySelector('#touchicon');
     touchiconInput.addEventListener('change', (e) => {
@@ -36,6 +36,6 @@ export async function init() {
         if (logoInput.files.length > 0) {
             await fetch('/admin/settings/logo', {method: 'POST', body: logoInput.files.item(0)});
         }
-        await compileTemplate('icons.hbs', document.getElementById('rcContent'));
+        await compileTemplate('icons.js', document.getElementById('rcContent'));
     });
 }

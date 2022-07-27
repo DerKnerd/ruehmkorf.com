@@ -17,7 +17,7 @@ async function selectNews(slug) {
     const news = await (await fetch(`/admin/news?slug=${slug}`)).json();
 
     news.concatTags = news.tags ? news.tags.map(tag => tag.tag).join(', ') : 'Keine';
-    await compileTemplate('newsDetails.hbs', document.getElementById('newsContent'), news);
+    await compileTemplate('newsDetails.js', document.getElementById('newsContent'), news);
     document.querySelector('[data-action=german]').addEventListener('click', () => toggleTab('news', 'german'));
     document.querySelector('[data-action=english]').addEventListener('click', () => toggleTab('news', 'english'));
     document.querySelector('[data-action=hero]').addEventListener('click', () => toggleTab('news', 'hero'));
@@ -61,16 +61,12 @@ async function selectNews(slug) {
 
 async function showEditModal(news) {
     const container = document.createElement('div');
-    await compileTemplate('newsEdit.hbs', container, news);
+    await compileTemplate('newsEdit.js', container, news);
     document.body.appendChild(container);
-    const heroImageInput = container.querySelector('#heroImage');
-    heroImageInput.addEventListener('change', (e) => {
-        const target = e.target;
-        container.querySelector('[for=heroImage].cosmo-picker__name').textContent = target.files.item(0).name;
-    });
 
     container.querySelector('form').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const heroImage = document.getElementById('heroImage');
         const titleDe = document.getElementById('titleDe').value;
         const titleEn = document.getElementById('titleEn').value;
         const tags = document.getElementById('tags').value.split(',');
@@ -88,14 +84,14 @@ async function showEditModal(news) {
         if (result.status !== 204) {
             await alert('Speichern fehlgeschlagen', 'Beim Speichern ist ein unbekannter Fehler aufgetreten');
         } else {
-            if (heroImageInput.files.length > 0) {
+            if (heroImage.files.length > 0) {
                 const fileUploadResult = await fetch(`/admin/news/hero?slug=${news.slug}`, {
                     method: 'POST',
-                    body: heroImageInput.files.item(0)
+                    body: heroImage.files.item(0)
                 });
                 if (fileUploadResult.status !== 204) {
                     await alert('Speichern fehlgeschlagen', 'Beim Speichern des Hero Bildes ist ein unbekannter Fehler aufgetreten');
-                    return
+                    return;
                 }
             }
             document.body.removeChild(container);
@@ -107,16 +103,12 @@ async function showEditModal(news) {
 
 async function showAddModal() {
     const container = document.createElement('div');
-    await compileTemplate('newsAdd.hbs', container);
+    await compileTemplate('newsAdd.js', container);
     document.body.appendChild(container);
-    const heroImageInput = container.querySelector('#heroImage');
-    heroImageInput.addEventListener('change', (e) => {
-        const target = e.target;
-        container.querySelector('[for=heroImage].cosmo-picker__name').textContent = target.files.item(0).name;
-    });
 
     container.querySelector('form').addEventListener('submit', async (e) => {
         e.preventDefault();
+        const heroImage = document.getElementById('heroImage');
         const titleDe = document.getElementById('titleDe').value;
         const titleEn = document.getElementById('titleEn').value;
         const slug = document.getElementById('slug').value;
@@ -137,10 +129,10 @@ async function showAddModal() {
         } else if (result.status !== 201) {
             await alert('Speichern fehlgeschlagen', 'Beim Speichern ist ein unbekannter Fehler aufgetreten');
         } else {
-            if (heroImageInput.files.length > 0) {
+            if (heroImage.files.length > 0) {
                 const fileUploadResult = await fetch(`/admin/news/hero?slug=${slug}`, {
                     method: 'POST',
-                    body: heroImageInput.files.item(0)
+                    body: heroImage.files.item(0)
                 });
                 if (fileUploadResult.status !== 204) {
                     await alert('Speichern fehlgeschlagen', 'Beim Speichern des Hero Bildes ist ein unbekannter Fehler aufgetreten');
@@ -159,7 +151,7 @@ export async function init() {
     unmarkSubMenuLinks();
     document.querySelector('[data-sublink=news]').classList.add('cosmo-menu-bar__sub-item--active');
     const news = await (await fetch('/admin/news')).json();
-    await compileTemplate('newsList.hbs', document.getElementById('rcContent'), {news});
+    await compileTemplate('newsList.js', document.getElementById('rcContent'), {news});
 
     await selectNews(news[0]?.slug);
     document.querySelectorAll('[data-action=changeNews]').forEach(link => link.addEventListener('click', async (e) => {

@@ -15,7 +15,7 @@ async function selectUser(id) {
 
     const user = await (await fetch(`/admin/user?id=${id}`)).json();
 
-    await compileTemplate('userDetails.hbs', document.getElementById('userContent'), user);
+    await compileTemplate('userDetails.js', document.getElementById('userContent'), user);
     document.querySelector('[data-action=deleteUser]').addEventListener('click', async () => {
         const result = await confirm('Benutzer löschen', `Soll der Benutzer ${user.name} wirklich gelöscht werden?`, 'Benutzer löschen', 'Benutzer behalten');
         if (result) {
@@ -29,7 +29,7 @@ async function selectUser(id) {
 
 async function showEditModal(user) {
     const container = document.createElement('div');
-    await compileTemplate('userEdit.hbs', container, user);
+    await compileTemplate('userEdit.js', container, user);
     document.body.appendChild(container);
 
     container.querySelector('form').addEventListener('submit', async (e) => {
@@ -63,7 +63,7 @@ async function showEditModal(user) {
 
 async function showAddModal() {
     const container = document.createElement('div');
-    await compileTemplate('userAdd.hbs', container);
+    await compileTemplate('userAdd.js', container);
     document.body.appendChild(container);
 
     container.querySelector('form').addEventListener('submit', async (e) => {
@@ -99,7 +99,7 @@ export async function init() {
     unmarkSubMenuLinks();
     document.querySelector('[data-sublink=users]').classList.add('cosmo-menu-bar__sub-item--active');
     const users = await (await fetch('/admin/user')).json();
-    await compileTemplate('usersList.hbs', document.getElementById('rcContent'), {users});
+    await compileTemplate('usersList.js', document.getElementById('rcContent'), {users});
 
     await selectUser(users[0]?.id);
     document.querySelectorAll('[data-action=changeUser]').forEach(link => link.addEventListener('click', async (e) => {
