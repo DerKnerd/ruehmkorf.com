@@ -7,26 +7,13 @@ export async function init() {
 
     await compileTemplate('icons.js', document.getElementById('rcContent'));
 
-    const touchiconInput = document.querySelector('#touchicon');
-    touchiconInput.addEventListener('change', (e) => {
-        const target = e.target;
-        document.querySelector('[for=touchicon].cosmo-picker__name').textContent = target.files.item(0).name;
-    });
-
-    const logoInput = document.querySelector('#logo');
-    logoInput.addEventListener('change', (e) => {
-        const target = e.target;
-        document.querySelector('[for=logo].cosmo-picker__name').textContent = target.files.item(0).name;
-    });
-
-    const faviconInput = document.querySelector('#favicon');
-    faviconInput.addEventListener('change', (e) => {
-        const target = e.target;
-        document.querySelector('[for=favicon].cosmo-picker__name').textContent = target.files.item(0).name;
-    });
-
     document.querySelector('form').addEventListener('submit', async (e) => {
         e.preventDefault();
+
+        const touchiconInput = document.querySelector('#touchIcon');
+        const logoInput = document.querySelector('#logo');
+        const faviconInput = document.querySelector('#favicon');
+
         if (faviconInput.files.length > 0) {
             await fetch('/admin/settings/favicon', {method: 'POST', body: faviconInput.files.item(0)});
         }
