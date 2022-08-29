@@ -3,7 +3,7 @@ module ruehmkorf.com
 go 1.16
 
 require (
-	github.com/jackc/pgx/v4 v4.17.0
+	github.com/jackc/pgx/v4 v4.17.1
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/lib/pq v1.10.6
 	github.com/satori/go.uuid v1.2.0
