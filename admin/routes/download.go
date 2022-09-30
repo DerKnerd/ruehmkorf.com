@@ -4,8 +4,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"github.com/lib/pq"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"ruehmkorf.com/database/models"
@@ -130,7 +129,7 @@ func UploadPreviewAction(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		data, err := ioutil.ReadAll(r.Body)
+		data, err := io.ReadAll(r.Body)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
@@ -199,11 +198,6 @@ func downloadNew(w http.ResponseWriter, r *http.Request) {
 
 	err = models.CreateDownload(download)
 
-	if conv, ok := err.(*pq.Error); ok == true && conv.Code == "23505" {
-		w.WriteHeader(http.StatusConflict)
-		return
-	}
-
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
@@ -263,11 +257,6 @@ func downloadEdit(w http.ResponseWriter, r *http.Request) {
 	}
 
 	err = models.UpdateDownload(*download)
-
-	if conv, ok := err.(*pq.Error); ok == true && conv.Code == "23505" {
-		w.WriteHeader(http.StatusConflict)
-		return
-	}
 
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
@@ -343,7 +332,7 @@ func concatChunksToFile(chunksDir string, download *models.Download) error {
 			continue
 		}
 
-		data, err := ioutil.ReadFile(chunksDir + "/" + chunk.Name())
+		data, err := os.ReadFile(chunksDir + "/" + chunk.Name())
 		if err != nil {
 			return err
 		}
@@ -361,10 +350,10 @@ func concatChunksToFile(chunksDir string, download *models.Download) error {
 
 func uploadSingleChunk(r *http.Request, tmpPath string) error {
 	idx := r.URL.Query().Get("index")
-	data, err := ioutil.ReadAll(r.Body)
+	data, err := io.ReadAll(r.Body)
 	if err != nil {
 		return err
 	}
 
-	return ioutil.WriteFile(fmt.Sprintf("%s/%s", tmpPath, idx), data, 0755)
+	return os.WriteFile(fmt.Sprintf("%s/%s", tmpPath, idx), data, 0755)
 }

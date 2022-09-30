@@ -2,7 +2,6 @@ package routes
 
 import (
 	"encoding/json"
-	"github.com/lib/pq"
 	"net/http"
 	"ruehmkorf.com/database/models"
 )
@@ -76,11 +75,6 @@ func userNew(w http.ResponseWriter, r *http.Request) {
 	}
 
 	id, err := models.CreateUser(user)
-	if conv, ok := err.(*pq.Error); ok == true && conv.Code == "23505" {
-		w.WriteHeader(http.StatusConflict)
-		return
-	}
-
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
@@ -111,11 +105,6 @@ func userEdit(w http.ResponseWriter, r *http.Request) {
 	user.Password = bodyData.Password
 
 	err = models.UpdateUser(*user, bodyData.Password != "")
-	if conv, ok := err.(*pq.Error); ok == true && conv.Code == "23505" {
-		w.WriteHeader(http.StatusConflict)
-		return
-	}
-
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
