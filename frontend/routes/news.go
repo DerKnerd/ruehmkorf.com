@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
-	"io/ioutil"
 	"net/http"
+	"os"
 	"ruehmkorf.com/database/models"
 	httpUtils "ruehmkorf.com/utils/http"
 	"strings"
@@ -19,7 +19,7 @@ func NewsHeroImage(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := ioutil.ReadFile(models.HeroPath + slug)
+	data, err := os.ReadFile(models.HeroPath + slug)
 	if err != nil {
 		http.NotFound(w, r)
 		return

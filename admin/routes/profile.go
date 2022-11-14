@@ -6,7 +6,6 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"ruehmkorf.com/database/models"
@@ -17,7 +16,7 @@ func getProfileIcon(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	profile, err := models.FindProfileById(id)
 
-	data, err := ioutil.ReadFile(profile.Icon)
+	data, err := os.ReadFile(profile.Icon)
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -31,7 +30,7 @@ func getProfileHeader(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
 	profile, err := models.FindProfileById(id)
 
-	data, err := ioutil.ReadFile(profile.Header.String)
+	data, err := os.ReadFile(profile.Header.String)
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -107,7 +106,7 @@ func saveProfileImage(reader io.ReadCloser, icon bool) (string, error) {
 		return "", err
 	}
 
-	data, err := ioutil.ReadAll(reader)
+	data, err := io.ReadAll(reader)
 	if err != nil {
 		return "", err
 	}

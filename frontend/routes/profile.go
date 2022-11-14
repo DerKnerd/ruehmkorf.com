@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"io/ioutil"
 	"net/http"
 	"os"
 	"ruehmkorf.com/database/models"
@@ -17,7 +16,7 @@ func ProfileIcon(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := ioutil.ReadFile(profile.Icon)
+	data, err := os.ReadFile(profile.Icon)
 	if err != nil {
 		http.NotFound(w, r)
 		return
@@ -35,7 +34,7 @@ func ProfileHeader(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := ioutil.ReadFile(profile.Header.String)
+	data, err := os.ReadFile(profile.Header.String)
 	if err != nil {
 		http.NotFound(w, r)
 		return
