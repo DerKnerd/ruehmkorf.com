@@ -3,7 +3,7 @@ WORKDIR /app
 COPY . .
 RUN cd public/admin && npm install
 
-FROM quay.imanuel.dev/dockerhub/library---golang:1.16-alpine
+FROM quay.imanuel.dev/dockerhub/library---golang:1.19-alpine
 WORKDIR /app
 COPY . .
 COPY --from=build-frontend /app/public /app/public
