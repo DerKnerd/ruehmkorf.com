@@ -9,7 +9,7 @@ require (
 	github.com/scorredoira/email v0.0.0-20191107070024-dc7b732c55da
 	github.com/thanhpk/randstr v1.0.4
 	github.com/yuin/goldmark v1.5.3
-	golang.org/x/crypto v0.2.0
+	golang.org/x/crypto v0.3.0
 )
 
 require (
