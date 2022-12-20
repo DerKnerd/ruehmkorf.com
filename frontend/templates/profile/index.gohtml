@@ -11,7 +11,7 @@
     <div class="rc-content">
         <div class="rc-card__container rc-card__container--profile">
             {{range .Items}}
-                <a target="_blank" class="rc-card rc-card--profile" href="{{.Url}}">
+                <a rel="me" target="_blank" class="rc-card rc-card--profile" href="{{.Url}}">
                     {{if .HasIcon}}
                         <img class="rc-card__img rc-card__img--profile" src="/profile/header/{{.Id}}" alt=""
                              aria-hidden="true">
