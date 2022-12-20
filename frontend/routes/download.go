@@ -6,7 +6,6 @@ import (
 	"github.com/yuin/goldmark"
 	"github.com/yuin/goldmark/extension"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"ruehmkorf.com/database/models"
@@ -57,7 +56,7 @@ func DownloadPreview(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := ioutil.ReadFile(models.DownloadPreviewImagePath + slug)
+	data, err := os.ReadFile(models.DownloadPreviewImagePath + slug)
 	if err != nil {
 		http.NotFound(w, r)
 		return

@@ -3,8 +3,7 @@ package routes
 import (
 	"database/sql"
 	"encoding/json"
-	"github.com/lib/pq"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"ruehmkorf.com/database/models"
@@ -135,11 +134,6 @@ func newsNew(w http.ResponseWriter, r *http.Request) {
 			Date:      parsedDate,
 		})
 
-		if conv, ok := err.(*pq.Error); ok == true && conv.Code == "23505" {
-			w.WriteHeader(http.StatusConflict)
-			return
-		}
-
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
@@ -264,7 +258,7 @@ func UploadHero(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		data, err := ioutil.ReadAll(r.Body)
+		data, err := io.ReadAll(r.Body)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return

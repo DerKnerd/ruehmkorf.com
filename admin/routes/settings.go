@@ -3,7 +3,6 @@ package routes
 import (
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"ruehmkorf.com/database/models"
@@ -26,7 +25,7 @@ func saveData(reader io.ReadCloser, fileName string) error {
 		return err
 	}
 
-	data, err := ioutil.ReadAll(reader)
+	data, err := io.ReadAll(reader)
 	if err != nil {
 		return err
 	}

@@ -8,7 +8,7 @@ import (
 
 func Connect() (*sqlx.DB, error) {
 	connectionString := os.Getenv("CONNECTION_STRING")
-	db, err := sqlx.Connect("postgres", connectionString)
+	db, err := sqlx.Connect("pgx", connectionString)
 
 	if err != nil {
 		return nil, err

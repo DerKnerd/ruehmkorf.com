@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"os"
 	"ruehmkorf.com/database/models"
@@ -25,7 +25,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	data, err := ioutil.ReadAll(file)
+	data, err := io.ReadAll(file)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
