@@ -198,11 +198,7 @@ func newsEdit(w http.ResponseWriter, r *http.Request) {
 	updatedNewsEntry.Id = news.Id
 	_, err = models.UpdateNews(updatedNewsEntry)
 	if err != nil {
-		if err, ok := err.(pq.Error); ok && err.Code == "23505" {
-			w.WriteHeader(http.StatusConflict)
-		} else {
-			w.WriteHeader(http.StatusInternalServerError)
-		}
+		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
 

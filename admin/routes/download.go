@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/lib/pq"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -130,7 +131,7 @@ func UploadPreviewAction(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		data, err := ioutil.ReadAll(r.Body)
+		data, err := io.ReadAll(r.Body)
 		if err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
