@@ -7,7 +7,7 @@
 }
 
 .rc-card {
-    background: var(--white);
+    background: var(--card-background);
     border-radius: 1rem;
     display: grid;
     grid-template-rows: [img] 10rem [title] auto [date] auto;
@@ -28,14 +28,14 @@
     font-size: var(--font-size-24);
     grid-row: title;
     padding: 0 1rem;
-    color: var(--black);
+    color: var(--text);
 }
 
 .rc-card__date {
     font-size: 1rem;
     grid-row: date;
     padding: 0 1rem 1rem;
-    color: var(--black);
+    color: var(--text);
 }
 
 @media screen and (max-width: 900px) {

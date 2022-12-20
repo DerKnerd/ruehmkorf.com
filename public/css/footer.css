@@ -6,7 +6,7 @@
 }
 
 .rc-footer__link {
-    color: var(--black);
+    color: var(--text);
     text-decoration: none;
 }
 

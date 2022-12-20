@@ -7,7 +7,21 @@
     --font-size-24: 1.5rem;
     --font-size-56: 3.5rem;
     --blue: #0066cc;
+    --text: var(--black);
+    --input-background: var(--white);
+    --input-color: var(--black);
+    --card-background: var(--white);
     font-size: 16px;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    :root {
+        --background: #000000;
+        --text: var(--white);
+        --input-background: var(--black);
+        --input-color: var(--white);
+        --card-background: var(--black);
+    }
 }
 
 html,
@@ -16,7 +30,7 @@ body {
     font-family: lato, sans-serif;
     margin: 0;
     padding: 0;
-    color: var(--black);
+    color: var(--text);
 }
 
 .rc-content {
