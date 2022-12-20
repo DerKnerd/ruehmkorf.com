@@ -6,6 +6,12 @@
     padding-top: 2rem;
 }
 
+@media screen and (max-width: 1366px){
+    .rc-card__container {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
 .rc-card {
     background: var(--card-background);
     border-radius: 1rem;
