@@ -4,14 +4,14 @@ stages:
 
 test:
   image: quay.imanuel.dev/dockerhub/library---golang:1.20-alpine
-  stage: build
+  stage: test
   script:
     - go vet .
     - go build -o ruehmkorf.com
 
 docker-build:
   image: quay.imanuel.dev/dockerhub/library---docker:stable
-  stage: build
+  stage: docker-build
   services:
     - docker:dind
   before_script:
