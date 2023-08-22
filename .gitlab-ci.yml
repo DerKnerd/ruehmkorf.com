@@ -1,6 +1,6 @@
 stages:
   - test
-  - docker-build
+  - deploy
 
 test:
   image: harbor.ulbricht.casa/proxy/library/golang:1.21-alpine
@@ -10,15 +10,19 @@ test:
     - go build -o ruehmkorf.com
 
 docker-build:
-  image: harbor.ulbricht.casa/proxy/library/docker:dind
-  stage: docker-build
+  stage: deploy
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    pull_policy: always
+    entrypoint: [""]
   before_script:
-    - docker login -u "$HARBOR_USER" -p "$HARBOR_PASSWORD" harbor.ulbricht.casa
+    - echo $KANIKO_HARBOR_ONLY > /kaniko/.docker/config.json
   script:
-    - docker build --pull -t "harbor.ulbricht.casa/reemt/ruehmkorf.com:1.2.${CI_PIPELINE_IID}" -f ./Dockerfile .
-    - docker tag "harbor.ulbricht.casa/reemt/ruehmkorf.com:1.2.${CI_PIPELINE_IID}" "harbor.ulbricht.casa/reemt/ruehmkorf.com:latest"
-    - docker push "harbor.ulbricht.casa/reemt/ruehmkorf.com:1.2.${CI_PIPELINE_IID}"
-    - docker push "harbor.ulbricht.casa/reemt/ruehmkorf.com:latest"
+    - /kaniko/executor
+      --context "${CI_PROJECT_DIR}"
+      --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
+      --destination "harbor.ulbricht.casa/reemt/ruehmkorf.com:1.2.${CI_PIPELINE_IID}"
+      --destination "harbor.ulbricht.casa/reemt/ruehmkorf.com:latest"
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
       exists:
