@@ -1,4 +1,4 @@
-FROM harbor.ulbricht.casa/proxy/library/node:latest AS build-frontend
+FROM harbor.ulbricht.casa/proxy/library/node:alpine AS build-frontend
 WORKDIR /app
 
 COPY . .
@@ -19,6 +19,8 @@ COPY --from=build-frontend /app/public /app/public
 COPY --from=build-backend /app/frontend/templates /app/frontend/templates
 COPY --from=build-backend /app/admin/templates /app/admin/templates
 COPY --from=build-backend /app/ruehmkorf.com /app/ruehmkorf.com
+
+WORKDIR /app
 
 ENV DATA_DIR=/ruehmkorf-data
 

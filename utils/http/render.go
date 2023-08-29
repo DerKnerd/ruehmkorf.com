@@ -2,6 +2,7 @@ package http
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 )
 
@@ -14,6 +15,7 @@ func RenderSingle(tmpl string, tmplData interface{}, w http.ResponseWriter) {
 
 	err = t.Execute(w, tmplData)
 	if err != nil {
+		log.Println(err)
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
@@ -26,6 +28,7 @@ func RenderFrontend(tmpl string, tmplData interface{}, w http.ResponseWriter) er
 		},
 	}).ParseFiles(tmpl, "frontend/templates/layout.gohtml")
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
