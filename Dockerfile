@@ -14,7 +14,7 @@ COPY . .
 
 RUN go build -o ruehmkorf.com
 
-FROM alpine:latest
+FROM library/alpine:latest
 COPY --from=build-frontend /app/public /app/public
 COPY --from=build-backend /app/frontend/templates /app/frontend/templates
 COPY --from=build-backend /app/admin/templates /app/admin/templates
