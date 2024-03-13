@@ -10,7 +10,7 @@ export async function selectDownload(slug) {
     }
 
     unmarkListLinks();
-    document.querySelector(`[data-download-slug="${slug}"]`).classList.add('cosmo-list__item--active');
+    document.querySelector(`[data-download-slug="${slug}"]`).classList.add('is--active');
 
     const download = await (await fetch(`/admin/download?slug=${slug}`)).json();
     await compileTemplate('downloadDetails.js', document.getElementById('downloadContent'), download);
@@ -187,7 +187,7 @@ async function showEditModal(download) {
 
 export async function init() {
     unmarkSubMenuLinks();
-    document.querySelector('[data-sublink=downloads]').classList.add('cosmo-menu-bar__sub-item--active');
+    document.querySelector('[data-sublink=downloads]').classList.add('is--active');
     const downloads = await (await fetch('/admin/download')).json();
     await compileTemplate('downloadsList.js', document.getElementById('rcContent'), {downloads});
 

@@ -1,17 +1,17 @@
 import {hideSubmenus, unmarkMainMenuLinks, unmarkSubMenuLinks} from "./navigation.js";
 
-document.querySelectorAll('a.cosmo-menu-bar__main-item').forEach(link => link.addEventListener('click', async (e) => {
+document.querySelectorAll('a.cosmo-menu__item').forEach(link => link.addEventListener('click', async (e) => {
     e.preventDefault();
     const target = e.target.getAttribute('data-target');
     hideSubmenus();
     document.querySelector(`[data-submenu=${target}]`).classList.remove('rc-hidden');
 
     unmarkMainMenuLinks();
-    e.target.classList.add('cosmo-menu-bar__main-item--active');
+    e.target.classList.add('is--active');
 
     unmarkSubMenuLinks();
     const defaultSubLink = e.target.getAttribute('data-default-sublink');
-    document.querySelector(`[data-sublink=${defaultSubLink}]`).classList.add('cosmo-menu-bar__sub-item--active');
+    document.querySelector(`[data-sublink=${defaultSubLink}]`).classList.add('is--active');
 
     const content = await import((`./${target}.js`));
     if (content) {
@@ -47,18 +47,18 @@ if (parts.length === 2) {
     document.querySelector(`[data-submenu=${parts[0]}]`).classList.remove('rc-hidden');
 
     unmarkMainMenuLinks();
-    document.querySelector(`[data-target=${parts[0]}]`).classList.add('cosmo-menu-bar__main-item--active');
+    document.querySelector(`[data-target=${parts[0]}]`).classList.add('is--active');
 
     unmarkSubMenuLinks();
-    document.querySelector(`[data-sublink=${parts[1]}]`).classList.add('cosmo-menu-bar__sub-item--active');
+    document.querySelector(`[data-sublink=${parts[1]}]`).classList.add('is--active');
 } else {
     hideSubmenus();
     document.querySelector('[data-submenu=content]').classList.remove('rc-hidden');
 
     unmarkMainMenuLinks();
-    document.querySelector('[data-target=content]').classList.add('cosmo-menu-bar__main-item--active');
+    document.querySelector('[data-target=content]').classList.add('is--active');
 
     unmarkSubMenuLinks();
-    document.querySelector('[data-sublink=news]').classList.add('cosmo-menu-bar__sub-item--active');
+    document.querySelector('[data-sublink=news]').classList.add('is--active');
     window.location.hash = 'content/news';
 }

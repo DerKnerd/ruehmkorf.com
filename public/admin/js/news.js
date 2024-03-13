@@ -12,7 +12,7 @@ async function selectNews(slug) {
     unmarkListLinks();
 
     const element = document.querySelector(`[data-news-slug="${slug}"]`);
-    element.classList.add('cosmo-list__item--active');
+    element.classList.add('is--active');
 
     const news = await (await fetch(`/admin/news?slug=${slug}`)).json();
 
@@ -149,7 +149,7 @@ async function showAddModal() {
 
 export async function init() {
     unmarkSubMenuLinks();
-    document.querySelector('[data-sublink=news]').classList.add('cosmo-menu-bar__sub-item--active');
+    document.querySelector('[data-sublink=news]').classList.add('is--active');
     const news = await (await fetch('/admin/news')).json();
     await compileTemplate('newsList.js', document.getElementById('rcContent'), {news});
 

@@ -16,9 +16,9 @@ export default function userAdd() {
                         <label class="cosmo-label" for="password">Passwort</label>
                         <input autocomplete="false" id="password" name="password" placeholder="Passwort" required
                                type="password" class="cosmo-input">
-                        <div class="cosmo-checkbox__group">
+                        <div class="cosmo-input__group is--checkbox">
                             <input type="checkbox" id="activated" class="cosmo-checkbox">
-                            <label class="cosmo-label" for="activated">Aktiv</label>
+                            <label for="activated">Aktiv</label>
                         </div>
                     </div>
                 </div>

@@ -22,47 +22,47 @@ export default function downloadDetails({
                 <button class="cosmo-button" type="button" data-action="uploadFile">Datei hochladen</button>
             </div>
         </div>
-        <dl class="cosmo-key-value-list">
-            <dt class="cosmo-key-value-list__key">Slug</dt>
-            <dd class="cosmo-key-value-list__value">${slug}</dd>
-            <dt class="cosmo-key-value-list__key">Name - De</dt>
-            <dd class="cosmo-key-value-list__value">${nameDe}</dd>
-            <dt class="cosmo-key-value-list__key">Name - En</dt>
-            <dd class="cosmo-key-value-list__value">${nameEn}</dd>
-            <dt class="cosmo-key-value-list__key">Öffentlich</dt>
-            <dd class="cosmo-key-value-list__value">${isPublic ? 'Ja' : 'Nein'}</dd>
-            <dt class="cosmo-key-value-list__key">Deutscher Link</dt>
-            <dd class="cosmo-key-value-list__value">
+        <dl class="cosmo-list is--key-value">
+            <dt>Slug</dt>
+            <dd>${slug}</dd>
+            <dt>Name - De</dt>
+            <dd>${nameDe}</dd>
+            <dt>Name - En</dt>
+            <dd>${nameEn}</dd>
+            <dt>Öffentlich</dt>
+            <dd>${isPublic ? 'Ja' : 'Nein'}</dd>
+            <dt>Deutscher Link</dt>
+            <dd>
                 <a href="/de/download/${slug}" target="_blank">https://ruehmkorf.com/de/download/${slug}</a>
             </dd>
-            <dt class="cosmo-key-value-list__key">Englischer Link</dt>
-            <dd class="cosmo-key-value-list__value">
+            <dt>Englischer Link</dt>
+            <dd>
                 <a href="/en/download/${slug}" target="_blank">https://ruehmkorf.com/en/download/${slug}</a>
             </dd>
-            <dt class="cosmo-key-value-list__key">Datum</dt>
-            <dd class="cosmo-key-value-list__value">${date}</dd>
+            <dt>Datum</dt>
+            <dd>${date}</dd>
             ${selfDestruct ? `
-                <dt class="cosmo-key-value-list__key">Löschen nach X Tagen</dt>
-                <dd class="cosmo-key-value-list__value">${selfDestructDays}</dd>` : ''}
+                <dt>Löschen nach X Tagen</dt>
+                <dd>${selfDestructDays}</dd>` : ''}
         </dl>
-        <div class="cosmo-tab-control" data-control="download">
-            <div class="cosmo-tab-control__tabs">
+        <div class="cosmo-tab" data-control="download">
+            <div class="cosmo-tab__links">
                 <a data-action="german"
-                   class="cosmo-tab-control__tab-link cosmo-tab-control__tab-link--active">Deutsch</a>
-                <a data-action="english" class="cosmo-tab-control__tab-link">Englisch</a>
-                <a data-action="preview" class="cosmo-tab-control__tab-link">Vorschau Bild</a>
+                   class="cosmo-tab__link is--active">Deutsch</a>
+                <a data-action="english" class="cosmo-tab__link">Englisch</a>
+                <a data-action="preview" class="cosmo-tab__link">Vorschau Bild</a>
             </div>
-            <div data-tab="german" class="cosmo-tab-control__content">
+            <div data-tab="german" class="cosmo-tab__content">
                 <h4>Inhalt</h4>
-                <textarea class="cosmo-textarea cosmo-textarea--full-width" id="descriptionDe"
+                <textarea class="cosmo-textarea" id="descriptionDe"
                           rows="20">${descriptionDe}</textarea>
             </div>
-            <div data-tab="english" class="cosmo-tab-control__content rc-hidden">
+            <div data-tab="english" class="cosmo-tab__content rc-hidden">
                 <h4>Inhalt</h4>
-                <textarea class="cosmo-textarea cosmo-textarea--full-width" id="descriptionEn"
+                <textarea class="cosmo-textarea" id="descriptionEn"
                           rows="20">${descriptionEn}</textarea>
             </div>
-            <div data-tab="preview" class="cosmo-tab-control__content rc-hidden">
+            <div data-tab="preview" class="cosmo-tab__content rc-hidden">
                 <img src="/download/preview/${slug}" alt="Hero">
             </div>
         </div>

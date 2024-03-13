@@ -16,16 +16,10 @@ export default function profileAdd() {
                         <label for="icon" class="cosmo-label">Icon</label>
                         <input class="cosmo-input" type="file" id="icon">
                         <label for="headerImage" class="cosmo-label">Header Bild</label>
-                        <div class="cosmo-input cosmo-input--picker">
-                            <label class="cosmo-picker__name" for="headerImage">Datei wählen...</label>
-                            <label class="cosmo-picker__button" for="headerImage">
-                                <span class="mdi mdi-upload mdi-24px"></span>
-                            </label>
-                            <input style="display: none" type="file" id="headerImage">
-                        </div>
-                        <div class="cosmo-checkbox__group">
+                        <input class="cosmo-label" type="file" id="headerImage">
+                        <div class="cosmo-input__group is--checkbox">
                             <input type="checkbox" id="active" class="cosmo-checkbox">
-                            <label class="cosmo-label" for="active">Aktiv</label>
+                            <label for="active">Aktiv</label>
                         </div>
                     </div>
                 </div>

@@ -20,12 +20,10 @@ export default function downloadEdit({nameDe, nameEn, selfDestructDays, public: 
                         <input autocomplete="false" id="selfDestructDays" name="selfDestructDays" class="cosmo-input"
                                placeholder="Löschen nach X Tagen" type="number" value="${selfDestructDays}">
                         <label for="heroImage" class="cosmo-label">Vorschau Bild</label>
-                        <div class="cosmo-input cosmo-input--picker">
-                            <input class="cosmo-input" type="file" id="previewImage">
-                        </div>
-                        <div class="cosmo-checkbox__group">
+                        <input class="cosmo-input" type="file" id="previewImage">
+                        <div class="cosmo-input__group is--checkbox">
                             <input type="checkbox" id="public" class="cosmo-checkbox" ${isPublic ? 'Ja' : 'Nein'}>
-                            <label class="cosmo-label" for="public">Öffentlich</label>
+                            <label for="public">Öffentlich</label>
                         </div>
                     </div>
                 </div>

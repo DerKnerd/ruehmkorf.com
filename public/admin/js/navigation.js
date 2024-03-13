@@ -4,13 +4,13 @@ export function hideSubmenus() {
 }
 
 export function unmarkMainMenuLinks() {
-    const links = document.querySelectorAll('.cosmo-menu-bar__main-item--active');
-    links.forEach(link => link.classList.remove('cosmo-menu-bar__main-item--active'));
+    const links = document.querySelectorAll('.is--active');
+    links.forEach(link => link.classList.remove('is--active'));
 }
 
 export function unmarkSubMenuLinks() {
-    const links = document.querySelectorAll('.cosmo-menu-bar__sub-item--active');
-    links.forEach(link => link.classList.remove('cosmo-menu-bar__sub-item--active'));
+    const links = document.querySelectorAll('.is--active');
+    links.forEach(link => link.classList.remove('is--active'));
 }
 
 export async function navigatePage(section, sublink) {

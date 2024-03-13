@@ -1,5 +1,5 @@
 export function unmarkListLinks() {
-    document.querySelectorAll('.cosmo-list__item--active').forEach((item) => {
-        item.classList.remove('cosmo-list__item--active');
+    document.querySelectorAll('.is--active').forEach((item) => {
+        item.classList.remove('is--active');
     });
 }

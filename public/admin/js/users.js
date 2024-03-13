@@ -11,7 +11,7 @@ async function selectUser(id) {
     unmarkListLinks();
 
     const element = document.querySelector(`[data-user-id="${id}"]`);
-    element.classList.add('cosmo-list__item--active');
+    element.classList.add('is--active');
 
     const user = await (await fetch(`/admin/user?id=${id}`)).json();
 
@@ -97,7 +97,7 @@ async function showAddModal() {
 
 export async function init() {
     unmarkSubMenuLinks();
-    document.querySelector('[data-sublink=users]').classList.add('cosmo-menu-bar__sub-item--active');
+    document.querySelector('[data-sublink=users]').classList.add('is--active');
     const users = await (await fetch('/admin/user')).json();
     await compileTemplate('usersList.js', document.getElementById('rcContent'), {users});
 

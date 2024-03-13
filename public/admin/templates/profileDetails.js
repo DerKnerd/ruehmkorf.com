@@ -9,13 +9,13 @@ export default function profileDetails({name, url, active, id}) {
                 <button class="cosmo-button" type="button" data-action="deleteProfile">Löschen</button>
             </div>
         </div>
-        <dl class="cosmo-key-value-list">
-            <dt class="cosmo-key-value-list__key">Name</dt>
-            <dd class="cosmo-key-value-list__value">${name}</dd>
-            <dt class="cosmo-key-value-list__key">URL</dt>
-            <dd class="cosmo-key-value-list__value">${url}</dd>
-            <dt class="cosmo-key-value-list__key">Öffentlich</dt>
-            <dd class="cosmo-key-value-list__value">${active ? 'Ja' : 'Nein'}</dd>
+        <dl class="cosmo-list is--key-value">
+            <dt>Name</dt>
+            <dd>${name}</dd>
+            <dt>URL</dt>
+            <dd>${url}</dd>
+            <dt>Öffentlich</dt>
+            <dd>${active ? 'Ja' : 'Nein'}</dd>
         </dl>
         <h4>Icon</h4>
         <img src="/admin/profile/icon?id=${id}" alt="Icon">

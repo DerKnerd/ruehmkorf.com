@@ -21,9 +21,37 @@ docker-build:
     - /kaniko/executor
       --context "${CI_PROJECT_DIR}"
       --dockerfile "${CI_PROJECT_DIR}/Dockerfile"
-      --destination "${CI_REGISTRY_IMAGE}:1.2.${CI_PIPELINE_IID}"
-      --destination "${CI_REGISTRY_IMAGE}:latest"
+      --destination "${CI_REGISTRY_IMAGE}/${ARCH}:1.2.${CI_PIPELINE_IID}"
+      --destination "${CI_REGISTRY_IMAGE}/${ARCH}:latest"
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
-      exists:
-        - Dockerfile
+  parallel:
+    matrix:
+      - ARCH: amd64
+      - ARCH: arm64
+  tags:
+    - runner-${ARCH}
+
+merge-manifests:
+  stage: deploy
+  needs:
+    - job: docker-build
+      artifacts: false
+  image:
+    name: mplatform/manifest-tool:alpine
+    entrypoint: [""]
+  script:
+    - >-
+      manifest-tool
+      --username=${CI_REGISTRY_USER}
+      --password=${CI_REGISTRY_PASSWORD}
+      push from-args
+      --platforms linux/amd64,linux/arm64
+      --template ${CI_REGISTRY_IMAGE}/ARCH:${TAG}
+      --target ${CI_REGISTRY_IMAGE}:${TAG}
+  parallel:
+    matrix:
+      - TAG: latest
+      - TAG: 1.2.${CI_PIPELINE_IID}
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"

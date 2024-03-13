@@ -16,9 +16,9 @@ export default function userEdit({name, email, activated}) {
                         <label class="cosmo-label" for="password">Passwort</label>
                         <input autocomplete="false" id="password" name="password" placeholder="Passwort" type="password"
                                class="cosmo-input">
-                        <div class="cosmo-checkbox__group">
+                        <div class="cosmo-input__group is--checkbox">
                             <input type="checkbox" id="activated" class="cosmo-checkbox" ${activated ? 'checked' : ''}>
-                            <label class="cosmo-label" for="activated">Aktiv</label>
+                            <label for="activated">Aktiv</label>
                         </div>
                     </div>
                 </div>

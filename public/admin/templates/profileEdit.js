@@ -17,9 +17,9 @@ export default function profileEdit({name, url, active}) {
                         <input class="cosmo-input" type="file" id="icon">
                         <label for="headerImage" class="cosmo-label">Header Bild</label>
                         <input class="cosmo-input" type="file" id="headerImage">
-                        <div class="cosmo-checkbox__group">
+                        <div class="cosmo-input__group is--checkbox">
                             <input type="checkbox" id="active" class="cosmo-checkbox" ${active ? 'checked' : ''}>
-                            <label class="cosmo-label" for="active">Aktiv</label>
+                            <label for="active">Aktiv</label>
                         </div>
                     </div>
                 </div>

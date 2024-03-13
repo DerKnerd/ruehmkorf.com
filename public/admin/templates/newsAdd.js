@@ -21,9 +21,9 @@ export default function newsAdd() {
                                class="cosmo-input">
                         <label for="heroImage" class="cosmo-label">Hero Bild</label>
                         <input class="cosmo-input" type="file" id="heroImage">
-                        <div class="cosmo-checkbox__group">
+                        <div class="cosmo-input__group is--checkbox">
                             <input type="checkbox" id="public" class="cosmo-checkbox">
-                            <label class="cosmo-label" for="public">Öffentlich</label>
+                            <label for="public">Öffentlich</label>
                         </div>
                     </div>
                 </div>

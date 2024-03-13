@@ -5,7 +5,7 @@ import {unmarkSubMenuLinks} from "./navigation.js";
 
 export async function init() {
     unmarkSubMenuLinks();
-    document.querySelector('[data-sublink=bom]').classList.add('cosmo-menu-bar__sub-item--active');
+    document.querySelector('[data-sublink=bom]').classList.add('is--active');
 
     const result = await fetch('/admin/buchstabieromat');
     const data = await result.json();

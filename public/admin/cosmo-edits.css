@@ -3,12 +3,7 @@
 }
 
 body {
-    --primary-color: #0066cc;
-    --gradient-top-color: #e0f0ff;
-}
-
-@media screen and (prefers-color-scheme: dark) {
-    body {
-        --gradient-top-color: #000000;
-    }
+    --primary-hue: 210;
+    --primary-saturation: 100%;
+    --primary-lightness-base: 40%;
 }

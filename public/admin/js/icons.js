@@ -3,7 +3,7 @@ import {unmarkSubMenuLinks} from "./navigation.js";
 
 export async function init() {
     unmarkSubMenuLinks();
-    document.querySelector('[data-sublink=icons]').classList.add('cosmo-menu-bar__sub-item--active');
+    document.querySelector('[data-sublink=icons]').classList.add('is--active');
 
     await compileTemplate('icons.js', document.getElementById('rcContent'));
 

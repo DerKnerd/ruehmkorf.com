@@ -9,12 +9,12 @@ export default function userDetails({name, email, activated}) {
                 <button class="cosmo-button" type="button" data-action="deleteUser">Löschen</button>
             </div>
         </div>
-        <dl class="cosmo-key-value-list">
-            <dt class="cosmo-key-value-list__key">Name</dt>
-            <dd class="cosmo-key-value-list__value">${name}</dd>
-            <dt class="cosmo-key-value-list__key">Email</dt>
-            <dd class="cosmo-key-value-list__value">${email}</dd>
-            <dt class="cosmo-key-value-list__key">Aktiv</dt>
-            <dd class="cosmo-key-value-list__value">${activated ? 'Ja' : 'Nein'}</dd>
+        <dl class="cosmo-list is--key-value">
+            <dt>Name</dt>
+            <dd>${name}</dd>
+            <dt>Email</dt>
+            <dd>${email}</dd>
+            <dt>Aktiv</dt>
+            <dd>${activated ? 'Ja' : 'Nein'}</dd>
         </dl>`;
 }

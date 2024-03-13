@@ -2,55 +2,52 @@
 <html lang="de">
 <head>
     <title>ruehmkorf.com – Administration</title>
-    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/variables.css">
-    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/alert.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/buttons.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/form.css">
-    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/key-value-list.css">
-    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/lato.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/layout.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/list.css">
-    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/mdi.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/modal.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/progress.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/normalize.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/scrollbars.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/tab.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/table.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/toolbar.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/typography.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/variables.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/tools.css">
-    <link rel="stylesheet" type="text/css" href="/public/admin/form.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/cosmo-edits.css">
 </head>
 <body>
-<main class="cosmo-page-layout">
-    <div class="cosmo-top-bar">
+<main class="cosmo-page">
+    <div class="cosmo-menu is--top">
         <div class="cosmo-profile-picture"></div>
-        <a href="/admin/logout" class="cosmo-top-bar__menu-item cosmo-top-bar__menu-item--right">Logout</a>
+        <a href="/admin/logout" class="cosmo-menu__item is--top is--right">Logout</a>
     </div>
-    <div class="cosmo-menu-bar">
-        <div class="cosmo-menu-bar__touch"></div>
-        <button class="cosmo-menu-bar__back-button" type="button"></button>
-        <nav class="cosmo-menu-bar__menu-collection" data-menu="main">
-            <div class="cosmo-menu-bar__main-menu">
+    <div class="cosmo-menu">
+        <button class="cosmo-back-button" type="button"></button>
+        <nav class="cosmo-menu__collection" data-menu="main">
+            <div class="cosmo-menu__row is--main">
                 <a data-default-sublink="news" href="#"
-                   class="cosmo-menu-bar__main-item" data-target="content">Inhalte</a>
-                <a data-default-sublink="profile" href="#" class="cosmo-menu-bar__main-item"
+                   class="cosmo-menu__item is--main" data-target="content">Inhalte</a>
+                <a data-default-sublink="profile" href="#" class="cosmo-menu__item is--main"
                    data-target="social">Social</a>
-                <a data-default-sublink="icons" href="#" class="cosmo-menu-bar__main-item" data-target="settings">Einstellungen</a>
+                <a data-default-sublink="icons" href="#" class="cosmo-menu__item is--main" data-target="settings">Einstellungen</a>
             </div>
-            <div class="cosmo-menu-bar__sub-menu rc-hidden" data-submenu="content">
-                <a href="#" data-sublink="news" class="cosmo-menu-bar__sub-item cosmo-menu-bar__sub-item--active">Nachrichten</a>
-                <a href="#" data-sublink="downloads" class="cosmo-menu-bar__sub-item">Downloads</a>
+            <div class="cosmo-menu__row is--sub rc-hidden" data-submenu="content">
+                <a href="#" data-sublink="news" class="cosmo-menu__item is--sub is--active">Nachrichten</a>
+                <a href="#" data-sublink="downloads" class="cosmo-menu__item is--sub">Downloads</a>
             </div>
-            <div class="cosmo-menu-bar__sub-menu rc-hidden" data-submenu="social">
-                <a href="#" data-sublink="profile" class="cosmo-menu-bar__sub-item cosmo-menu-bar__sub-item--active">Profile</a>
+            <div class="cosmo-menu__row is--sub rc-hidden" data-submenu="social">
+                <a href="#" data-sublink="profile" class="cosmo-menu__item is--sub is--active">Profile</a>
             </div>
-            <div class="cosmo-menu-bar__sub-menu rc-hidden" data-submenu="settings">
+            <div class="cosmo-menu__row is--sub rc-hidden" data-submenu="settings">
                 <a href="#" data-sublink="icons"
-                   class="cosmo-menu-bar__sub-item cosmo-menu-bar__sub-item--active">Icons</a>
-                <a href="#" data-sublink="texts" class="cosmo-menu-bar__sub-item">Texte</a>
-                <a href="#" data-sublink="bom" class="cosmo-menu-bar__sub-item">Buchstabier-O-Mat</a>
-                <a href="#" data-sublink="users" class="cosmo-menu-bar__sub-item">Benutzer</a>
+                   class="cosmo-menu__item is--sub is--active">Icons</a>
+                <a href="#" data-sublink="texts" class="cosmo-menu__item is--sub">Texte</a>
+                <a href="#" data-sublink="bom" class="cosmo-menu__item is--sub">Buchstabier-O-Mat</a>
+                <a href="#" data-sublink="users" class="cosmo-menu__item is--sub">Benutzer</a>
             </div>
         </nav>
     </div>
@@ -59,12 +56,11 @@
         </div>
     </div>
     <div class="cosmo-bottom-bar rc-hidden" id="uploadStatus">
-        <span class="cosmo-progress-bar__top-label">
+        <span class="cosmo-progress-bar__label">
             Wird hochgeladen
         </span>
         <progress class="cosmo-progress-bar" id="uploadStatusProgress"></progress>
-        <span class="cosmo-progress-bar__bottom-label" id="uploadStatusText">
-
+        <span class="cosmo-progress-bar__label" id="uploadStatusText">
         </span>
     </div>
 </main>
