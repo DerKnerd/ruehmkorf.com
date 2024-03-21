@@ -2,8 +2,8 @@
     grid-template-columns: [items-list] 280px 16px [content] 1fr;
 }
 
-body {
-    --primary-hue: 210;
-    --primary-saturation: 100%;
-    --primary-lightness-base: 40%;
+:root {
+    --primary-hue: 210 !important;
+    --primary-saturation: 100% !important;
+    --primary-lightness-base: 40% !important;
 }
