@@ -16,6 +16,7 @@
     <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/toolbar.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/typography.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/node_modules/@jinyacms/cosmo/variables.css">
+    <link rel="stylesheet" type="text/css" href="/public/admin/cosmo-edits.css">
     <link rel="stylesheet" type="text/css" href="/public/admin/login.css">
 </head>
 <body>
@@ -29,28 +30,24 @@
             <div class="cosmo-menu__row is--main">
                 <span class="cosmo-menu__item is--main is--active">Login</span>
             </div>
-            <div class="cosmo-menu-bar__sub-menu">
+            <div class="cosmo-menu__row is--sub">
                 <span class="cosmo-menu__item is--sub is--active">Login</span>
                 <span class="cosmo-menu__item is--sub">Two factor code</span>
             </div>
         </nav>
     </div>
-    <div class="cosmo-page__body">
-        <div class="cosmo-page-body__content">
-            <div class="rc-login__panel">
-                <form action="/admin/login" method="post">
-                    <div class="cosmo-input__group">
-                        <label class="cosmo-label" for="email">Email</label>
-                        <input class="cosmo-input" type="email" value="{{.Email}}" id="email" name="email">
-                        <label class="cosmo-label" for="password">Password</label>
-                        <input class="cosmo-input" type="password" id="password" name="password">
-                    </div>
-                    <div class="cosmo-button__container">
-                        <button class="cosmo-button" type="submit">Login</button>
-                    </div>
-                </form>
+    <div class="cosmo-page__body rc-login__panel">
+        <form action="/admin/login" method="post">
+            <div class="cosmo-input__group">
+                <label class="cosmo-label" for="email">Email</label>
+                <input class="cosmo-input" type="email" value="{{.Email}}" id="email" name="email">
+                <label class="cosmo-label" for="password">Password</label>
+                <input class="cosmo-input" type="password" id="password" name="password">
             </div>
-        </div>
+            <div class="cosmo-button__container">
+                <button class="cosmo-button is--primary" type="submit">Login</button>
+            </div>
+        </form>
     </div>
 </main>
 </body>

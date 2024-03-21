@@ -1,4 +1,4 @@
-.cosmo-list {
+.cosmo-side-list {
     grid-template-columns: [items-list] 280px 16px [content] 1fr;
 }
 
@@ -6,4 +6,11 @@
     --primary-hue: 210 !important;
     --primary-saturation: 100% !important;
     --primary-lightness-base: 40% !important;
+    --gradient-multiplier: 2;
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    :root {
+        --gradient-multiplier: 0.25;
+    }
 }

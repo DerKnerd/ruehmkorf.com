@@ -4,12 +4,12 @@ export function hideSubmenus() {
 }
 
 export function unmarkMainMenuLinks() {
-    const links = document.querySelectorAll('.is--active');
+    const links = document.querySelectorAll('.cosmo-menu__row.is--main .is--active');
     links.forEach(link => link.classList.remove('is--active'));
 }
 
 export function unmarkSubMenuLinks() {
-    const links = document.querySelectorAll('.is--active');
+    const links = document.querySelectorAll('.cosmo-menu__row.is--sub .is--active');
     links.forEach(link => link.classList.remove('is--active'));
 }
 

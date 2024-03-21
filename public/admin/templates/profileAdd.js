@@ -16,7 +16,7 @@ export default function profileAdd() {
                         <label for="icon" class="cosmo-label">Icon</label>
                         <input class="cosmo-input" type="file" id="icon">
                         <label for="headerImage" class="cosmo-label">Header Bild</label>
-                        <input class="cosmo-label" type="file" id="headerImage">
+                        <input class="cosmo-input" type="file" id="headerImage">
                         <div class="cosmo-input__group is--checkbox">
                             <input type="checkbox" id="active" class="cosmo-checkbox">
                             <label for="active">Aktiv</label>

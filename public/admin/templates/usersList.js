@@ -7,7 +7,7 @@ export default function usersList({users}) {
                 ${users.map(({
                                  id,
                                  name
-                             }) => `<a class="cosmo-list__item" data-action="changeUser" data-user-id="${id}">${name}</a>`)}
+                             }) => `<a class="cosmo-side-list__item" data-action="changeUser" data-user-id="${id}">${name}</a>`)}
                 <button class="cosmo-button is--full-width" data-action="addUser">Neuer Benutzer</button>
             </nav>
             <div class="cosmo-side-list__content" id="userContent">
