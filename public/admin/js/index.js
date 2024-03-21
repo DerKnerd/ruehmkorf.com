@@ -1,6 +1,6 @@
 import {hideSubmenus, unmarkMainMenuLinks, unmarkSubMenuLinks} from "./navigation.js";
 
-document.querySelectorAll('a.cosmo-menu__item').forEach(link => link.addEventListener('click', async (e) => {
+document.querySelectorAll('a.cosmo-menu__item.is--main').forEach(link => link.addEventListener('click', async (e) => {
     e.preventDefault();
     const target = e.target.getAttribute('data-target');
     hideSubmenus();
