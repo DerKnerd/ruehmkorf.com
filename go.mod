@@ -9,7 +9,7 @@ require (
 	github.com/scorredoira/email v0.0.0-20191107070024-dc7b732c55da
 	github.com/thanhpk/randstr v1.0.6
 	github.com/yuin/goldmark v1.7.1
-	golang.org/x/crypto v0.22.0
+	golang.org/x/crypto v0.23.0
 )
 
 require (
@@ -20,5 +20,5 @@ require (
 	github.com/jackc/pgproto3/v2 v2.3.3 // indirect
 	github.com/jackc/pgservicefile v0.0.0-20231201235250-de7065d80cb9 // indirect
 	github.com/jackc/pgtype v1.14.2 // indirect
-	golang.org/x/text v0.14.0 // indirect
+	golang.org/x/text v0.15.0 // indirect
 )
