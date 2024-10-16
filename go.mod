@@ -8,7 +8,7 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	github.com/scorredoira/email v0.0.0-20191107070024-dc7b732c55da
 	github.com/thanhpk/randstr v1.0.6
-	github.com/yuin/goldmark v1.7.4
+	github.com/yuin/goldmark v1.7.8
 	golang.org/x/crypto v0.27.0
 )
 
