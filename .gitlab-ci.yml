@@ -55,3 +55,13 @@ merge-manifests:
       - TAG: 1.2.${CI_PIPELINE_IID}
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
+
+trigger-server:
+  needs:
+    - job: merge-manifests
+  variables:
+    TAG: 1.2.${CI_PIPELINE_IID}
+  stage: deploy
+  trigger: server-management/main-server.ulbricht.casa/ruehmkorf.com
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
