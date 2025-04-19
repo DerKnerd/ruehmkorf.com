@@ -1,8 +1,6 @@
 module ruehmkorf.com
 
-go 1.23.0
-
-toolchain go1.24.0
+go 1.24.0
 
 require (
 	github.com/jackc/pgx/v5 v5.7.4
@@ -10,7 +8,7 @@ require (
 	github.com/satori/go.uuid v1.2.0
 	github.com/scorredoira/email v0.0.0-20191107070024-dc7b732c55da
 	github.com/thanhpk/randstr v1.0.6
-	github.com/yuin/goldmark v1.7.8
+	github.com/yuin/goldmark v1.7.10
 	golang.org/x/crypto v0.37.0
 )
 
