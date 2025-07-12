@@ -7,14 +7,14 @@ WORKDIR /app/public/admin
 
 RUN npm install
 
-FROM docker.io/golang:1.24-alpine AS build-backend
+FROM docker.io/library/golang:1.24-alpine AS build-backend
 WORKDIR /app
 
 COPY . .
 
 RUN go build -o ruehmkorf.com
 
-FROM library/alpine:latest
+FROM docker.io/library/alpine:latest
 COPY --from=build-frontend /app/public /app/public
 COPY --from=build-backend /app/frontend/templates /app/frontend/templates
 COPY --from=build-backend /app/admin/templates /app/admin/templates
