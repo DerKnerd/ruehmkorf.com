@@ -1,4 +1,4 @@
-FROM library/node:alpine AS build-frontend
+FROM docker.io/library/node:alpine AS build-frontend
 WORKDIR /app
 
 COPY . .
@@ -7,7 +7,7 @@ WORKDIR /app/public/admin
 
 RUN npm install
 
-FROM golang:1.21-alpine AS build-backend
+FROM docker.io/golang:1.24-alpine AS build-backend
 WORKDIR /app
 
 COPY . .
