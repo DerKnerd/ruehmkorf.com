@@ -5,6 +5,9 @@ workflow:
     - if: $CI_COMMIT_TAG
     - if: $CI_COMMIT_BRANCH
 
+variables:
+  IMAGE_TAG: 2.0.$CI_PIPELINE_IID
+
 stages:
   - test
   - deploy
@@ -16,7 +19,7 @@ stages:
     - echo "$DOCKERHUB_PASSWORD" | buildah login -u "$DOCKERHUB_USER" --password-stdin docker.io
 
 test:
-  image: library/golang:1.24-alpine
+  image: library/golang:1.25-alpine
   stage: test
   script:
     - go vet .
@@ -26,7 +29,7 @@ docker-build:
   stage: deploy
   extends: .base-docker
   variables:
-    IMG: $CI_REGISTRY_IMAGE/$ARCH:1.2.$CI_PIPELINE_IID
+    IMG: $CI_REGISTRY_IMAGE/$ARCH:$IMAGE_TAG
   script:
     - buildah build --platform=linux/$ARCH -t $IMG .
     - buildah push $IMG
@@ -47,13 +50,13 @@ merge-manifests:
       artifacts: false
   script:
     - buildah manifest create $FQ_IMAGE_NAME
-    - buildah manifest add $FQ_IMAGE_NAME docker://$CI_REGISTRY_IMAGE/amd64:1.2.$CI_PIPELINE_IID
-    - buildah manifest add $FQ_IMAGE_NAME docker://$CI_REGISTRY_IMAGE/arm64:1.2.$CI_PIPELINE_IID
+    - buildah manifest add $FQ_IMAGE_NAME docker://$CI_REGISTRY_IMAGE/amd64:$IMAGE_TAG
+    - buildah manifest add $FQ_IMAGE_NAME docker://$CI_REGISTRY_IMAGE/arm64:$IMAGE_TAG
     - buildah manifest push --all $FQ_IMAGE_NAME
   parallel:
     matrix:
       - FQ_IMAGE_NAME: $CI_REGISTRY_IMAGE:latest
-      - FQ_IMAGE_NAME: $CI_REGISTRY_IMAGE:1.2.$CI_PIPELINE_IID
+      - FQ_IMAGE_NAME: $CI_REGISTRY_IMAGE:$IMAGE_TAG
   rules:
     - if: $CI_COMMIT_BRANCH == "main"
 
@@ -61,7 +64,7 @@ trigger-server:
   needs:
     - job: merge-manifests
   variables:
-    TAG: 1.2.${CI_PIPELINE_IID}
+    TAG: $IMAGE_TAG
   stage: deploy
   trigger: server-management/main-server.ulbricht.casa/ruehmkorf.com
   rules:
