@@ -2,7 +2,7 @@ version: "3"
 services:
   ruehmkorfcom_db:
     container_name: ruehmkorfcom_db
-    image: library/postgres:15-alpine
+    image: library/postgres:17-alpine
     ports:
       - "5433:5432"
     environment:
