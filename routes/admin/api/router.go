@@ -52,6 +52,10 @@ func SetupRouter(router *mux.Router) {
 		Path("/login").
 		HandlerFunc(login)
 	authSubRouter.
+		Methods(http.MethodDelete).
+		Path("/login").
+		HandlerFunc(logout)
+	authSubRouter.
 		Methods(http.MethodPost).
 		Path("/2fa").
 		Handler(checkAuth()(http.HandlerFunc(setup2fa)))
