@@ -30,8 +30,20 @@ func SetupDatabase() {
 		dbMap = &gorp.DbMap{Db: conn, Dialect: dialect}
 
 		AddTableWithName[User]("user")
+		AddTableWithName[Token]("token")
 
 		err = dbMap.CreateTablesIfNotExists()
+		if err != nil {
+			panic(err)
+		}
+
+		_, err = conn.Exec(`
+alter table token
+	drop constraint if exists token_user_fkey;
+alter table token
+	add constraint token_user_fkey foreign key (user_id) references "user" (id);
+`)
+
 		if err != nil {
 			panic(err)
 		}
