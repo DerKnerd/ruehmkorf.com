@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"ruehmkorf/database"
+	"time"
 
 	"github.com/google/uuid"
 	"github.com/pquerna/otp/totp"
@@ -130,5 +131,22 @@ func changePassword(w http.ResponseWriter, r *http.Request) {
 
 	user.Password = string(hashed)
 	database.GetDbMap().Update(&user)
+	w.WriteHeader(http.StatusNoContent)
+}
+
+func logout(w http.ResponseWriter, r *http.Request) {
+	token := r.Context().Value("token").(database.Token)
+	database.GetDbMap().Delete(&token)
+
+	http.SetCookie(w, &http.Cookie{
+		Name:     "authentication",
+		Value:    "",
+		Path:     "/",
+		Expires:  time.Now().Add(-time.Hour * 24 * 365 * 10),
+		Secure:   os.Getenv("ENV") != "dev",
+		HttpOnly: true,
+		SameSite: http.SameSiteStrictMode,
+	})
+
 	w.WriteHeader(http.StatusNoContent)
 }

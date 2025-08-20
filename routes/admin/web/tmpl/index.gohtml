@@ -1,0 +1,106 @@
+{{define "content"}}
+    <!doctype html>
+    <html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>ruehmkorf.com</title>
+        <link rel="icon" type="image/svg+xml" href="/static/img/favicon.svg">
+
+        <meta name="msapplication-TileColor" content="#1d3461">
+        <meta name="theme-color" content="#1d3461">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/alert.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/buttons.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/form.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/layout.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/list.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/modal.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/normalize.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/progress.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/scrollbars.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/tab.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/table.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/toolbar.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/typography.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/variables.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/fonts/albert-sans.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/fonts/oxygen-mono.css">
+        <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/fonts/urbanist.css">
+
+        <script src="/static/lib/ui/loader.js"></script>
+    </head>
+    <body x-init>
+    <main :class="{ 'cosmo-page': $store.authentication.loggedIn && $store.loaded }">
+        <template x-if="$store.authentication.loggedIn">
+            <div class="cosmo-menu is--top">
+                <div class="cosmo-profile-picture"></div>
+                <a @click="$store.authentication.logout()" class="cosmo-menu__item is--right">Logout</a>
+            </div>
+        </template>
+        <template x-if="$store.authentication.loggedIn">
+            <div class="cosmo-menu">
+                <button class="cosmo-back-button" type="button" @click="history.back()"></button>
+                <nav class="cosmo-menu__collection">
+                    <div class="cosmo-menu__row is--main">
+                        <a
+                                class="cosmo-menu__item"
+                                href="/profiles"
+                                x-active-route.area="profiles"
+                        >
+                            Profiles
+                        </a>
+                        <a
+                                class="cosmo-menu__item"
+                                href="/spot"
+                                x-active-route.area="spot"
+                        >
+                            Spell-O-Tron
+                        </a>
+                        <a
+                                class="cosmo-menu__item"
+                                href="/account"
+                                x-active-route.area="account"
+                        >
+                            My account
+                        </a>
+                    </div>
+                </nav>
+            </div>
+        </template>
+        <div :class="{ 'cosmo-page__body': $store.authentication.loggedIn && $store.loaded }" id="app">
+            <template
+                    x-route="/login"
+                    x-handler="[$store.authentication.needsLogout, $store.navigation.fetchScript]"
+                    x-template="/static/templates/login.html"
+            ></template>
+
+            <template
+                    x-route="/profiles"
+                    x-handler="[$store.authentication.needsLogin, $store.navigation.fetchScript]"
+                    x-template="/static/templates/profiles.html"
+            ></template>
+
+            <template
+                    x-route="/spot"
+                    x-handler="[$store.authentication.needsLogin, $store.navigation.fetchScript]"
+                    x-template="/static/templates/spot.html"
+            ></template>
+            <template
+                    x-route="account"
+                    x-handler="[$store.authentication.needsLogin, $store.navigation.fetchScript]"
+                    x-template="/static/templates/account.html"
+            ></template>
+
+            <template
+                    x-route="notfound"
+                    x-handler="(ctx) => ctx.redirect('/profiles')"></template>
+        </div>
+        <div class="jinya-loader__container" style="min-height: 100vh" x-show="!$store.loaded">
+            <jinya-loader></jinya-loader>
+        </div>
+    </main>
+    <script src="/static/index.js" type="module"></script>
+    </body>
+    </html>
+{{end}}

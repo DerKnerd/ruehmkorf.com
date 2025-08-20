@@ -89,5 +89,6 @@ fabric.properties
 # vendor/
 
 data
-/public/admin/node_modules/
 .env
+node_modules
+.idea
