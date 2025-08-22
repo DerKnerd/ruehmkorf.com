@@ -13,3 +13,10 @@ type Token struct {
 	UserId int    `json:"userId" db:"user_id,notnull"`
 	Token  string `json:"token" db:"token,notnull"`
 }
+
+type Profile struct {
+	Id          int    `json:"id" db:"id,primarykey,autoincrement"`
+	LinkTarget  string `json:"linkTarget" db:"link_target,notnull"`
+	LinkLabel   string `json:"linkLabel" db:"link_label,notnull"`
+	Description string `json:"description" db:"description,notnull"`
+}
