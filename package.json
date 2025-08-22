@@ -1,0 +1,29 @@
+{
+  "name": "relay-vpn-server",
+  "version": "1.0.2",
+  "private": true,
+  "description": "A simple wireguard management ui",
+  "scripts": {
+    "lint": "bun run prettier && bun run eslint && bun run stylelint",
+    "prettier": "prettier static/js --check",
+    "eslint": "eslint -c eslint.config.cjs static/js/",
+    "stylelint": "stylelint static/css/**/*.css",
+    "format": "prettier static --write"
+  },
+  "author": "Imanuel Ulbricht",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@gitlab.imanuel.dev:2289/telescope/telescope-server.git"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@eslint/js": "^9.31.0",
+    "@types/alpinejs": "^3.13.11",
+    "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^16.3.0",
+    "prettier": "^3.6.2",
+    "stylelint": "^16.22.0",
+    "stylelint-config-standard": "^38.0.0"
+  }
+}
