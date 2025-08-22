@@ -1,6 +1,52 @@
-<div class="relay-login__container" x-data="loginData">
-  <form @submit.prevent="login" class="relay-login">
-    <h1 class="cosmo-title">Login</h1>
-    <button type="submit" class="cosmo-button is--primary">Login with OpenID</button>
-  </form>
+<div class="rr-login__container" x-data="loginData">
+  <template x-if="!firstAuthStepDone">
+    <form @submit.prevent="login" class="rr-login">
+      <h1 class="cosmo-title">Login</h1>
+      <template x-if="loginError">
+        <div class="cosmo-message is--negative">
+          <p class="cosmo-message__message">The login failed, please check your credentials</p>
+        </div>
+      </template>
+      <div class="cosmo-input__group">
+        <label for="username" class="cosmo-label">Username</label>
+        <input type="text" id="username" class="cosmo-input" x-model="username" required>
+        <label for="password" class="cosmo-label">Password</label>
+        <input type="password" id="password" class="cosmo-input" x-model="password" required>
+      </div>
+      <button type="submit" class="cosmo-button is--primary">Login</button>
+    </form>
+  </template>
+  <template x-if="firstAuthStepDone && twoFactorNeeded">
+    <form @submit.prevent="twoFactorLogin" class="rr-login">
+      <h1 class="cosmo-title">Login</h1>
+      <template x-if="twoFactorError">
+        <div class="cosmo-message is--negative">
+          <p class="cosmo-message__message">The login failed, please check your credentials</p>
+        </div>
+      </template>
+      <div class="cosmo-input__group">
+        <label for="twoFactorCode" class="cosmo-label">Two Factor Code</label>
+        <input type="text" id="twoFactorCode" class="cosmo-input" x-model="twoFactorCode" required>
+      </div>
+      <button type="submit" class="cosmo-button is--primary">Login</button>
+    </form>
+  </template>
+  <template x-if="firstAuthStepDone && setupTwoFactor">
+    <form @submit.prevent="enableTwoFactor" class="rr-login">
+      <h1 class="cosmo-title">Setup two factor</h1>
+      <template x-if="twoFactorEnableFailed">
+        <div class="cosmo-message is--negative">
+          <p class="cosmo-message__message">The login failed, please check your credentials</p>
+        </div>
+      </template>
+      <div class="rr-login__qrcode" x-html="twoFactorQrCode"></div>
+      <div class="cosmo-input__group">
+        <div class="cosmo-input__group">
+          <label for="twoFactorCode" class="cosmo-label">Two Factor Code</label>
+          <input type="text" id="twoFactorCode" class="cosmo-input" x-model="twoFactorCode" required>
+        </div>
+      </div>
+      <button type="submit" class="cosmo-button is--primary">Login</button>
+    </form>
+  </template>
 </div>

@@ -1,0 +1,31 @@
+:root {
+    --primary-hue: 209;
+    --primary-saturation: 71%;
+    --primary-lightness-base: 42%;
+
+    --background: url('/static/img/background.webp');
+}
+
+@media screen and (prefers-color-scheme: light) {
+    :root {
+        --gradient-multiplier: 2;
+    }
+}
+
+body {
+    background: var(--background);
+    background-size: cover;
+    background-position-y: center;
+    background-position-x: left;
+    height: 100vh;
+    width: 100vw;
+    padding: 0;
+    margin: 0;
+
+    --gradient-bottom-color: transparent !important;
+}
+
+.cosmo-page {
+    backdrop-filter: blur(4px);
+    background: rgba(var(--white-base) var(--white-base) var(--white-base) / 90%);
+}

@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"ruehmkorf/routes/admin/api"
+	"ruehmkorf/routes/admin"
 
 	"github.com/gorilla/mux"
 )
@@ -25,7 +25,7 @@ func WebUi(static fs.FS) {
 		})
 	}
 
-	api.SetupRouter(router)
+	admin.SetupRouter(router)
 
 	listenAddress := os.Getenv("LISTEN_ADDRESS")
 	if listenAddress == "" {

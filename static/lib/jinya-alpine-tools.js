@@ -1,27 +1,40 @@
 import Alpine from './alpine.js';
 import PineconeRouter from './pinecone-router.js';
-import { head, httpDelete } from './jinya-http';
+import { head, httpDelete } from './jinya-http.js';
 
 let scriptBasePath = '/static/js/';
 
-export async function needsLogin(context) {
-  if (await head('/api/login')) {
-    return null;
+async function checkLogin() {
+  try {
+    await head('/api/authentication/login');
+    return true;
+  } catch (e) {
+    return false;
   }
+}
 
-  return context.redirect('/login');
+export async function needsLogin(context) {
+  if (await checkLogin()) {
+    Alpine.store('authentication').loggedIn = true;
+    return null;
+  } else {
+    Alpine.store('authentication').loggedIn = false;
+    return context.redirect('/login');
+  }
 }
 
 export async function needsLogout(context) {
-  if (await head('/api/login')) {
+  if (await checkLogin()) {
+    Alpine.store('authentication').loggedIn = true;
     return context.redirect('/');
+  } else {
+    Alpine.store('authentication').loggedIn = false;
+    return null;
   }
-
-  return null;
 }
 
 export async function fetchScript({ route }) {
-  const [, area] = route.split('/');
+  const [, , area] = route.split('/');
   if (area) {
     await import(`${scriptBasePath}${area}.js`);
     Alpine.store('navigation').navigate({
@@ -63,12 +76,16 @@ async function setupAlpine(alpine, defaultArea, defaultPage) {
 
   Alpine.store('loaded', false);
   Alpine.store('authentication', {
+    needsLogin,
+    needsLogout,
     login() {
       this.loggedIn = true;
       history.replaceState(null, null, location.href.split('?')[0]);
     },
     async logout() {
-      await httpDelete('/api/login');
+      try {
+        await httpDelete('/api/authentication/login');
+      } catch (e) {}
       window.PineconeRouter.context.navigate('/login');
       this.loggedIn = false;
       this.roles = [];
@@ -83,15 +100,16 @@ async function setupAlpine(alpine, defaultArea, defaultPage) {
   });
 }
 
-export async function setup({ defaultArea, defaultPage, baseScriptPath, routerBasePath = '', afterSetup = () => {} }) {
+export async function setup({ defaultArea, baseScriptPath, routerBasePath = '', afterSetup = () => {} }) {
   window.Alpine = Alpine;
 
   Alpine.plugin(PineconeRouter);
-  await setupAlpine(Alpine, defaultArea, defaultPage);
+  await setupAlpine(Alpine, defaultArea);
 
   setupRouting(baseScriptPath, routerBasePath);
 
   await afterSetup();
+  Alpine.store('authentication').loggedIn = !!(await checkLogin());
 
   Alpine.start();
 

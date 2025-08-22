@@ -7,7 +7,7 @@ var k = class {
         Object.keys(c).forEach((u) => {
           this[u] = c[u];
         }),
-        c.templates && (this.programmaticTemplates = !0));
+      c.templates && (this.programmaticTemplates = !0));
     }
     templates = [];
     templateTargetId = '';
@@ -118,7 +118,7 @@ function D(s) {
       m.add(n);
       let o = e.content.cloneNode(!0).firstElementChild;
       o &&
-        (s.addScopeToNode(o, {}, e),
+      (s.addScopeToNode(o, {}, e),
         s.mutateDom(() => {
           (r != null ? r.replaceChildren(o) : e.after(o), s.initTree(o));
         }),
@@ -136,17 +136,17 @@ function D(s) {
     e.content.firstElementChild
       ? (_(e, n, o), h())
       : r &&
-        (r.every((i) => u[i])
-          ? (r.length > 1 && (e.innerHTML = '<templates-wrapper>'),
-            r.forEach((i) => {
-              e.innerHTML += u[i];
-            }),
-            r.length > 1 && (e.innerHTML = '</templates-wrapper>'),
-            _(e, n, o),
-            h())
-          : T(e, r)
-              .then(() => _(e, n, o))
-              .finally(() => h()));
+      (r.every((i) => u[i])
+        ? (r.length > 1 && (e.innerHTML = '<templates-wrapper>'),
+          r.forEach((i) => {
+            e.innerHTML += u[i];
+          }),
+        r.length > 1 && (e.innerHTML = '</templates-wrapper>'),
+          _(e, n, o),
+          h())
+        : T(e, r)
+          .then(() => _(e, n, o))
+          .finally(() => h()));
   }
   let T = (e, n, r = !1) => {
       let o = n.map((i) =>
@@ -154,19 +154,19 @@ function D(s) {
           ? c[i]
           : u[i]
             ? new Promise((a) => {
-                a(u[i]);
-              })
+              a(u[i]);
+            })
             : ((c[i] = fetch(i)
-                .then((a) => (a.ok ? a.text() : (x(a.statusText), null)))
-                .then((a) => (a == null ? ((u[i] = null), (c[i] = null), null) : ((u[i] = a), (c[i] = null), a)))),
+              .then((a) => (a.ok ? a.text() : (x(a.statusText), null)))
+              .then((a) => (a == null ? ((u[i] = null), (c[i] = null), null) : ((u[i] = a), (c[i] = null), a)))),
               c[i]),
       );
       return Promise.all(o).then((i) => {
         let a = i.filter((l) => l !== null).join('');
         return e
           ? (n.length > 1 && !r
-              ? (e.innerHTML = '<templates-wrapper>' + a + '</templates-wrapper>')
-              : (e.innerHTML = a),
+            ? (e.innerHTML = '<templates-wrapper>' + a + '</templates-wrapper>')
+            : (e.innerHTML = a),
             e.innerHTML)
           : a;
       });
@@ -247,12 +247,12 @@ function D(s) {
         a != 'notfound' && ((a = E(a)), (g = t.add(a)));
         let R = t.routes[g] ?? t.notfound;
         ((e._x_PineconeRouter_route = a),
-          e.content.firstElementChild != null &&
-            s.nextTick(() => {
-              o(() => {
-                R.handlersDone && t.context.route == a ? p(e, n, null, d) : P(e);
-              });
-            }),
+        e.content.firstElementChild != null &&
+        s.nextTick(() => {
+          o(() => {
+            R.handlersDone && t.context.route == a ? p(e, n, null, d) : P(e);
+          });
+        }),
           i(() => {
             (e._x_PineconeRouter_undoTemplate && e._x_PineconeRouter_undoTemplate(),
               t.remove(a),
@@ -295,9 +295,9 @@ function D(s) {
             return;
           let i = e(o);
           i &&
-            (w(i),
-            n.stopImmediatePropagation && n.stopImmediatePropagation(),
-            n.stopPropagation && n.stopPropagation(),
+          (w(i),
+          n.stopImmediatePropagation && n.stopImmediatePropagation(),
+          n.stopPropagation && n.stopPropagation(),
             n.preventDefault());
           break;
         }
@@ -306,17 +306,17 @@ function D(s) {
   }
   async function w(e, n = !1, r = !1, o = null, i = !0) {
     (e || (e = '/'),
-      t.settings.hash ||
-        (t.settings.basePath != '/' && !e.startsWith(t.settings.basePath) && (e = t.settings.basePath + e),
-        e == t.settings.basePath && !e.endsWith('/') && (e += '/')),
+    t.settings.hash ||
+    (t.settings.basePath != '/' && !e.startsWith(t.settings.basePath) && (e = t.settings.basePath + e),
+    e == t.settings.basePath && !e.endsWith('/') && (e += '/')),
       o != null
         ? (t.context.navigationIndex = o)
         : e != t.context.path &&
-          (t.context.navigationIndex !== t.context.navigationStack.length - 1
-            ? ((t.context.navigationStack = t.context.navigationStack.slice(0, t.context.navigationIndex + 1)),
-              t.context.navigationStack.push(e),
-              (t.context.navigationIndex = t.context.navigationStack.length - 1))
-            : (t.context.navigationStack.push(e), (t.context.navigationIndex = t.context.navigationStack.length - 1))));
+        (t.context.navigationIndex !== t.context.navigationStack.length - 1
+          ? ((t.context.navigationStack = t.context.navigationStack.slice(0, t.context.navigationIndex + 1)),
+            t.context.navigationStack.push(e),
+            (t.context.navigationIndex = t.context.navigationStack.length - 1))
+          : (t.context.navigationStack.push(e), (t.context.navigationIndex = t.context.navigationStack.length - 1))));
     let a =
       t.routes.find((l) => {
         let d = W(e, l.path);
@@ -325,7 +325,7 @@ function D(s) {
     if (
       ((a.handlersDone = !a.handlers.length && !t.globalHandlers.length),
       (a.handlers.length || t.globalHandlers.length || a.templates.length) && f(),
-      $(a.path, e, a.params),
+        $(a.path, e, a.params),
       b('onBeforeHandlersExecuted', a, e, r) == 'stop')
     ) {
       h();
@@ -337,7 +337,7 @@ function D(s) {
         (t.settings.hash
           ? ((l = '#'), i && t.settings.includeQuery && (l += window.location.search), (l += e))
           : ((l = e), i && t.settings.includeQuery && (l += window.location.search), (l += window.location.hash)),
-        !r)
+          !r)
       )
         history.pushState({ path: l }, '', l);
       else if (t.settings.hash && e == '/') return w('/', !1, !1);

@@ -1,5 +1,4 @@
 import { Alpine } from './alpine.js';
-import { getAccessToken } from './jinya-alpine-tools.js';
 
 export class HttpError extends Error {
   constructor(status, error) {
@@ -49,7 +48,7 @@ export async function send(
   additionalHeaders = {},
   plain = false,
 ) {
-  const headers = { 'Content-Type': contentType, Authorization: `Bearer ${getAccessToken()}`, ...additionalHeaders };
+  const headers = { 'Content-Type': contentType, ...additionalHeaders };
 
   const request = {
     headers,

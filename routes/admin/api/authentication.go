@@ -28,7 +28,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user, err := database.SelectOne[database.User](`select u.* from "user" u where u.email = $1`, body.Username)
+	user, err := database.SelectOne[database.User](`select u.* from "user" u where u.username = $1`, body.Username)
 	if err != nil {
 		http.Error(w, "Invalid auth", http.StatusUnauthorized)
 		return
@@ -46,11 +46,10 @@ func login(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Invalid auth", http.StatusUnauthorized)
 			return
 		}
-	} else if user.TotpEnabled {
-		encoder.Encode(map[string]string{
-			"message": "2fa_required",
+	} else if !user.TotpEnabled {
+		encoder.Encode(map[string]any{
+			"twoFactorSetupNeeded": true,
 		})
-		w.WriteHeader(http.StatusOK)
 		return
 	}
 
@@ -72,15 +71,17 @@ func login(w http.ResponseWriter, r *http.Request) {
 	})
 
 	encoder.Encode(map[string]any{
-		"token":          token.Token,
-		"2faSetupNeeded": !user.TotpEnabled,
+		"token":                token.Token,
+		"twoFactorSetupNeeded": !user.TotpEnabled,
 	})
 }
 
 func setup2fa(w http.ResponseWriter, r *http.Request) {
 	var body struct {
-		Secret string `json:"secret"`
-		Code   string `json:"code"`
+		Secret   string `json:"secret"`
+		Code     string `json:"code"`
+		Username string `json:"username"`
+		Password string `json:"password"`
 	}
 
 	decoder := json.NewDecoder(r.Body)
@@ -90,7 +91,17 @@ func setup2fa(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	user := r.Context().Value("user").(database.User)
+	user, err := database.SelectOne[database.User](`select u.* from "user" u where u.username = $1`, body.Username)
+	if err != nil {
+		http.Error(w, "Invalid auth", http.StatusUnauthorized)
+		return
+	}
+
+	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(body.Password))
+	if err != nil {
+		http.Error(w, "Invalid auth", http.StatusUnauthorized)
+		return
+	}
 
 	totpValid := totp.Validate(body.Code, body.Secret)
 	if totpValid {
