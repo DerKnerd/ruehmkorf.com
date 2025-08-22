@@ -3,6 +3,7 @@
     --primary-saturation: 71%;
     --primary-lightness-base: 42%;
 
+    /* Background */
     --background: url('/static/img/background.webp');
 }
 
@@ -27,5 +28,5 @@ body {
 
 .cosmo-page {
     backdrop-filter: blur(4px);
-    background: rgba(var(--white-base) var(--white-base) var(--white-base) / 90%);
+    background: rgb(var(--white-base) var(--white-base) var(--white-base) / 90%);
 }
