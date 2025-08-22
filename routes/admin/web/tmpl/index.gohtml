@@ -28,6 +28,9 @@
         <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/fonts/oxygen-mono.css">
         <link rel="stylesheet" type="text/css" href="/static/lib/cosmo/fonts/urbanist.css">
 
+        <link rel="stylesheet" type="text/css" href="/static/css/variables.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/login.css">
+
         <script src="/static/lib/ui/loader.js"></script>
     </head>
     <body x-init>
@@ -87,7 +90,7 @@
                     x-template="/static/templates/spot.html"
             ></template>
             <template
-                    x-route="account"
+                    x-route="/account"
                     x-handler="[$store.authentication.needsLogin, $store.navigation.fetchScript]"
                     x-template="/static/templates/account.html"
             ></template>

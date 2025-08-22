@@ -27,7 +27,7 @@ func CreateUser(username string) {
 	}
 
 	user := database.User{
-		Email:       username,
+		Username:    username,
 		Password:    string(hashed),
 		TotpEnabled: false,
 		TotpSecret:  "",

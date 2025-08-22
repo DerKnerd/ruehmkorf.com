@@ -4,6 +4,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   await setup({
     defaultArea: 'profiles',
     baseScriptPath: '/static/js/',
-    routerBasePath: '/',
+    routerBasePath: '/admin',
   });
 });

@@ -38,7 +38,13 @@ func checkAuth() func(next http.Handler) http.Handler {
 				return
 			}
 
-			next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), "user", user)))
+			token, err := database.SelectOne[database.Token](`select t.* from "token" t where t.token = $1`, auth)
+			if err != nil {
+				w.WriteHeader(http.StatusUnauthorized)
+				return
+			}
+
+			next.ServeHTTP(w, r.WithContext(context.WithValue(context.WithValue(r.Context(), "user", user), "token", token)))
 		})
 	}
 }
@@ -54,11 +60,11 @@ func SetupRouter(router *mux.Router) {
 	authSubRouter.
 		Methods(http.MethodDelete).
 		Path("/login").
-		HandlerFunc(logout)
+		Handler(checkAuth()(http.HandlerFunc(logout)))
 	authSubRouter.
 		Methods(http.MethodPost).
 		Path("/2fa").
-		Handler(checkAuth()(http.HandlerFunc(setup2fa)))
+		Handler(http.HandlerFunc(setup2fa))
 	authSubRouter.
 		Methods(http.MethodPut).
 		Path("/password").
