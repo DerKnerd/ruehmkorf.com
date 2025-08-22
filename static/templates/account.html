@@ -1,0 +1,33 @@
+<div x-data="accountData">
+  <div class="cosmo-toolbar">
+    <div class="cosmo-toolbar__group">
+      <button class="cosmo-button" @click="changePasswordDialog.openDialog()">Change password</button>
+    </div>
+  </div>
+  <template x-if="changePasswordDialog.open">
+    <div class="cosmo-modal__container">
+      <form class="cosmo-modal" @submit.prevent="changePassword">
+        <h1 class="cosmo-modal__title">Change password</h1>
+        <div class="cosmo-modal__content">
+          <template x-if="changePasswordDialog.error">
+            <div class="cosmo-message is--negative">
+              <p class="cosmo-message__message">The password change failed, please check your credentials</p>
+            </div>
+          </template>
+          <div class="cosmo-input__group">
+            <label for="oldPassword" class="cosmo-label">Current password</label>
+            <input type="password" id="oldPassword" class="cosmo-input" x-model="changePasswordDialog.oldPassword"
+                   required>
+            <label for="newPassword" class="cosmo-label">New password</label>
+            <input type="password" id="newPassword" class="cosmo-input" x-model="changePasswordDialog.newPassword"
+                   required>
+          </div>
+        </div>
+        <div class="cosmo-modal__button-bar">
+          <button class="cosmo-button" type="button" @click="changePasswordDialog.open = false">Don't change</button>
+          <button class="cosmo-button" type="submit">Change password</button>
+        </div>
+      </form>
+    </div>
+  </template>
+</div>
