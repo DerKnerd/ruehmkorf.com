@@ -141,7 +141,14 @@ func changePassword(w http.ResponseWriter, r *http.Request) {
 	}
 
 	user.Password = string(hashed)
-	database.GetDbMap().Update(&user)
+	_, err = database.GetDbMap().Update(&user)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	_, _ = database.GetDbMap().Exec(`delete from "token" where user_id = $1`, user.Id)
+
 	w.WriteHeader(http.StatusNoContent)
 }
 

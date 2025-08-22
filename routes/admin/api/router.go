@@ -94,6 +94,6 @@ func SetupRouter(router *mux.Router) {
 		Path("/{id}").
 		HandlerFunc(deleteProfile)
 
-	apiRouter.Use(checkAuth, contentTypeJson)
+	profilesSubRouter.Use(checkAuth)
 	apiRouter.Use(contentTypeJson)
 }
