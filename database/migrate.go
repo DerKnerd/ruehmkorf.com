@@ -31,6 +31,7 @@ func SetupDatabase() {
 
 		AddTableWithName[User]("user")
 		AddTableWithName[Token]("token")
+		AddTableWithName[Profile]("profile")
 
 		err = dbMap.CreateTablesIfNotExists()
 		if err != nil {

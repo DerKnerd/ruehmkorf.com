@@ -34,12 +34,12 @@ export async function needsLogout(context) {
 }
 
 export async function fetchScript({ route }) {
-  const [, , area] = route.split('/');
-  if (area) {
-    await import(`${scriptBasePath}${area}.js`);
+  const [, , page] = route.split('/');
+  if (page) {
     Alpine.store('navigation').navigate({
-      area,
+      page,
     });
+    await import(`${scriptBasePath}${page}.js`);
   }
 }
 
@@ -53,11 +53,11 @@ function setupRouting(baseScriptPath, routerBasePath = '') {
   });
 }
 
-async function setupAlpine(alpine, defaultArea, defaultPage) {
+async function setupAlpine(alpine, defaultPage) {
   Alpine.directive('active-route', (el, { expression, modifiers }, { Alpine, effect }) => {
     effect(() => {
-      const { page, area } = Alpine.store('navigation');
-      if ((modifiers.includes('area') && area === expression) || (!modifiers.includes('area') && page === expression)) {
+      const { page } = Alpine.store('navigation');
+      if (page === expression) {
         el.classList.add('is--active');
       } else {
         el.classList.remove('is--active');
@@ -93,9 +93,9 @@ async function setupAlpine(alpine, defaultArea, defaultPage) {
   });
   Alpine.store('navigation', {
     fetchScript,
-    area: defaultArea,
-    navigate({ area }) {
-      this.area = area;
+    page: defaultPage,
+    navigate({ page }) {
+      this.page = page;
     },
   });
 }
@@ -109,7 +109,7 @@ export async function setup({ defaultArea, baseScriptPath, routerBasePath = '', 
   setupRouting(baseScriptPath, routerBasePath);
 
   await afterSetup();
-  Alpine.store('authentication').loggedIn = !!(await checkLogin());
+  Alpine.store('authentication').loggedIn = await checkLogin();
 
   Alpine.start();
 
