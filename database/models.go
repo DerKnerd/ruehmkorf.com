@@ -20,3 +20,10 @@ type Profile struct {
 	LinkLabel   string `json:"linkLabel" db:"link_label,notnull"`
 	Description string `json:"description" db:"description,notnull"`
 }
+
+type SpotMapping struct {
+	Id        int    `json:"id" db:"id,primarykey,autoincrement"`
+	Character string `json:"character" db:"character,notnull,unique"`
+	English   string `json:"english" db:"english,notnull"`
+	German    string `json:"german" db:"german,notnull"`
+}

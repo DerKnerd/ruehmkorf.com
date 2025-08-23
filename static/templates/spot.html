@@ -1,0 +1,32 @@
+<div x-data="spotData">
+  <h1 class="cosmo-title">Spell-O-Tron</h1>
+  <div class="cosmo-toolbar">
+    <div class="cosmo-toolbar__group">
+      <button class="cosmo-button" @click="loadSpot">Load new Spell-O-Tron mappings</button>
+      <button class="cosmo-button" @click="saveSpot">Save Spell-O-Tron mappings</button>
+    </div>
+  </div>
+  <template x-if="loading">
+    <jinya-loader></jinya-loader>
+  </template>
+  <template x-if="!loading">
+    <table class="cosmo-table">
+      <thead>
+      <tr>
+        <th>Character</th>
+        <th>English</th>
+        <th>German</th>
+      </tr>
+      </thead>
+      <tbody>
+      <template x-for="mapping in mappings">
+        <tr>
+          <th x-text="mapping.character"></th>
+          <td x-text="mapping.english"></td>
+          <td x-text="mapping.german"></td>
+        </tr>
+      </template>
+      </tbody>
+    </table>
+  </template>
+</div>
