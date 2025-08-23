@@ -18,10 +18,6 @@
     gap: 1rem;
     text-decoration: none;
 
-    .rr-profile__description {
-        color: #0b0c0c;
-    }
-
     p {
         margin: 0;
     }

@@ -1,0 +1,66 @@
+{{define "content"}}
+    <h1 class="govuk-heading-xl is--spot">Spell-O-Tron</h1>
+    <p class="govuk-body">
+        Spell-O-Tron simplifies the spelling of hard to spell terms like names, especially over the phone. The
+        conversion is done locally in your web browser using JavaScript, the web server doesn't see the entered data.
+        That makes Spell-O-Tron suitable even for sensitive data like passwords.
+    </p>
+    <p class="govuk-body">
+        Text gets transformed while you type.
+    </p>
+    <div class="govuk-form-group">
+        <label class="govuk-label" for="textToTransform">
+            Text to transform
+        </label>
+        <input class="govuk-input" id="textToTransform" type="text">
+    </div>
+    <div class="rr-transformed">
+        <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                <h1 class="govuk-fieldset__heading">
+                    English
+                </h1>
+            </legend>
+            <p class="govuk-body">
+                English version following ICAO standard (“NATO phonetic alphabet”)
+            </p>
+            <p class="govuk-body rr-transformed__item" id="englishTransformed"></p>
+        </fieldset>
+        <fieldset class="govuk-fieldset">
+            <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                <h1 class="govuk-fieldset__heading">
+                    German
+                </h1>
+            </legend>
+            <p class="govuk-body">
+                German version following DIN 5009, using city names since 2022
+            </p>
+            <p class="govuk-body rr-transformed__item" id="germanTransformed"></p>
+        </fieldset>
+    </div>
+    <script>
+      const spotMappings = {{toJson .SpotMappings}};
+      document.addEventListener('DOMContentLoaded', () => {
+        const englishTransformed = document.getElementById('englishTransformed');
+        const germanTransformed = document.getElementById('germanTransformed');
+        document.getElementById('textToTransform').addEventListener('input', (e) => {
+          const text = e.target.value;
+          const mapped = [...text].map(c => spotMappings.find(s => s.character === c));
+          englishTransformed.innerHTML = '';
+          germanTransformed.innerHTML = '';
+          for (const m of mapped) {
+            if (!m) {
+              englishTransformed.innerHTML += '<br>';
+              germanTransformed.innerHTML += '<br>';
+            } else {
+              englishTransformed.innerHTML += `${m.character} – ${m.english}<br>`;
+              germanTransformed.innerHTML += `${m.character} – ${m.german}<br>`;
+            }
+          }
+        });
+      });
+    </script>
+{{end}}
+{{define "title"}}
+    – Spell-O-Tron
+{{end}}

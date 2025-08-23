@@ -1,0 +1,21 @@
+.govuk-heading-xl.is--spot {
+    margin-bottom: 1rem;
+}
+
+.rr-transformed {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.rr-transformed__item {
+    font-family: "Roboto Mono", monospace;
+    font-size: 1.1875rem;
+    line-height: 1.5;
+    padding: 1rem;
+    background: #f4f8fb;
+
+    &:empty {
+        display: none;
+    }
+}

@@ -2,6 +2,7 @@ package frontend
 
 import (
 	"embed"
+	"encoding/json"
 	"fmt"
 	"html/template"
 	"io/fs"
@@ -34,6 +35,14 @@ func renderPage(w http.ResponseWriter, r *http.Request, tmpl string, data any) {
 		},
 		"last": func(x int, a any) bool {
 			return x == reflect.ValueOf(a).Len()-1
+		},
+		"toJson": func(x any) template.JS {
+			data, err := json.Marshal(x)
+			if err != nil {
+				return ""
+			}
+
+			return template.JS(data)
 		},
 		"menuItem": func(label string, href string) template.HTML {
 			if strings.HasSuffix(r.URL.Path, href) {
