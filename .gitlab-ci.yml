@@ -127,8 +127,7 @@ trigger-beta-server:
   needs:
     - job: merge-beta-manifests
   variables:
-    TAG: 2.0.0-beta.$CI_PIPELINE_IID
-    BETA: true
+    BETA: 2.0.0-beta.$CI_PIPELINE_IID
   stage: deploy
   trigger: server-management/main-server.ulbricht.casa/ruehmkorf.com
   rules:
