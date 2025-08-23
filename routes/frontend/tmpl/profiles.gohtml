@@ -4,7 +4,7 @@
         {{range $i, $profile := .Profiles}}
             <a href="{{$profile.LinkTarget}}" class="rr-profile">
                 <span class="govuk-link">Visit my {{$profile.LinkLabel}} profile</span>
-                <div class="rr-profile__description">
+                <div class="govuk-body">
                     {{noescape .Description}}
                 </div>
             </a>
