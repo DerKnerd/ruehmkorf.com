@@ -1,0 +1,32 @@
+.rr-profile__list {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 2rem;
+
+    hr {
+        background: #f4f8fb;
+        width: 100%;
+        border-color: #f4f8fb;
+    }
+}
+
+.rr-profile {
+    font-family: var(--font-family);
+    font-size: 1.1875rem;
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 1rem;
+    text-decoration: none;
+
+    .rr-profile__description {
+        color: #0b0c0c;
+    }
+
+    p {
+        margin: 0;
+    }
+}
+
+.govuk-heading-xl.is--profile {
+    margin-bottom: 1rem;
+}
