@@ -92,7 +92,7 @@ merge-beta-manifests:
   stage: deploy
   extends: .base-docker
   needs:
-    - job: docker-build
+    - job: docker-build-beta
       artifacts: false
   script:
     - buildah manifest create $FQ_IMAGE_NAME
