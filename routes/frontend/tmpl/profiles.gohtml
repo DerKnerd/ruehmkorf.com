@@ -1,0 +1,19 @@
+{{define "content"}}
+    <h1 class="govuk-heading-xl is--profile">Profiles</h1>
+    <div class="rr-profile__list">
+        {{range $i, $profile := .Profiles}}
+            <a href="{{$profile.LinkTarget}}" class="rr-profile">
+                <span class="govuk-link">Visit my {{$profile.LinkLabel}} profile</span>
+                <div class="rr-profile__description">
+                    {{noescape .Description}}
+                </div>
+            </a>
+            {{if not (last $i $.Profiles)}}
+                <hr />
+            {{end}}
+        {{end}}
+    </div>
+{{end}}
+{{define "title"}}
+    – Profiles
+{{end}}

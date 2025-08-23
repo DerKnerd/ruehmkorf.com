@@ -1,0 +1,76 @@
+{{define "layout"}}
+    <!DOCTYPE html>
+    <html lang="en" class="govuk-template govuk-template--rebranded">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Reemt Rühmkorf {{template "title" .}}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+        <meta name="theme-color" content="#1d70b8">
+        <link rel="stylesheet" href="/static/frontend/roboto.css">
+        <link rel="stylesheet" href="/static/frontend/govuk-frontend.min.css">
+        <link rel="stylesheet" href="/static/frontend/edit.css">
+        <link rel="stylesheet" href="/static/frontend/profiles.css">
+    </head>
+
+    <body class="govuk-template__body">
+    <script>
+      document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
+    </script>
+    <a href="#main-content" class="govuk-skip-link" data-module="govuk-skip-link">Skip to main content</a>
+    <header class="govuk-header" data-module="govuk-header">
+        <div class="govuk-header__container govuk-width-container">
+            <div class="govuk-header__logo">
+                <a href="/" class="govuk-header__link govuk-header__link--homepage">
+                    Reemt Rühmkorf
+                </a>
+            </div>
+        </div>
+    </header>
+    <div class="govuk-service-navigation"
+         data-module="govuk-service-navigation">
+        <div class="govuk-width-container">
+            <div class="govuk-service-navigation__container">
+                <nav aria-label="Menu" class="govuk-service-navigation__wrapper">
+                    <button type="button" class="govuk-service-navigation__toggle govuk-js-service-navigation-toggle"
+                            aria-controls="navigation" hidden>
+                        Menu
+                    </button>
+                    <ul class="govuk-service-navigation__list" id="navigation">
+                        {{menuItem "Profiles" "profiles"}}
+                        {{menuItem "Spell-O-Tron" "spell-o-tron"}}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <div class="govuk-width-container">
+        <main class="govuk-main-wrapper" id="main-content">
+            {{template "content" .}}
+        </main>
+    </div>
+    <footer class="govuk-footer">
+        <div class="govuk-width-container">
+            <div class="govuk-footer__meta">
+                <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+                    <a class="govuk-footer__link" href="https://design-system.service.gov.uk/">GOV.UK Design System</a>
+                    used under license
+                </div>
+            </div>
+            <div class="govuk-footer__meta">
+                <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+                    Made with ❤️ in Köln and Hildesheim
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="/static/frontend/govuk-frontend.min.js"></script>
+    <script type="module">
+      import { initAll } from '/static/frontend/govuk-frontend.min.js';
+
+      initAll();
+    </script>
+    </body>
+
+    </html>
+{{end}}
