@@ -51,6 +51,7 @@ func SetupRouter(router *mux.Router) {
 	apiRouter := router.PathPrefix("/api").Subrouter()
 	authSubRouter := apiRouter.PathPrefix("/authentication").Subrouter()
 	profilesSubRouter := apiRouter.PathPrefix("/profile").Subrouter()
+	spotRouter := apiRouter.PathPrefix("/spot").Subrouter()
 
 	authSubRouter.
 		Methods(http.MethodPost).
@@ -94,6 +95,14 @@ func SetupRouter(router *mux.Router) {
 		Path("/{id}").
 		HandlerFunc(deleteProfile)
 
+	spotRouter.
+		Methods(http.MethodGet).
+		HandlerFunc(getSpotMappings)
+	spotRouter.
+		Methods(http.MethodPut).
+		HandlerFunc(replaceSpotMappings)
+
 	profilesSubRouter.Use(checkAuth)
+	spotRouter.Use(checkAuth)
 	apiRouter.Use(contentTypeJson)
 }
