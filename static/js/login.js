@@ -68,7 +68,7 @@ Alpine.data('loginData', () => ({
           dotsOptions: { type: 'extra-rounded', color: 'var(--white)' },
           backgroundOptions: {
             round: 0.1,
-            color: 'hsl(var(--primary-hue) var(--primary-saturation) var(--primary-lightness-base) / 80%)',
+            color: 'var(--primary-color)',
           },
           cornersSquareOptions: { type: 'extra-rounded', color: 'var(--white)' },
         });
