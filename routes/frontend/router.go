@@ -33,10 +33,16 @@ func spot(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func notFound(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusNotFound)
+	renderPage(w, r, "404", nil)
+}
+
 func SetupRouter(router *mux.Router) {
 	router.Path("/").HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/profiles", http.StatusFound)
 	})
 	router.Path("/profiles").HandlerFunc(profiles)
 	router.Path("/spell-o-tron").HandlerFunc(spot)
+	router.NotFoundHandler = http.HandlerFunc(notFound)
 }
