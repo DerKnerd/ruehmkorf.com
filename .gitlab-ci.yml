@@ -17,14 +17,14 @@ stages:
     - echo "$DOCKERHUB_PASSWORD" | buildah login -u "$DOCKERHUB_USER" --password-stdin docker.io
 
 lint:
-  image: oven/bun:latest
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/oven/bun:latest
   stage: lint
   script:
     - bun install
     - bun run lint
 
 build:
-  image: library/golang:1.25-alpine
+  image: $CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX/library/golang:alpine
   stage: build
   script:
     - go vet .
