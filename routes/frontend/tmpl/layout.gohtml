@@ -1,7 +1,6 @@
 {{define "layout"}}
     <!DOCTYPE html>
     <html lang="en" class="govuk-template govuk-template--rebranded">
-
     <head>
         <meta charset="utf-8">
         <title>Reemt Rühmkorf {{template "title" .}}</title>
@@ -15,7 +14,6 @@
         <link rel="stylesheet" href="/static/frontend/spot.css">
         <link rel="icon" href="/static/img/favicon.svg" type="image/svg+xml">
     </head>
-
     <body class="govuk-template__body">
     <script>
       document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
@@ -56,24 +54,23 @@
         <div class="govuk-width-container">
             <div class="govuk-footer__meta">
                 <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
-                    <a class="govuk-footer__link" href="https://design-system.service.gov.uk/">GOV.UK Design System</a>
-                    used under license
+                    <a href="https://gov.uk" target="_blank">GOV.UK</a>
+                    <a href="https://design-system.service.gov.uk/" target="_blank"> Design System</a> used under
+                    license from the Crown. <a href="https://www.k-type.com/fonts/transport-new/">Transport New</a> used
+                    under license from K-Type.
                 </div>
             </div>
             <div class="govuk-footer__meta">
                 <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
-                    Made with ❤️ in Köln and Hildesheim
+                    Made with <span style="color: #ff0000">♥</span> in Köln and Hildesheim
                 </div>
             </div>
         </div>
     </footer>
-    <script type="module" src="/static/frontend/govuk-frontend.min.js"></script>
     <script type="module">
       import { initAll } from '/static/frontend/govuk-frontend.min.js';
-
       initAll();
     </script>
     </body>
-
     </html>
 {{end}}
